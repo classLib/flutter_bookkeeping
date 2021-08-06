@@ -8,6 +8,9 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.blue
+      ),
       home: ProfilePage(),
     );
   }
@@ -40,7 +43,9 @@ class _ProfilePageState extends State<ProfilePage> {
     Icons.phone,
   ];
   //点击事件
-  onListTileTap() {}
+  onListTileTap() {
+    // return InkWell();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +59,30 @@ class _ProfilePageState extends State<ProfilePage> {
         //头像处
         if (index == 0) {
           return Container(
-            height: 210.0,
-            color: Colors.red,
+            color: Theme.of(context).primaryColor,
+            height: 200.0,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,//头像居中
+                children: <Widget>[
+                  Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.0,
+                        ),
+                        image: DecorationImage(
+                          image:
+                          AssetImage('assets/user.png'),
+                          fit: BoxFit.cover,
+                        )),
+                  )
+                ],
+              ),
+            ),
           );
         }
 
