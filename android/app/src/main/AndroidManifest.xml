@@ -9,7 +9,7 @@
          FlutterApplication and put your custom class here. -->]
 
 
-    <application android:requestLegacyExternalStorage="true"></application>
+<!--    <application android:requestLegacyExternalStorage="true"></application>-->
     <!--    网络、相机、文件读写的权限-->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -18,10 +18,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="flutter_bookkeeping"
         android:icon="@mipmap/ic_launcher">
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+<!--        <activity-->
+<!--            android:name="com.yalantis.ucrop.UCropActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>-->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
