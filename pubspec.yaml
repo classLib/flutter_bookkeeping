@@ -32,6 +32,10 @@ dependencies:
   path_provider: ^2.0.2
   image_picker: ^0.6.7+17
   image_crop: ^0.4.0
+#  切换主题
+  provider: ^4.0.5
+  flustars: ^0.2.6+1
+
 
 dev_dependencies:
   flutter_test:

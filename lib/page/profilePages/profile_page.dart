@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/page/profilePages/head_page.dart';
+import 'package:flutter_bookkeeping/page/profilePages/theme_page.dart';
 
 void main() {
   runApp(Profile());
@@ -14,7 +15,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blue),
+      theme: ThemeData(primaryColor: Colors.blueGrey),
       home: ProfilePage(),
     );
   }
@@ -26,16 +27,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  List menuTitles = [
-    '备份和同步',
-    '账本初始化',
-    '主题切换',
-    '黄',
-    '密码',
-    '王阿姨',
-    '记账提醒',
-    '联系我们'
-  ];
+  //标题
+  List menuTitles = ['备份和同步', '账本初始化', '主题切换', '密码切换', '修改用户名', '记账提醒', '联系我们'];
+  //图标
   List menuIcons = [
     Icons.message,
     Icons.print,
@@ -48,11 +42,20 @@ class _ProfilePageState extends State<ProfilePage> {
   ];
   //点击页面列表
   onListTileTap(index) {
-    print("点击listTile$index");
+    print(index);
+    if (index == 0) {
+    } else if (index == 1) {
+    } else if (index == 2) {
+      print("主题切换");
+      // ThemeStyle();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ThemePage(),
+        ),
+      );
+    } else if (index == 3) {}
   }
-
-  //点击切换头像
-  onHeaderTap() {}
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
         //头像处
         if (index == 0) {
           return Container(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).accentColor,
             height: 200.0,
             child: Center(
               child: Column(
@@ -87,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         }
         //列表项
-        else
+        else {
           return ListTile(
             leading: Icon(menuIcons[index - 1]), //左边
             title: Text(menuTitles[index - 1]), //title
@@ -97,6 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 this.onListTileTap(index - 1);
             },
           );
+        }
       },
     ));
   }
