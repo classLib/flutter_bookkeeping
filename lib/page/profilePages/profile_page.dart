@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'bottom_sheet_widget.dart';
+
 void main() {
   runApp(Profile());
 }
@@ -45,9 +47,28 @@ class _ProfilePageState extends State<ProfilePage> {
     print("点击listTile$index");
   }
 
+  onChangePhoto(choice) {
+    print(choice);
+  }
+
   //点击切换头像
-  onHeaderTap(){
-    print("头像");
+  onHeaderTap() {
+    var menuItems = ["拍照", "从图库中选择"];
+
+    return showDialog(
+        barrierDismissible: true, //是否点击空白区域关闭对话框,默认为true，可以关闭
+        context: context,
+        builder: (BuildContext context) {
+          //底部导航栏
+          return BottomSheetWidget(
+            list: menuItems,
+            onItemClickListener: (index) async {
+              print(menuItems[index]);
+
+              Navigator.pop(context);
+            },
+          );
+        });
   }
 
   @override
@@ -83,8 +104,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             fit: BoxFit.cover,
                           )),
                     ),
-                    onTap:(){
-                      if(null != onHeaderTap()) this.onHeaderTap();
+                    onTap: () {
+                      if (null != onHeaderTap()) this.onHeaderTap();
                     },
                   ),
                   SizedBox(
@@ -100,15 +121,17 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         }
-        return ListTile(
-          leading: Icon(menuIcons[index - 1]), //左边
-          title: Text(menuTitles[index - 1]), //title
-          trailing: Icon(Icons.arrow_forward_ios), //右边
-          onTap: () {
-            if (null != this.onListTileTap(index - 1))
-              this.onListTileTap(index - 1);
-          },
-        );
+        //列表项
+        else
+          return ListTile(
+            leading: Icon(menuIcons[index - 1]), //左边
+            title: Text(menuTitles[index - 1]), //title
+            trailing: Icon(Icons.arrow_forward_ios), //右边
+            onTap: () {
+              if (null != this.onListTileTap(index - 1))
+                this.onListTileTap(index - 1);
+            },
+          );
       },
     ));
   }
