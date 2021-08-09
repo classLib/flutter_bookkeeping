@@ -51,14 +51,8 @@ class _ProfilePageState extends State<ProfilePage> {
     print("点击listTile$index");
   }
 
-
-
   //点击切换头像
-  onHeaderTap() {
-
-
-
-  }
+  onHeaderTap() {}
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 10.0,
                   ),
                   Text(
-                    '点击头像登录',
+                    '点击切换头像',
                     style: TextStyle(color: Colors.white),
                   )
                 ],
