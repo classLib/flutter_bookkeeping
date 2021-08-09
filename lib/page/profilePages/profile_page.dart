@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
+/// FileName: bottom_sheet_widget
+/// Author: hjy
+/// Date: 2021/8/9 9:59
+/// Description:我的页面
 
-import 'bottom_sheet_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/page/profilePages/head_page.dart';
 
 void main() {
   runApp(Profile());
@@ -47,28 +51,13 @@ class _ProfilePageState extends State<ProfilePage> {
     print("点击listTile$index");
   }
 
-  onChangePhoto(choice) {
-    print(choice);
-  }
+
 
   //点击切换头像
   onHeaderTap() {
-    var menuItems = ["拍照", "从图库中选择"];
 
-    return showDialog(
-        barrierDismissible: true, //是否点击空白区域关闭对话框,默认为true，可以关闭
-        context: context,
-        builder: (BuildContext context) {
-          //底部导航栏
-          return BottomSheetWidget(
-            list: menuItems,
-            onItemClickListener: (index) async {
-              print(menuItems[index]);
 
-              Navigator.pop(context);
-            },
-          );
-        });
+
   }
 
   @override
@@ -89,25 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center, //头像居中
                 children: <Widget>[
-                  GestureDetector(
-                    child: Container(
-                      width: 110.0,
-                      height: 110.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                          image: DecorationImage(
-                            image: AssetImage('assets/user.png'),
-                            fit: BoxFit.cover,
-                          )),
-                    ),
-                    onTap: () {
-                      if (null != onHeaderTap()) this.onHeaderTap();
-                    },
-                  ),
+                  HeadPage(),
                   SizedBox(
                     //加间距
                     height: 10.0,
