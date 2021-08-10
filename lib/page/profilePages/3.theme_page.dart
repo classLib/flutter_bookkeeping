@@ -65,6 +65,7 @@ class _ThemePageState extends State<ThemePage> {
                         setState(() {
                           _colorKey = key;
                         });
+                        Constant.key_theme_color = key;
                         SpHelper.putString(Constant.key_theme_color, key);
                         Provider.of<AppInfoProvider>(context, listen: false)
                             .setTheme(key);

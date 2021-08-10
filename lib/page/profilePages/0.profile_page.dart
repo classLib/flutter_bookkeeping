@@ -5,7 +5,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/page/profilePages/head_page.dart';
+import 'package:flutter_bookkeeping/page/profilePages/password_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/theme_page.dart';
+import 'package:flutter_bookkeeping/page/profilePages/username_page.dart';
 
 void main() {
   runApp(Profile());
@@ -28,7 +30,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   //标题
-  List menuTitles = ['备份和同步', '账本初始化', '主题切换', '密码切换', '修改用户名', '记账提醒', '联系我们'];
+  List menuTitles = ['备份和同步', '账本初始化', '主题切换', '修改用户名', '修改密码', '记账提醒', '联系我们'];
   //图标
   List menuIcons = [
     Icons.message,
@@ -46,15 +48,29 @@ class _ProfilePageState extends State<ProfilePage> {
     if (index == 0) {
     } else if (index == 1) {
     } else if (index == 2) {
-      print("主题切换");
-      // ThemeStyle();
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ThemePage(),
         ),
       );
-    } else if (index == 3) {}
+    } else if (index == 3) {
+      print(menuTitles[index]);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UsernamePage(),
+        ),
+      );
+    }else if(index == 4 ){
+      print(menuTitles[index]);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PasswordPage(),
+        ),
+      );
+    }
   }
 
   @override
