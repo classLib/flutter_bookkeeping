@@ -87,21 +87,6 @@ class _ThemePageState extends State<ThemePage> {
               )
             ],
           ),
-          // ListTile(
-          //   leading: Icon(Icons.language),
-          //   title: Text('多语言'),
-          //   trailing: Row(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: <Widget>[
-          //       Text('跟随系统',
-          //           style: TextStyle(
-          //             fontSize: 14.0,
-          //             color: Colors.grey,
-          //           )),
-          //       Icon(Icons.keyboard_arrow_right)
-          //     ],
-          //   ),
-          // )
         ],
       ),
     );

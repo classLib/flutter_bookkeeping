@@ -1,4 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:flutter_pickers/pickers.dart';
+import 'package:flutter_pickers/time_picker/model/date_mode.dart';
 
 /// FileName: 5.bookkeeping_reminder_page
 /// Author: hjy
@@ -9,12 +13,67 @@ class BookKeepingReminderPage extends StatefulWidget {
   const BookKeepingReminderPage({Key key}) : super(key: key);
 
   @override
-  _BookKeepingReminderPageState createState() => _BookKeepingReminderPageState();
+  _BookKeepingReminderPageState createState() =>
+      _BookKeepingReminderPageState();
 }
 
 class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
+  var time = "暂无";
+  bool backUp = false;
+
+  //点击选中时间
+  _onTimeSelect(model) {
+    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
+      setState(() {
+        time = '${p.hour}:${p.minute}';
+      });
+    });
+  }
+
+  //时间选择器
+  Widget _timeSelector(title, model) {
+    return Container(
+      color: Colors.white,
+      child: ListTile(
+        onTap: () {
+          _onTimeSelect(model);
+        },
+        title: Text(title),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[Text(time), Icon(Icons.arrow_forward_ios)],
+        ),
+      ),
+    );
+  }
+
+  //系统提醒
+  Widget _systemSwitch() {
+    return ListTile(
+      title: Text("系统提醒"), //title
+      trailing: Switch(
+        value: this.backUp,
+        activeColor: themeColorMap[Constant.key_theme_color],
+        onChanged: (value) {
+          setState(() {
+            this.backUp = value;
+            // onBackUp();
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("记账提醒"),
+        backgroundColor: themeColorMap[Constant.key_theme_color],
+      ),
+      body: ListView(
+        children: [_systemSwitch(), _timeSelector("提醒时间", DateMode.HM)],
+      ),
+    );
   }
 }

@@ -6,12 +6,16 @@
 import 'package:flutter/material.dart';
 
 class Constant {
-  static const String key_theme_color = 'key_theme_color';
-  static const String key_guide = 'key_guide';
-  static const String key_splash_model = 'key_splash_models';
-  static const String key_current_source = 'key_current_source';
-  static const String key_db_name = 'player.db';
+  static String username = "admin";
+  static String password = "123456";
+
+  static String key_theme_color = 'blue';
+  // static const String key_guide = 'key_guide';
+  // static const String key_splash_model = 'key_splash_models';
+  // static const String key_current_source = 'key_current_source';
+  // static const String key_db_name = 'player.db';
 }
+
 //主题样式列表
 Map<String, Color> themeColorMap = {
   'gray': Colors.grey,

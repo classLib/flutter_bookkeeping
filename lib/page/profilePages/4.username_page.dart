@@ -28,7 +28,6 @@ class _UsernamePageState extends State<UsernamePage> {
   final _borderRadius = BorderRadius.circular(6);
 
   ///attribute
-  bool _obsecureText = true;
   bool _isEnableLogin = false;
 
   //控制账户和密码的输入，获取其内容
