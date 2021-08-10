@@ -11,6 +11,8 @@ import 'package:flutter_bookkeeping/page/profilePages/3.theme_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/4.username_page.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
 
+import '7.contact_page.dart';
+
 void main() {
   runApp(Profile());
 }
@@ -86,12 +88,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     } else if (index == 6) {
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => ContactPage(),
-      //   ),
-      // );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactPage(),
+        ),
+      );
     }
   }
 
