@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class PersonPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("首页"),
+      child: Text("个人中心"),
     );
   }
 }
