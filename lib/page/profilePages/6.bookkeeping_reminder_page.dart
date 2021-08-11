@@ -31,6 +31,15 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
     });
   }
 
+  _onBackUp(){
+    if(this.backUp == true){
+      DateTime _nowDate=DateTime.now();
+      var cur = "${_nowDate.hour}:${_nowDate.minute}";
+      // if(cur == time) {
+      //
+      // }
+    }
+  }
   //时间选择器
   Widget _timeSelector(title, model) {
     return Container(
@@ -58,7 +67,7 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
         onChanged: (value) {
           setState(() {
             this.backUp = value;
-            // onBackUp();
+            _onBackUp();
           });
         },
       ),

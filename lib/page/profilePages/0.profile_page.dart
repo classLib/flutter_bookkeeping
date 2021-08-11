@@ -177,6 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: new Text('退出登录'),
                   onPressed: () {
                     print("111");
+                    // Navigator.pop(context);
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),
