@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:flutter_bookkeeping/util/head_util.dart';
 import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_pickers/time_picker/model/date_mode.dart';
 
@@ -72,7 +73,11 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
         backgroundColor: themeColorMap[Constant.key_theme_color],
       ),
       body: ListView(
-        children: [_systemSwitch(), _timeSelector("提醒时间", DateMode.HM)],
+        children: [
+          HeadUtil(),
+          _systemSwitch(),
+          _timeSelector("提醒时间", DateMode.HM)
+        ],
       ),
     );
   }

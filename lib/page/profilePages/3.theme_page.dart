@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:flutter_bookkeeping/util/head_util.dart';
 import 'package:flutter_bookkeeping/util/sp_helper.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +28,7 @@ class _ThemePageState extends State<ThemePage> {
 
   _initAsync() async {
     setState(() {
-      _colorKey =
-          SpHelper.getString(Constant.key_theme_color, defValue: 'blue');
+      _colorKey = Constant.key_theme_color;
     });
   }
 
@@ -48,9 +48,10 @@ class _ThemePageState extends State<ThemePage> {
       ),
       body: ListView(
         children: <Widget>[
+          HeadUtil(),
           ExpansionTile(
             leading: Icon(Icons.color_lens),
-            title: Text('主题'),
+            title: Text('主题修改'),
             initiallyExpanded: true,
             children: <Widget>[
               Padding(

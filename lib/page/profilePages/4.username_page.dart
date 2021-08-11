@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:flutter_bookkeeping/util/head_util.dart';
 
 /// FileName: username_page
 /// Author: hjy
@@ -37,7 +38,7 @@ class _UsernamePageState extends State<UsernamePage> {
   Widget _cancel() {
     // ignore: deprecated_member_use
     return FlatButton(
-      color: Colors.blue,
+      color: themeColorMap[Constant.key_theme_color],
       child: Text(
         "关闭",
         style: _normalFont,
@@ -122,7 +123,6 @@ class _UsernamePageState extends State<UsernamePage> {
           onPressed: _getConfirmButtonPressed(),
         ));
   }
-
   /// 界面
   @override
   Widget build(BuildContext context) {
@@ -137,10 +137,11 @@ class _UsernamePageState extends State<UsernamePage> {
         backgroundColor: themeColorMap[Constant.key_theme_color],
       ),
       body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
+        // margin: EdgeInsets.only(left: 25, right: 25),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              HeadUtil(),
               _buildAccountEditTextField(),
               _buildButtonConfirm()
             ],
