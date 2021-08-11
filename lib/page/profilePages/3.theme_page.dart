@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:flutter_bookkeeping/util/head_util.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_info.dart';
 
@@ -16,21 +17,23 @@ class ThemePage extends StatefulWidget {
 }
 
 class _ThemePageState extends State<ThemePage> {
+  //获取，将数据持久化到磁盘中
+  Future<SharedPreferences> _pres = SharedPreferences.getInstance();
   String _colorKey;
 
   @override
   void initState() {
     super.initState();
-
-    _initAsync();
   }
 
-  _initAsync() async {
+  _onTap(key) async{
     setState(() {
-      _colorKey = Constant.key_theme_color;
+      _colorKey = key;
     });
+    final SharedPreferences pres = await _pres;
+    pres.setString(Constant.key_theme_color, key);
+    Provider.of<AppInfoProvider>(context, listen: false).setTheme(key);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +46,7 @@ class _ThemePageState extends State<ThemePage> {
         ),
         title: Text('主题切换'),
         centerTitle: true,
-        backgroundColor: themeColorMap[_colorKey],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView(
         children: <Widget>[
@@ -62,12 +65,13 @@ class _ThemePageState extends State<ThemePage> {
                     Color value = themeColorMap[key];
                     return InkWell(
                       onTap: () {
-                        setState(() {
-                          _colorKey = key;
-                        });
-                        Constant.key_theme_color = key;
-                        Provider.of<AppInfoProvider>(context, listen: false)
-                            .setTheme(key);
+                        _onTap(key);
+                        // setState(() {
+                        //   _colorKey = key;
+                        // });
+                        //
+                        // Provider.of<AppInfoProvider>(context, listen: false)
+                        //     .setTheme(key);
                       },
                       child: Container(
                         width: 40,

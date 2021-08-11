@@ -36,7 +36,7 @@ dependencies:
 #  切换主题
   provider: ^4.0.5
   flustars: ^0.2.6+1
-
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:

@@ -54,7 +54,7 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
       title: Text("系统提醒"), //title
       trailing: Switch(
         value: this.backUp,
-        activeColor: themeColorMap[Constant.key_theme_color],
+        activeColor: Theme.of(context).accentColor,
         onChanged: (value) {
           setState(() {
             this.backUp = value;
@@ -70,7 +70,7 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("记账提醒"),
-        backgroundColor: themeColorMap[Constant.key_theme_color],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView(
         children: [
