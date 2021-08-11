@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/page/profilePages/6.bookkeeping_reminder_page.dart';
-import 'package:flutter_bookkeeping/page/profilePages/head_page.dart';
+import 'package:flutter_bookkeeping/page/profilePages/head_widget.dart';
 import 'package:flutter_bookkeeping/page/profilePages/5.password_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/3.theme_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/4.username_page.dart';

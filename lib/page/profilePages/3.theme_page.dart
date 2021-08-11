@@ -9,7 +9,7 @@ import 'package:flutter_bookkeeping/util/head_util.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app_info.dart';
+import '../../util/app_info.dart';
 
 class ThemePage extends StatefulWidget {
   @override
@@ -21,17 +21,12 @@ class _ThemePageState extends State<ThemePage> {
   Future<SharedPreferences> _pres = SharedPreferences.getInstance();
   String _colorKey;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   _onTap(key) async{
     setState(() {
       _colorKey = key;
     });
     final SharedPreferences pres = await _pres;
-    pres.setString(Constant.key_theme_color, key);
+    pres.setString(Constant.keyThemeColor, key);
     Provider.of<AppInfoProvider>(context, listen: false).setTheme(key);
   }
   @override

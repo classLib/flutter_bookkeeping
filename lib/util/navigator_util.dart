@@ -5,7 +5,7 @@ import 'package:flutter_bookkeeping/page/Home.dart';
 import 'package:flutter_bookkeeping/page/Recommend.dart';
 import 'package:flutter_bookkeeping/page/Report.dart';
 import 'package:flutter_bookkeeping/page/profilePages/0.profile_page.dart';
-import 'package:flutter_bookkeeping/page/profilePages/app_info.dart';
+import 'package:flutter_bookkeeping/util/app_info.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,7 +62,7 @@ class _IndexState extends State<IndexPage> {
   void initState() {
     super.initState();
     _pres.then((d) {
-      String _colorKey = d.getString(Constant.key_theme_color);
+      String _colorKey = d.getString(Constant.keyThemeColor);
       print(_colorKey);
       // 设置初始化主题颜色
       Provider.of<AppInfoProvider>(context, listen: false).setTheme(_colorKey);

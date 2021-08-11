@@ -105,7 +105,7 @@ class _UsernamePageState extends State<UsernamePage> {
   /// 确认按钮
   Widget _buildButtonConfirm() {
     return Container(
-        color: themeColorMap[Constant.key_theme_color],
+        color: themeColorMap[Constant.keyThemeColor],
         margin: EdgeInsets.only(top: 20, left: 25, right: 25),
         width: MediaQuery.of(context).size.width,
         height: 45,
