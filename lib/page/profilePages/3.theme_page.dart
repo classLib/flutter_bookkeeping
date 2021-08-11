@@ -6,7 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:flutter_bookkeeping/util/head_util.dart';
-import 'package:flutter_bookkeeping/util/sp_helper.dart';
 import 'package:provider/provider.dart';
 
 import 'app_info.dart';
@@ -67,7 +66,6 @@ class _ThemePageState extends State<ThemePage> {
                           _colorKey = key;
                         });
                         Constant.key_theme_color = key;
-                        SpHelper.putString(Constant.key_theme_color, key);
                         Provider.of<AppInfoProvider>(context, listen: false)
                             .setTheme(key);
                       },
