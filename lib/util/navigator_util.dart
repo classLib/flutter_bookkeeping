@@ -5,6 +5,7 @@ import 'package:flutter_bookkeeping/page/Home.dart';
 import 'package:flutter_bookkeeping/page/Recommend.dart';
 import 'package:flutter_bookkeeping/page/Report.dart';
 import 'package:flutter_bookkeeping/page/profilePages/0.profile_page.dart';
+import 'package:flutter_bookkeeping/util/constant.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -62,6 +63,7 @@ class _IndexState extends State<IndexPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Flutter Book"),
+        backgroundColor: themeColorMap[Constant.key_theme_color],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavItems,
