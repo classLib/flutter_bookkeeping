@@ -19,7 +19,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("加入我们"),
-          backgroundColor: Theme.of(context).accentColor,
+          backgroundColor: Theme.of(context).primaryColor,
         ),
         body: ListView(
           children: [

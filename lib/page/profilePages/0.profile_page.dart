@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/page/profilePages/6.bookkeeping_reminder_page.dart';
-import 'package:flutter_bookkeeping/page/profilePages/head_page.dart';
+import 'package:flutter_bookkeeping/page/profilePages/head_widget.dart';
 import 'package:flutter_bookkeeping/page/profilePages/5.password_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/3.theme_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/4.username_page.dart';
@@ -109,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
           //头像处
           if (index == 0) {
             return Container(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).primaryColor,
               height: 200.0,
               child: Center(
                 child: Column(
@@ -136,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text(menuTitles[index - 1]), //title
               trailing: Switch(
                 value: this.backUp,
-                activeColor: themeColorMap[Constant.key_theme_color],
+                activeColor: Theme.of(context).primaryColor,
                 onChanged: (value) {
                   setState(() {
                     this.backUp = value;
@@ -153,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
               title: Text(menuTitles[index - 1]), //title
               trailing: Switch(
                 value: this.init,
-                activeColor: themeColorMap[Constant.key_theme_color],
+                activeColor: Theme.of(context).primaryColor,
                 onChanged: (value) {
                   setState(() {
                     this.init = value;
@@ -166,17 +166,18 @@ class _ProfilePageState extends State<ProfilePage> {
           //退出登录
           else if (index == menuTitles.length + 1) {
             return Container(
-                color: themeColorMap[Constant.key_theme_color],
+                color: Theme.of(context).accentColor,
                 margin: EdgeInsets.only(top: 20, left: 25, right: 25),
                 width: MediaQuery.of(context).size.width,
                 height: 45,
                 // ignore: deprecated_member_use
                 child: new MaterialButton(
-                  color: themeColorMap[Constant.key_theme_color],
+                  color: Theme.of(context).accentColor,
                   textColor: Colors.white,
                   child: new Text('退出登录'),
                   onPressed: () {
                     print("111");
+                    // Navigator.pop(context);
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bookkeeping/page/profilePages/app_info.dart';
+import 'package:flutter_bookkeeping/util/app_info.dart';
 import 'package:flutter_bookkeeping/page/profilePages/0.profile_page.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:flutter_bookkeeping/util/navigator_util.dart';

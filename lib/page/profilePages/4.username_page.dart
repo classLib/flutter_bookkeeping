@@ -38,7 +38,7 @@ class _UsernamePageState extends State<UsernamePage> {
   Widget _cancel() {
     // ignore: deprecated_member_use
     return FlatButton(
-      color: themeColorMap[Constant.key_theme_color],
+      color: Theme.of(context).primaryColor,
       child: Text(
         "关闭",
         style: _normalFont,
@@ -105,7 +105,7 @@ class _UsernamePageState extends State<UsernamePage> {
   /// 确认按钮
   Widget _buildButtonConfirm() {
     return Container(
-        color: themeColorMap[Constant.key_theme_color],
+        color: themeColorMap[Constant.keyThemeColor],
         margin: EdgeInsets.only(top: 20, left: 25, right: 25),
         width: MediaQuery.of(context).size.width,
         height: 45,
@@ -115,7 +115,7 @@ class _UsernamePageState extends State<UsernamePage> {
             "确认",
             style: _normalFont,
           ),
-          color: themeColorMap[Constant.key_theme_color],
+          color:Theme.of(context).primaryColor,
           disabledColor: Colors.black12,
           textColor: Colors.white,
           disabledTextColor: Colors.black12,
@@ -134,7 +134,7 @@ class _UsernamePageState extends State<UsernamePage> {
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: themeColorMap[Constant.key_theme_color],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Container(
         // margin: EdgeInsets.only(left: 25, right: 25),
