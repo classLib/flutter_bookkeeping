@@ -16,3 +16,8 @@ class DbConstant {
   static final String dbName = "bookkeeping.db";
   static final int dbVersion = 1;
 }
+
+// 通过分类名称对应图片编号
+class Category {
+
+}

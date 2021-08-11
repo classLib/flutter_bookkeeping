@@ -1,5 +1,6 @@
 //目录类
-import '../constantWr.dart';
+
+import '../../constantWr.dart';
 
 class Catetory {
 //  类别id

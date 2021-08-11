@@ -1,5 +1,6 @@
 //关于类别的增删改
-import 'package:flutter_bookkeeping/model/category.dart';
+
+import 'package:flutter_bookkeeping/model/categorySetting/category.dart';
 import 'package:flutter_bookkeeping/util/DbHelper.dart';
 
 import '../constantWr.dart';

@@ -1,6 +1,6 @@
 //导航工具类
 import 'package:flutter/material.dart';
-import 'package:flutter_bookkeeping/page/Bookkeeping.dart';
+import '../page/Bookkeeping.dart';
 import 'package:flutter_bookkeeping/page/Home.dart';
 import 'package:flutter_bookkeeping/page/Recommend.dart';
 import 'package:flutter_bookkeeping/page/Report.dart';
