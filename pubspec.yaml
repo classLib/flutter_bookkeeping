@@ -43,8 +43,6 @@ dependencies:
   flutter_echarts: ^2.2.0
   webview_flutter: ^2.0.2
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

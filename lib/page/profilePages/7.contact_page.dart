@@ -33,7 +33,7 @@ class _ContactPageState extends State<ContactPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("联系我们"),
-          backgroundColor: Theme.of(context).accentColor,
+          backgroundColor: Theme.of(context).primaryColor,
         ),
         body: ListView.separated(
           itemCount: menuTitles.length + 1, //共有len+1行

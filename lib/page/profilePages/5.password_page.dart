@@ -122,7 +122,7 @@ class _PasswordPageState extends State<PasswordPage> {
   Widget _cancel() {
     // ignore: deprecated_member_use
     return FlatButton(
-      color: themeColorMap[Constant.key_theme_color],
+      color: Theme.of(context).primaryColor,
       child: Text(
         "关闭",
       ),
@@ -190,7 +190,7 @@ class _PasswordPageState extends State<PasswordPage> {
   /// 确认按钮
   Widget _buildButtonConfirm() {
     return Container(
-        color: themeColorMap[Constant.key_theme_color],
+        color: Theme.of(context).primaryColor,
         margin: EdgeInsets.only(top: 20, left: 25, right: 25),
         width: MediaQuery.of(context).size.width,
         height: 45,
@@ -199,7 +199,7 @@ class _PasswordPageState extends State<PasswordPage> {
           child: Text(
             "确认",
           ),
-          color: themeColorMap[Constant.key_theme_color],
+          color: Theme.of(context).primaryColor,
           disabledColor: Colors.black12,
           textColor: Colors.white,
           disabledTextColor: Colors.black12,
@@ -213,7 +213,7 @@ class _PasswordPageState extends State<PasswordPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("修改密码"),
-        backgroundColor: themeColorMap[Constant.key_theme_color],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
         child: Container(

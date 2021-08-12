@@ -5,7 +5,10 @@ import 'package:flutter_bookkeeping/page/Home.dart';
 import 'package:flutter_bookkeeping/page/Recommend.dart';
 import 'package:flutter_bookkeeping/page/chart_pages/Report.dart';
 import 'package:flutter_bookkeeping/page/profilePages/0.profile_page.dart';
+import 'package:flutter_bookkeeping/util/app_info.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -15,6 +18,9 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexState extends State<IndexPage> {
+  //获取，将数据持久化到磁盘中
+  Future<SharedPreferences> _pres = SharedPreferences.getInstance();
+
   // 底部菜单栏图表
   final List<BottomNavigationBarItem> bottomNavItems = [
     BottomNavigationBarItem(
@@ -55,6 +61,12 @@ class _IndexState extends State<IndexPage> {
   @override
   void initState() {
     super.initState();
+    _pres.then((d) {
+      String _colorKey = d.getString(Constant.keyThemeColor);
+      print(_colorKey);
+      // 设置初始化主题颜色
+      Provider.of<AppInfoProvider>(context, listen: false).setTheme(_colorKey);
+    });
     currentIndex = 0;
   }
 
@@ -63,7 +75,7 @@ class _IndexState extends State<IndexPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Flutter Book"),
-        backgroundColor: themeColorMap[Constant.key_theme_color],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavItems,
@@ -81,7 +93,6 @@ class _IndexState extends State<IndexPage> {
 
   // 切换页面
   void _changePage(int index) {
-
     if (index != currentIndex) {
       setState(() {
         currentIndex = index;
