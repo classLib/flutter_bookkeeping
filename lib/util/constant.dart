@@ -35,3 +35,4 @@ Map<String, Color> themeColorMap = {
   'teal': Colors.teal,
   'black': Colors.black,
 };
+

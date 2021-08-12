@@ -1,9 +1,9 @@
 //导航工具类
 import 'package:flutter/material.dart';
-import 'package:flutter_bookkeeping/page/Bookkeeping.dart';
+import '../page/Bookkeeping.dart';
 import 'package:flutter_bookkeeping/page/Home.dart';
 import 'package:flutter_bookkeeping/page/Recommend.dart';
-import 'package:flutter_bookkeeping/page/Report.dart';
+import 'package:flutter_bookkeeping/page/chart_pages/Report.dart';
 import 'package:flutter_bookkeeping/page/profilePages/0.profile_page.dart';
 import 'package:flutter_bookkeeping/util/app_info.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
