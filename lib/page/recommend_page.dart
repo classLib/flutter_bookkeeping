@@ -117,7 +117,7 @@ class _RecommendPageState extends State<RecommendPage> {
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
-      height: MediaQuery.of(context).size.height * 0.06,
+      height: MediaQuery.of(context).size.height * 0.04,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -152,12 +152,18 @@ class _RecommendPageState extends State<RecommendPage> {
       color: Colors.white,
       width: MediaQuery.of(context).size.width * 1.0,
       height: MediaQuery.of(context).size.height * 0.21,
-      child: ListView.builder(
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _books.length,
         shrinkWrap: false,
         itemBuilder: (context, index) {
           return _bookItem(index);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Container(
+            color: Colors.grey[300],
+            width: MediaQuery.of(context).size.width * 0.05,
+          );
         },
       ),
     );
@@ -165,15 +171,21 @@ class _RecommendPageState extends State<RecommendPage> {
 
   _buildCourseWidget() {
     return Container(
-      color: Colors.white,
+      color: Colors.transparent,
       width: MediaQuery.of(context).size.width * 1.0,
       height: MediaQuery.of(context).size.height * 0.21,
-      child: ListView.builder(
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _courses.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return _courseItem(index);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Container(
+            color: Colors.grey[300],
+            width: MediaQuery.of(context).size.width * 0.05,
+          );
         },
       ),
     );
@@ -184,12 +196,18 @@ class _RecommendPageState extends State<RecommendPage> {
       color: Colors.white,
       width: MediaQuery.of(context).size.width * 1.0,
       height: MediaQuery.of(context).size.height * 0.12,
-      child: ListView.builder(
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _officialAccounts.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return _officialAccountItem(index);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Container(
+            color: Colors.grey[300],
+            width: MediaQuery.of(context).size.width * 0.05,
+          );
         },
       ),
     );
@@ -197,15 +215,21 @@ class _RecommendPageState extends State<RecommendPage> {
 
   _buildToolsWidget() {
     return Container(
-      color: Colors.white,
+      color: Colors.transparent,
       width: MediaQuery.of(context).size.width * 1.0,
       height: MediaQuery.of(context).size.height * 0.12,
-      child: ListView.builder(
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _tools.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return _toolItem(index);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Container(
+            color: Colors.grey[300],
+            width: MediaQuery.of(context).size.width * 0.05,
+          );
         },
       ),
     );
@@ -216,6 +240,7 @@ class _RecommendPageState extends State<RecommendPage> {
     var img = Image(image: AssetImage(_books[index].img));
 
     return Container(
+      width: MediaQuery.of(context).size.width * 0.16,
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
       child: GestureDetector(
         child: Column(
@@ -237,38 +262,42 @@ class _RecommendPageState extends State<RecommendPage> {
     var icon = Icon(Icons.person);
     var stuCount = Text(_courses[index].stuCount.toString());
 
-    return Container(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-      child: GestureDetector(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: img,
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        name,
-                        publisher,
-                      ],
-                    ),
-                  ),
-                  Container(
-                      child: Row(
-                    children: <Widget>[
-                      icon,
-                      stuCount,
-                    ],
-                  )),
-                ],
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.30,
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+        child: GestureDetector(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: img,
               ),
-            ),
-          ],
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          name,
+                          publisher,
+                        ],
+                      ),
+                    ),
+                    Container(
+                        child: Row(
+                      children: <Widget>[
+                        icon,
+                        stuCount,
+                      ],
+                    )),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -279,6 +308,7 @@ class _RecommendPageState extends State<RecommendPage> {
     var img = Image(image: AssetImage(_officialAccounts[index].img));
 
     return Container(
+      width: MediaQuery.of(context).size.width * 0.30,
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
       child: GestureDetector(
         child: Column(
@@ -295,9 +325,11 @@ class _RecommendPageState extends State<RecommendPage> {
 
   _toolItem(int index) {
     var name = Text(_officialAccounts[index].name);
-    var img = Image(image: AssetImage(_officialAccounts[index].img));
+    var img = Image(image: AssetImage(_officialAccounts[index].img),);
 
     return Container(
+      color: Colors.transparent,
+      width: MediaQuery.of(context).size.width * 0.12,
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
       child: GestureDetector(
         child: Column(
