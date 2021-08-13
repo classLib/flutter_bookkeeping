@@ -31,6 +31,15 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
     });
   }
 
+  _onBackUp(){
+    if(this.backUp == true){
+      DateTime _nowDate=DateTime.now();
+      var cur = "${_nowDate.hour}:${_nowDate.minute}";
+      // if(cur == time) {
+      //
+      // }
+    }
+  }
   //时间选择器
   Widget _timeSelector(title, model) {
     return Container(
@@ -54,11 +63,11 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
       title: Text("系统提醒"), //title
       trailing: Switch(
         value: this.backUp,
-        activeColor: themeColorMap[Constant.key_theme_color],
+        activeColor: Theme.of(context).accentColor,
         onChanged: (value) {
           setState(() {
             this.backUp = value;
-            // onBackUp();
+            _onBackUp();
           });
         },
       ),
@@ -70,7 +79,7 @@ class _BookKeepingReminderPageState extends State<BookKeepingReminderPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("记账提醒"),
-        backgroundColor: themeColorMap[Constant.key_theme_color],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView(
         children: [
