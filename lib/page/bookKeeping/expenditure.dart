@@ -65,7 +65,7 @@ class _Ewxpenditure extends State<Ewxpenditure> {
               Expanded(
                   // 这个页面是要滑动的，所以用Expanded
                   child: SingleChildScrollView(
-                child: Column(
+                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: _listView(context),
                 ),
