@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
 /// FileName: year_chart_page
@@ -15,15 +18,84 @@ class YearChartPage extends StatefulWidget {
 }
 
 class _YearChartPageState extends State<YearChartPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  var _yearKey;
+  var choice = 1;
+  var data = [
+    {"value": 335, "name": '直接访问'},
+    {"value": 310, "name": '邮件营销'},
+    {"value": 274, "name": '联盟广告'},
+    {"value": 235, "name": '视频广告'},
+    {"value": 400, "name": '搜索引擎'}
+  ];
+  
+  //点击事件
+  _onTimeSelector(key){
+    setState(() {
+      _yearKey = key;
+    });
+    //向数据库请求当前_yearKey的消费状况
+  }
+  
+  //点击radio按钮选择
+  _onRadioChanged(value) {
+    setState(() {
+      this.choice = value;
+    });
+    // 根据获取的值来筛选支出和收入
+    if (value == 1) {
+      //  筛选月支出消费
+    } else {
+      //  筛选月收入消费
+    }
+  }
+//图标
+  List menuIcons = [
+    Icons.message,
+    Icons.print,
+    Icons.error,
+    Icons.phone,
+    Icons.send,
+    Icons.people,
+    Icons.person,
+    Icons.phone,
+  ];
   //饼图
   Widget pie(){
-    return Container(
-      width: 300,
-      height: 250,
-      child: Echarts(
-        option: '''
+    return Column(
+      children: [
+        SizedBox(height: 5.0,),
+        Row(
+          children: <Widget>[
+            SizedBox(
+              width: 60,
+            ),
+            Text("年支出"),
+            Radio(
+              value: 1,
+              onChanged: (value) {
+                _onRadioChanged(value);
+              },
+              // 按钮组的值
+              groupValue: this.choice,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text("年收入"),
+            Radio(
+              value: 2,
+              onChanged: (value) {
+                _onRadioChanged(value);
+              },
+              groupValue: this.choice,
+            ),
+          ],
+        ),
+        Container(
+          width: 300,
+          height: 250,
+          child: Echarts(
+            option: '''
                   {
                       backgroundColor: 'white',
                       tooltip: {
@@ -43,7 +115,7 @@ class _YearChartPageState extends State<YearChartPage> {
                               type: 'pie',
                               radius: '55%',
                               center: ['50%', '50%'],
-                              data: data.sort(function (a, b) { return a.value - b.value; }),
+                              data: ${jsonEncode(data)}.sort(function (a, b) { return a.value - b.value; }),
                               roseType: 'radius',
                               label: {
                                   color: 'black'
@@ -70,18 +142,12 @@ class _YearChartPageState extends State<YearChartPage> {
                       ]
                   }
                   ''',
-        extraScript: '''
-                  var data = [
-                      {value: 335, name: '直接访问'},
-                      {value: 310, name: '邮件营销'},
-                      {value: 274, name: '联盟广告'},
-                      {value: 235, name: '视频广告'},
-                      {value: 400, name: '搜索引擎'}
-                  ]
-                  ''',
-      ),
+          ),
+        )
+      ],
     );
   }
+
   //面积图
   Widget area(){
     return Container(
@@ -176,26 +242,68 @@ class _YearChartPageState extends State<YearChartPage> {
       height: 250,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // key: _scaffoldKey,
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(height: 5.0,),
-              Text("各分类占比"),
-              SizedBox(height: 5.0,),
-              pie(),
-              SizedBox(height: 10,),
-              Text("面积图"),
-              area(),
-            ],
-          ),
-        ),
-      ),
+      body:ListView.separated(
+        itemCount: data.length + 3,
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemBuilder: (BuildContext context, int index){
+          if(index == 0){
+            return ExpansionTile(
+              leading: Icon(Icons.date_range),
+              title: Text("年份筛选"),
+              initiallyExpanded: true,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: Wrap(
+                    spacing: 8,
+                    // runSpacing: 8,
+                    children: yearMap.keys.map((key) {
+                      var value = yearMap[key];
+                      return InkWell(
+                        onTap: () {
+                          _onTimeSelector(key);
+                        },
+                        child: Container(
+                          width: 60,
+                          height: 40,
+                          child: _yearKey == key
+                              ? Icon(Icons.done)
+                              : Text(value,style: TextStyle(fontSize: 12),),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                )
+              ],
+            );
+          }
+          else if(index ==1){
+            return pie();
+          }
+          else if(index ==2 ){
+            return area();
+          }
+          else return ListTile(
+              leading: Icon(menuIcons[index - 3]), //左边
+              title: Text(data[index - 3]["name"]), //title
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('${data[index - 3]["value"]}元'),
+                  Icon(Icons.arrow_forward_ios)
+                ],
+              ),
+            );
+        },
+      )
     );
   }
 }

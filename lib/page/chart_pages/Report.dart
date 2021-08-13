@@ -12,8 +12,8 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   final List<Tab> myTabs = <Tab>[
-    Tab(text: '月份报表'),
-    Tab(text: '年度报表')
+    Tab(text: '月份'),
+    Tab(text: '年度')
   ];
 
   @override
@@ -22,7 +22,7 @@ class _ReportPageState extends State<ReportPage> {
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("报表页面"),
+          title: Text("记账分析"),
           bottom: TabBar(tabs: myTabs),
           backgroundColor: Theme.of(context).primaryColor,
         ),

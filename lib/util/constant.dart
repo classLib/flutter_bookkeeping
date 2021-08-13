@@ -16,6 +16,28 @@ class Constant {
   // static const String key_db_name = 'player.db';
 }
 
+//年度列表
+Map<int, String> yearMap = {
+  2018: "2018年",
+  2019: "2019年",
+  2020: "2020年",
+  2021: "2021年"
+};
+//月份列表
+Map<int, String> monthMap = {
+  1: "1月",
+  2: "2月",
+  3: "3月",
+  4: "4月",
+  5: "5月",
+  6: "6月",
+  7: "7月",
+  8: "8月",
+  9: "9月",
+  10: "10月",
+  11: "11月",
+  12: "12月"
+};
 //主题样式列表
 Map<String, Color> themeColorMap = {
   'gray': Colors.grey,
@@ -35,4 +57,3 @@ Map<String, Color> themeColorMap = {
   'teal': Colors.teal,
   'black': Colors.black,
 };
-
