@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
+import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
 import 'package:flutter_bookkeeping/page/chart_pages/filter_widget.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
@@ -55,9 +57,16 @@ class _MonthChartPageState extends State<MonthChartPage> {
     print(key);
   }
 
+  add(){
+    KeepDbHelper.insert(
+        KeepRecord(1)
+    );
+  }
+
   //点击radio按钮选择
   _onRadioChanged(value) {
     setState(() {
+      add();
       this.choice = value;
     });
     // 根据获取的值来筛选支出和收入
@@ -86,6 +95,7 @@ class _MonthChartPageState extends State<MonthChartPage> {
               // 按钮组的值
               groupValue: this.choice,
             ),
+            // add(),
             SizedBox(
               width: 20,
             ),
