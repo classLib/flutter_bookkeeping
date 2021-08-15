@@ -15,6 +15,26 @@ class Constant {
   // static const String key_current_source = 'key_current_source';
   // static const String key_db_name = 'player.db';
 }
+//收入支出记录表
+
+class KeepTable {
+  //表名
+  static final String TABLE_NAME = "keep_record_table";
+  //  记录的id
+  static final String recordId = "id";
+//  图片编号
+  static final String recordImage = "image_num";
+//分类名称
+  static final String recordCategoryName = "record_category_name";
+//记录的备注
+  static final String recordRemarks = "record_remarks";
+//记录的钱数
+  static final String recordNumber = "record_number";
+//记录类型
+  static final String recordCategoryNum = "record_category_num";
+//记录时间
+  static final String recordTime = "record_time";
+}
 
 //年度列表
 Map<int, String> yearMap = {
