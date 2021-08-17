@@ -1,14 +1,30 @@
 // 基于单例模式创建数据库，完成基本 sqflite 软件包的数据库打 开、关闭、表格创建等操作。
 import 'package:flutter_bookkeeping/model/categorySetting/category.dart';
+import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
+
+
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 import '../constantWr.dart';
+import 'constant.dart';
+
 class DbHelper {
 
-  static final DbHelper _instance = DbHelper._internal();
+  factory DbHelper() => _getInstance();
 
-  factory DbHelper() => _instance;
+  static DbHelper get instance => _getInstance();
+  static DbHelper _instance = null;
+
+  DbHelper._internal();
+
+  /// 单例模式
+  static DbHelper _getInstance() {
+    if (_instance == null) {
+      _instance = new DbHelper._internal();
+    }
+    return _instance;
+  }
 
   static Database _db;
 
@@ -17,9 +33,10 @@ class DbHelper {
     return _db;
   }
 
-  DbHelper._internal();
-
   //创建数据库
+
+  /// 初始化
+
   _initDb() async {
     String databasesPath = await getDatabasesPath();
     String path = p.join(databasesPath, DbConstant.dbName);
@@ -31,15 +48,10 @@ class DbHelper {
     );
   }
 
+
   //创建数据库表
-  void _onCreate(Database db, int version) async {
-    // await db.execute('create table ${CategoryTable.TABLE_NAME}'
-    //     '('
-    //     '"${CategoryTable.CATEGORY_ID}" integer primary key autoincrement,'
-    //     '"${CategoryTable.CATEGORY_NAME}" text'
-    //     '"${CategoryTable.CATEGORY_BELON}" integer'
-    //     '"${CategoryTable.CATEGORY_IMAGE_NUM}" text'
-    //     ')');
+  /// 创建 包括id， 名称，所属， 图片编号
+  Future<void> _onCreate(Database db, int version) async {
 
     db.execute(
         "CREATE TABLE ${CategoryTable.TABLE_NAME}("
@@ -48,7 +60,31 @@ class DbHelper {
             "${CategoryTable.CATEGORY_BELON} INTEGER, "
             "${CategoryTable.CATEGORY_IMAGE_NUM} TEXT)"
     );
-    print("数据库创建完毕");
+
+    // await db.execute('CREATE TABLE ${KeepTable.TABLE_NAME}'
+    //     '('
+    //     '"${KeepTable.recordId}" INTEGER PRIMARY KEY, '
+    //     '"${KeepTable.recordCategoryName}" TEXT, '
+    //     '"${KeepTable.recordCategoryNum}" INTEGER'
+    //     '"${KeepTable.recordImage}" TEXT'
+    //     '"${KeepTable.recordNumber}" REAL'
+    //     '"${KeepTable.recordRemarks}" TEXT'
+    //     '"${KeepTable.recordTime}" TEXT'
+    //     ')');
+
+    print("分类表创建完毕");
+    await db.execute(
+        "CREATE TABLE ${KeepTable.TABLE_NAME}("
+            "${KeepTable.recordId} INTEGER PRIMARY KEY, "
+            "${KeepTable.recordCategoryName} TEXT, "
+            "${KeepTable.recordCategoryNum} INTEGER, "
+            "${KeepTable.recordImage} TEXT, "
+            "${KeepTable.recordNumber} REAL, "
+            "${KeepTable.recordRemarks} TEXT, "
+            "${KeepTable.recordTime} TEXT)"
+    );
+
+    print("收支记录表创建完毕");
   }
 
   //关闭数据库
@@ -57,11 +93,14 @@ class DbHelper {
     return _dbClient.close();
   }
 
+
+
   //  新增
   Future<Catetory> insert(Catetory catetory) async {
     var __db = await db;
     try {
-      catetory.id = await __db.insert(CategoryTable.TABLE_NAME, catetory.toMap());
+      catetory.id =
+      await __db.insert(CategoryTable.TABLE_NAME, catetory.toMap());
     } catch (e) {
       print(e);
     }
@@ -114,6 +153,7 @@ class DbHelper {
     return list;
   }
   //删除全部数据
+
   Future<int> deleteAll() async {
     var _dbClient = await db;
     print("数据库中全部数据已删除");
@@ -127,7 +167,6 @@ class DbHelper {
     return await _dbClient
         .delete(CategoryTable.TABLE_NAME, where: 'id = ?', whereArgs: [id]);
   }
-
 
 
 }

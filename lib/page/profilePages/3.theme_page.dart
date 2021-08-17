@@ -61,18 +61,12 @@ class _ThemePageState extends State<ThemePage> {
                     return InkWell(
                       onTap: () {
                         _onTap(key);
-                        // setState(() {
-                        //   _colorKey = key;
-                        // });
-                        //
-                        // Provider.of<AppInfoProvider>(context, listen: false)
-                        //     .setTheme(key);
                       },
                       child: Container(
                         width: 40,
                         height: 40,
                         color: value,
-                        child: _colorKey == key
+                        child: _colorKey== key
                             ? Icon(
                                 Icons.done,
                                 color: Colors.white,

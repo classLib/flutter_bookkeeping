@@ -50,6 +50,7 @@ class _CategoryExpenditureAddState extends State<CategoryExpenditureAdd> {
 
   _getDataFromDb () async {
     _historyWords = await widget.categoryProvider.queryAll();
+    // await widget.categoryProvider.deleteAll();
 
     print(_historyWords.length);
   }
@@ -169,7 +170,7 @@ class _CategoryExpenditureAddState extends State<CategoryExpenditureAdd> {
   // 图片展示
   Widget ImageListWidget(context) {
     return Wrap(
-      spacing: 2, //主轴上子控件的间距
+      spacing: 4, //主轴上子控件的间距
       runSpacing: 5, //交叉轴上子控件之间的间距
       children: _listView(context), //要显示的子控件集合
     );

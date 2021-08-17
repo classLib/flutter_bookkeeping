@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/test/bookKeeping_database_test.dart';
 
 import 'bookKeeping/categorySetting_add.dart';
 import 'bookKeeping/categorySettingTest.dart';
@@ -13,7 +14,7 @@ class BookkeepingPage extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CategoryHomePage()));
+                  builder: (context) => BookKeepingDdatabaseTest()));
         },
       ),
     );
