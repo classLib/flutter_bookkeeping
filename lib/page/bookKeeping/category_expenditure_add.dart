@@ -18,6 +18,7 @@ import 'categorySettingTest.dart';
 
 class CategoryExpenditureAdd extends StatefulWidget {
   final DbHelper categoryProvider = new DbHelper();
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -46,8 +47,10 @@ class _CategoryExpenditureAddState extends State<CategoryExpenditureAdd> {
     _init();
 
   }
+
   _getDataFromDb () async {
     _historyWords = await widget.categoryProvider.queryAll();
+
     print(_historyWords.length);
   }
   _init() async {
@@ -189,6 +192,7 @@ class _CategoryExpenditureAddState extends State<CategoryExpenditureAdd> {
         onPressed:() {
           // _show(); // 提示不能成功
           _storeCatrgoty(_textController.text);
+
         },
       ),
     );
@@ -204,6 +208,8 @@ class _CategoryExpenditureAddState extends State<CategoryExpenditureAdd> {
     _textController.clear(); // 清空文本框
     Catetory catetory = new Catetory(value,1,curImage);
     await widget.categoryProvider.insert(catetory).then((value) => setState(() => _historyWords.insert(0, value)));
+    // 将history传给上一层
+    Navigator.pop(context,_historyWords);
 
   }
   // 新增成功之后，弹出新增成功的模态框

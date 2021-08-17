@@ -34,4 +34,5 @@ class Catetory {
       map[CategoryTable.CATEGORY_BELON],
       map[CategoryTable.CATEGORY_IMAGE_NUM],
       id: map[CategoryTable.CATEGORY_ID]);
+  // static Catetory
 }

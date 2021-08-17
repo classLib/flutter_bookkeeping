@@ -1,14 +1,20 @@
 // 分类管理的支出页面
+/*
+* 1.调用数据库查询所有支出的（category_belong = 1），进行展示
+* 2.展示分类图片 + 分类名称 + 删除符号
+*
+* */
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bookkeeping/model/categorySetting/category.dart';
+import 'package:flutter_bookkeeping/util/DbHelper.dart';
 import 'category_expenditure_add.dart';
 import 'category_income_add.dart';
 
 class Ewxpenditure extends StatefulWidget {
   final chooseType;
-
-  const Ewxpenditure({Key key, this.chooseType}) : super(key: key);
+  final DbHelper categoryProvider = new DbHelper();
+  Ewxpenditure({Key key, this.chooseType}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,20 +26,25 @@ class Ewxpenditure extends StatefulWidget {
 class _Ewxpenditure extends State<Ewxpenditure> {
   int currentItem = 1; // 新增本行
 // final chooseType;
-  final List dataList = [
-    {'id': 1, 'title': '表单名称1'},
-    {'id': 2, 'title': '表单名称2'},
-    {'id': 3, 'title': '表单名称3'},
-    {'id': 4, 'title': '表单名称3'},
-    {'id': 5, 'title': '表单名称3'},
-    {'id': 6, 'title': '表单名称3'},
-    {'id': 7, 'title': '表单名称3'},
-    {'id': 8, 'title': '表单名称3'},
-    {'id': 9, 'title': '表单名称3'},
-    {'id': 10, 'title': '表单名称3'},
-    {'id': 11, 'title': '表单名称3'},
-    {'id': 12, 'title': '表单名称12'},
-  ];
+  List dataList = [];
+
+  List<Catetory> _sumCategory = []; //存储搜索历史
+  @override
+  void initState()  {
+    super.initState();
+    _getDataFrom();
+  }
+  _getDataFrom() async {
+    _sumCategory = await widget.categoryProvider.queryAll();
+    setState(() {
+      // List<String> _keyword = [];
+      // if (_sumCategory.length > 0) {
+      //   _keyword = Catetory.getKeywordList(_sumCategory);
+      // }
+      // showHistory(_keyword.reversed);
+      dataList = _sumCategory;
+    });
+  }
 
   List<Widget> _listView(context) {
     List<Widget> listWidget = [];
@@ -43,13 +54,18 @@ class _Ewxpenditure extends State<Ewxpenditure> {
   }
 
   Widget listItem(item) {
-    // print(item);
-    final bool alreadySaved = currentItem == item['id'];
     return ListTile(
-        title: Text(item['title']),
+        // 图片
+        leading: Image.asset(
+          item.category_inmage_num,
+          width: 40,
+          height: 40,
+        ),
+        title: Text(item.category_name),
         onTap: () {
           setState(() {
-            currentItem = item['id'];
+            currentItem = item.id;
+            print(item.category_inmage_num);
           });
         });
   }
