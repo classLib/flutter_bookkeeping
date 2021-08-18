@@ -1,6 +1,6 @@
 class ToolModel{
   var name;
-  var img;
+  var imgs;
 
-  ToolModel(this.name,this.img);
+  ToolModel({this.name,this.imgs});
 }

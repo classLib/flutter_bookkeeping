@@ -1,8 +1,8 @@
 class CourseModel{
   var name;
-  var img;
+  var imgs;
   var publisher;
   var stuCount;
 
-  CourseModel(this.name, this.img, this.publisher, this.stuCount);
+  CourseModel({this.name, this.imgs, this.publisher, this.stuCount});
 }

@@ -19,9 +19,12 @@ class _CarouselWidgetState extends State<CarouselWidget> {
     return Swiper(
       itemBuilder: (BuildContext context, int index) {
         // 配置图片地址
-        return Image(
-          image: widget.imgs[index],
-          fit: BoxFit.contain,
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image(
+            image: widget.imgs[index],
+            fit: BoxFit.cover,
+          ),
         );
       },
       // 配置图片数量
@@ -29,7 +32,9 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       // 底部分页器
       pagination: new SwiperPagination(
           builder: DotSwiperPaginationBuilder(
-              color: Colors.grey, activeColor: Colors.white,)),
+        color: Colors.grey,
+        activeColor: Colors.white,
+      )),
       // 左右箭头
       // control: new SwiperControl(),
       // 无限循环

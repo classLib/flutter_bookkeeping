@@ -1,6 +1,6 @@
 class OfficialAccount{
   var name;
-  var img;
+  var imgs;
 
-  OfficialAccount(this.name, this.img);
+  OfficialAccount({this.name, this.imgs});
 }
