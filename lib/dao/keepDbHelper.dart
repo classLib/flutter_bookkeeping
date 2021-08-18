@@ -13,24 +13,39 @@ class KeepDbHelper {
     var __db = await DbHelper.instance.db;
     try {
       record.id = await __db.insert(KeepTable.TABLE_NAME, record.toMap());
-      print("id: ${record.id}");
+      print("新增记录成功 id: ${record.id}");
     } catch (e) {
       print("error");
     }
     return record;
   }
-
-//删
+  // 查询全部
+  static Future<List<KeepRecord>> queryAll() async {
+    var _dbClient = await DbHelper.instance.db;
+    List<Map<String, dynamic>> maps =
+    await _dbClient.query(KeepTable.TABLE_NAME);
+    List<KeepRecord> list = [];
+    maps.forEach((value) {
+      list.add(KeepRecord.fromMap(value));
+      print('查询的记录钱数');
+      print(value['recordNumber']);
+    });
+    return list;
+  }
+  //  通过id查询
   static Future<KeepRecord> query(int id) async {
+    // 根据id查询成功
     var __db = await DbHelper.instance.db;
     List<Map> maps = await __db.query(KeepTable.TABLE_NAME,
         where: '${KeepTable.recordId} = ?', whereArgs: [id]);
     if (maps.length > 0) return KeepRecord.fromMap(maps.first);
+    print("通过id查询成功");
     return null;
   }
+
 //通过日期查询
 
-// 删除全部
+  // 删除全部
   static Future<int> deleteAll() async {
     var __db = await DbHelper.instance.db;
 
@@ -40,7 +55,7 @@ class KeepDbHelper {
 //通过id删除
   static Future<int> deleteById(int id) async {
     var __db = await DbHelper.instance.db;
-
+    print('通过id删除成功');
     return await __db.delete(KeepTable.TABLE_NAME,
         where: '${KeepTable.recordId} = ?', whereArgs: [id]);
   }

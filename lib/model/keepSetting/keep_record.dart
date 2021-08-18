@@ -10,27 +10,33 @@ import 'package:flutter_bookkeeping/util/constant.dart';
 class KeepRecord {
   //id
   int id;
-
+  // 记录分类名称
   String recordCategoryName;
+  // 记录类型
   int recordCategoryNum;
+  // 记录的图片
   String recordImage;
-  Double recordNumber;
+  // 记录的钱数
+  double recordNumber;
+  // 记录的备注
   String recordRemarks;
+  // 激励创建的时间
   String recordTime;
-  KeepRecord(this.id,
-      {this.recordCategoryName,
+
+  KeepRecord(
+      this.recordCategoryName,
       this.recordCategoryNum,
       this.recordTime,
       this.recordImage,
       this.recordRemarks,
-      this.recordNumber});
+      this.recordNumber,{this.id});
 
   //  格式转换
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       KeepTable.recordRemarks: this.recordRemarks,
       KeepTable.recordImage: this.recordImage,
-      KeepTable.recordTime: this.recordTime,
+      KeepTable.recordTime: this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
       KeepTable.recordCategoryNum: this.recordCategoryNum,
       KeepTable.recordCategoryName: this.recordCategoryName,
       KeepTable.recordNumber: this.recordNumber,
@@ -40,11 +46,11 @@ class KeepRecord {
   }
 
   static KeepRecord fromMap(Map<String, dynamic> map) =>
-      KeepRecord(map[KeepTable.recordId],
-          recordCategoryName: map[KeepTable.recordCategoryName],
-          recordCategoryNum: map[KeepTable.recordCategoryNum],
-          recordImage: map[KeepTable.recordImage],
-          recordNumber: map[KeepTable.recordNumber],
-          recordRemarks: map[KeepTable.recordRemarks],
-          recordTime: map[KeepTable.recordTime]);
+      KeepRecord(
+          map[KeepTable.recordCategoryName],
+          map[KeepTable.recordCategoryNum],
+          map[KeepTable.recordImage],
+          map[KeepTable.recordNumber],
+          map[KeepTable.recordRemarks],
+          map[KeepTable.recordTime],id : map[KeepTable.recordId]);
 }

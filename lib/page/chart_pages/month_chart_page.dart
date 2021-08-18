@@ -58,9 +58,9 @@ class _MonthChartPageState extends State<MonthChartPage> {
   }
 
   add(){
-    KeepDbHelper.insert(
-        KeepRecord(1)
-    );
+    // KeepDbHelper.insert(
+    //     // KeepRecord(1)
+    // );
   }
 
   //点击radio按钮选择
