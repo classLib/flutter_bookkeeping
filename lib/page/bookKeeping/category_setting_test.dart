@@ -8,16 +8,13 @@
 *   2.2 名称 string
 *   2.3 设置belong int
 *   2.4 点击删除图标 就直接删除
-*
-*
-*
 * */
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'expenditure.dart';
-import 'income.dart';
+import 'category_expenditure.dart';
+import 'category_income.dart';
 
 class CategoryHomePage extends StatelessWidget {
   // This widget is the root of your application.

@@ -1,15 +1,22 @@
 //数据库存储类别的表
-class  CategoryTable{
+import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
+class CategoryTable {
   static final String TABLE_NAME = "category_administration_table";
+
 //  类别编号
-  static final String CATEGORY_ID= "id";
+  static final String CATEGORY_ID = "id";
+
 //  类别名称
   static final String CATEGORY_NAME = "category_name";
+
 //  0 为收入， 1为支出
-  static final String CATEGORY_BELON= "category_belong";
+  static final String CATEGORY_BELON = "category_belong";
+
 //  类别图片的编号
-  static final String CATEGORY_IMAGE_NUM= "category_inmage_num";
+  static final String CATEGORY_IMAGE_NUM = "category_inmage_num";
 }
 
 class DbConstant {
@@ -17,9 +24,7 @@ class DbConstant {
   static final int dbVersion = 1;
 }
 
-
 class CategoryImageNum {
-
   // 通过分类名称对应图片编号
   static final List expenditureIamgeList = [
     {'id': 1, 'image': 'assets/canyin.png'},
@@ -50,7 +55,47 @@ class CategoryImageNum {
     {'id': 5, 'image': 'assets/qujianzhi.png'},
     {'id': 6, 'image': 'assets/salary.png'},
     {'id': 7, 'image': 'assets/zijinlicai.png'},
-
   ];
+}
 
+//默认按键
+class keyBoardList {
+//输入按钮
+  static final color = Color(0xFF363636);
+  static final keyColorBefore = Color(0xFFE89E28);
+  static final keyColorAfter = Color(0xFFEDC68F);
+  static final List<Map> keyboardList = [
+    {'text': '7', 'color': color},
+    {'text': '8', 'color': color},
+    {'text': '9', 'color': color},
+    {
+      'text': '删除',
+      'textColor': Colors.black,
+      'color': Color(0xFFA5A5A5),
+      'highlightColor': Color(0xFFD8D8D8)
+    },
+    {'text': '4', 'color': color},
+    {'text': '5', 'color': color},
+    {'text': '6', 'color': color},
+    {
+      'text': '-',
+      'color': keyColorBefore,
+      'highlightColor': keyColorAfter
+    },
+    {'text': '1', 'color': color},
+    {'text': '2', 'color': color},
+    {'text': '3', 'color': color},
+    {
+      'text': '+',
+      'color': keyColorBefore,
+      'highlightColor': keyColorAfter
+    },
+    {'text': '0', 'color': color, 'width': 158.0},
+    {'text': 'AC', 'color': color},
+    {
+      'text': '=',
+      'color': keyColorBefore,
+      'highlightColor': keyColorAfter
+    },
+  ];
 }
