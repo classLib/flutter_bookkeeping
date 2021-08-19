@@ -8,12 +8,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/model/categorySetting/category.dart';
 import 'package:flutter_bookkeeping/util/DbHelper.dart';
+import '../Bookkeeping.dart';
 import 'category_expenditure_add.dart';
 import 'category_income_add.dart';
 
 class Ewxpenditure extends StatefulWidget {
   final chooseType;
   final DbHelper categoryProvider = new DbHelper();
+
   Ewxpenditure({Key key, this.chooseType}) : super(key: key);
 
   @override
@@ -30,10 +32,11 @@ class _Ewxpenditure extends State<Ewxpenditure> {
 
   List<Catetory> _sumCategory = []; //存储搜索历史
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     _getDataFrom();
   }
+
   _getDataFrom() async {
     _sumCategory = await widget.categoryProvider.queryAll();
     setState(() {
@@ -81,22 +84,50 @@ class _Ewxpenditure extends State<Ewxpenditure> {
               Expanded(
                   // 这个页面是要滑动的，所以用Expanded
                   child: SingleChildScrollView(
-                   child: Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: _listView(context),
                 ),
               )),
               // Spacer(),  // 不需要滑动的页面可以直接用这个
-              RaisedButton(
-                  child: Text('新增分类'),
-                  color: Colors.blue,
-                  onPressed: () async {
-                    Navigator.push(
-                        context,
-                        // 分类管理页面点击新增分类跳转到分类新增新增页面
-                        MaterialPageRoute(
-                            builder: (context) => CategoryExpenditureAdd()));
-                  }),
+              Container(
+                  margin: EdgeInsets.only(left: 100, right: 15, top: 20),
+                  child: Row(
+                children: [
+                  FlatButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Text("返回记账"),
+                    color: Colors.blue,
+                    textColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                  FlatButton(
+                    onPressed: () async {
+                      Navigator.push(
+                          context,
+                          // 分类管理页面点击新增分类跳转到分类新增新增页面
+                          MaterialPageRoute(
+                              builder: (context) => CategoryExpenditureAdd()));
+                    },
+                    child: Text("新增分类"),
+                    color: Colors.blue,
+                    textColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Colors.white,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                ],
+              ))
             ]),
       ),
     );

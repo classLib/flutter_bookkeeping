@@ -66,7 +66,7 @@ class _ThemePageState extends State<ThemePage> {
                         width: 40,
                         height: 40,
                         color: value,
-                        child: _colorKey== key
+                        child: _colorKey == key
                             ? Icon(
                                 Icons.done,
                                 color: Colors.white,
