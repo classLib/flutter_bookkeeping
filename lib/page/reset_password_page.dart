@@ -7,9 +7,17 @@ class ResetPasswordPage extends StatefulWidget {
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
 
+/// 重置密码页面
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  Size size;
+
+  var _pwdTxt;
+  var _secPwdTxt;
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -43,11 +51,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       style: Constants.normalTextStyle,
     );
     var _passwordEdit = TextField(
+      onChanged: (text) {
+        _pwdTxt = text;
+      },
       decoration: InputDecoration(
         hintText: '设置新密码',
         hintStyle: Constants.hintTextStyle,
-        contentPadding:
-            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+        contentPadding: EdgeInsets.only(left: size.width * 0.05),
         border: UnderlineInputBorder(borderSide: BorderSide.none),
       ),
     );
@@ -57,11 +67,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       style: Constants.normalTextStyle,
     );
     var _passwordSecondEdit = TextField(
+      onChanged: (text) {
+        _secPwdTxt = text;
+      },
       decoration: InputDecoration(
         hintText: '再次输入新密码',
         hintStyle: Constants.hintTextStyle,
-        contentPadding:
-            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+        contentPadding: EdgeInsets.only(left: size.width * 0.05),
         border: UnderlineInputBorder(borderSide: BorderSide.none),
       ),
     );
@@ -82,10 +94,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         children: <Widget>[
           Container(
             color: Colors.white,
-            width: MediaQuery.of(context).size.width * 1.0,
-            height: MediaQuery.of(context).size.height * 0.12,
-            padding:
-            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.02),
+            width: size.width * 1.0,
+            height: size.height * 0.12,
+            padding: EdgeInsets.only(left: size.width * 0.02),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,17 +106,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.02,
+            height: size.height * 0.02,
           ),
           Container(
             color: Colors.white,
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-            height: MediaQuery.of(context).size.width * 0.10,
+            padding: EdgeInsets.only(left: size.width * 0.05),
+            height: size.width * 0.10,
             child: Row(
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
+                  width: size.width * 0.15,
                   child: _passwordTitle,
                 ),
                 Expanded(child: _passwordEdit),
@@ -113,18 +123,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.02,
+            height: size.height * 0.02,
           ),
           Container(
             color: Colors.white,
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-            height: MediaQuery.of(context).size.width * 0.10,
-
+            padding: EdgeInsets.only(left: size.width * 0.05),
+            height: size.width * 0.10,
             child: Row(
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
+                  width: size.width * 0.15,
                   child: _passwordSecondTitle,
                 ),
                 Expanded(child: _passwordSecondEdit),
@@ -132,11 +140,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: size.height * 0.05,
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.width * 0.1,
+            width: size.width * 0.9,
+            height: size.width * 0.1,
             child: confirmBtn,
           ),
         ],
@@ -144,7 +152,5 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 
-  void _confirmPassword() {
-
-  }
+  void _confirmPassword() {}
 }

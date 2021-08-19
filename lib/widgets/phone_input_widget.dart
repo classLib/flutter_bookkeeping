@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bookkeeping/page/code_verify_page.dart';
 import 'package:flutter_bookkeeping/util/constants.dart';
 
+/// 手机号输入
 class PhoneInputWidget extends StatelessWidget {
   String _phoneNumber;
   Function _callback;
@@ -31,11 +32,12 @@ class PhoneInputWidget extends StatelessWidget {
 
     var loginBtn = FlatButton(
       onPressed: () {
-        if(_phoneNumber.isEmpty && _phoneNumber.length == 11) return null;
+        if (_phoneNumber.isEmpty && _phoneNumber.length == 11) return null;
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CodeVerifyPage(_phoneNumber, this._callback)));
+                builder: (context) =>
+                    CaptchaPage(_phoneNumber, this._callback)));
       },
       child: Text(
         '获取验证码',

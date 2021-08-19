@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-// 引入轮播图插件
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+/// 轮播图
 class CarouselWidget extends StatefulWidget {
   List<dynamic> imgs;
   List<Function> callbacks;

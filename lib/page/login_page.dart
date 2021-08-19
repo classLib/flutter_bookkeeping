@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/page/lose_password_page.dart';
 import 'package:flutter_bookkeeping/page/reset_password_page.dart';
 import 'package:flutter_bookkeeping/util/constants.dart';
 import 'package:flutter_bookkeeping/widgets/phone_input_widget.dart';
@@ -17,6 +18,7 @@ enum LoginMode {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Size size;
   var _loginMode;
 
   var _isEnableLogin;
@@ -46,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     var actionStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
 
     var noSecretBtn = FlatButton(
@@ -60,8 +63,8 @@ class _LoginPageState extends State<LoginPage> {
               style: actionStyle,
             ),
       padding: EdgeInsets.only(
-          left: MediaQuery.of(context).size.width * 0.05,
-          right: MediaQuery.of(context).size.width * 0.05),
+          left: size.width * 0.05,
+          right: size.width * 0.05),
       color: Colors.white,
       splashColor: Colors.transparent,
       shape: StadiumBorder(side: BorderSide(color: Colors.transparent)),
@@ -159,32 +162,32 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: _forgetPassword,
       child: Text(
         '忘记密码',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.blue),
       ),
       splashColor: Colors.transparent,
       shape: StadiumBorder(side: BorderSide(color: Colors.transparent)),
     );
 
-    var clauseToggle = Checkbox(
-      value: _clauseToggleValue,
-      onChanged: (value) {
-        setState(() {
-          _clauseToggleValue = value;
-        });
-      },
-    );
+    // var clauseToggle = Checkbox(
+    //   value: _clauseToggleValue,
+    //   onChanged: (value) {
+    //     setState(() {
+    //       _clauseToggleValue = value;
+    //     });
+    //   },
+    // );
 
     return Container(
-      width: MediaQuery.of(context).size.width * 1.0,
-      height: MediaQuery.of(context).size.height * 1.0,
+      width: size.width * 1.0,
+      height: size.height * 1.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.1,
+                EdgeInsets.only(left: size.width * 0.1),
+            width: size.width * 0.9,
+            height: size.height * 0.1,
             child: Row(
               children: <Widget>[
                 title,
@@ -193,39 +196,39 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
-            width: MediaQuery.of(context).size.width * 0.8,
+                EdgeInsets.only(top: size.height * 0.1),
+            width: size.width * 0.8,
             child: accountEdit,
           ),
           Container(
             margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04),
-            width: MediaQuery.of(context).size.width * 0.8,
+                EdgeInsets.only(top: size.height * 0.04),
+            width: size.width * 0.8,
             child: passwordEdit,
           ),
           Container(
             margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08),
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.07,
+                EdgeInsets.only(top: size.height * 0.08),
+            width: size.width * 0.8,
+            height: size.height * 0.07,
             child: loginBtn,
           ),
           Container(
             margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08),
-            width: MediaQuery.of(context).size.width * 0.2,
-            height: MediaQuery.of(context).size.height * 0.07,
+                EdgeInsets.only(top: size.height * 0.08),
+            width: size.width * 0.2,
+            height: size.height * 0.07,
             child: forgetPasswordBtn,
           ),
           Spacer(),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                clauseToggle,
-              ],
-            ),
-          ),
+          // Container(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       clauseToggle,
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -248,9 +251,9 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           Container(
             margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.15,
+                EdgeInsets.only(left: size.width * 0.1),
+            width: size.width * 0.9,
+            height: size.height * 0.15,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,7 +265,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           PhoneInputWidget(() {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ResetPasswordPage()));
+                MaterialPageRoute(builder: (context) => null));
           }),
         ],
       ),
@@ -294,7 +297,9 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => null));
   }
 
-  _forgetPassword() {}
+  _forgetPassword() {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>LosePasswordPage()));
+  }
 
   /// 填充缓存账号密码
   _fillAccountTextField() {

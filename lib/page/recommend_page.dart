@@ -15,27 +15,21 @@ class RecommendPage extends StatefulWidget {
   _RecommendPageState createState() => _RecommendPageState();
 }
 
+/// 推荐页面
 class _RecommendPageState extends State<RecommendPage> {
   Size size;
 
-  List<BookModel> _books;
-  var _courses;
-  var _officialAccounts;
-  var _tools;
   var _imgs;
-
-  var _timer;
-  var _countdown;
-  var _currTime;
+  List<BookModel> _books;
+  List<CourseModel> _courses;
+  List<OfficialAccount> _officialAccounts;
+  List<ToolModel> _tools;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _countdown = 10 * 60;
-    _currTime = _countdown / 60;
     _refreshPage();
-    _startTimer();
   }
 
   @override
@@ -88,7 +82,7 @@ class _RecommendPageState extends State<RecommendPage> {
     );
 
     return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: size.width * 0.8,
       height: 80,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -116,7 +110,7 @@ class _RecommendPageState extends State<RecommendPage> {
         separatorBuilder: (BuildContext context, int index) {
           return Container(
             color: Colors.transparent,
-            width: MediaQuery.of(context).size.width * 0.06,
+            width: size.width * 0.06,
           );
         },
       ),
@@ -126,7 +120,7 @@ class _RecommendPageState extends State<RecommendPage> {
   _buildCourseWidget() {
     return Container(
       color: Colors.transparent,
-      width: MediaQuery.of(context).size.width * 1.0,
+      width: size.width * 1.0,
       height: 160,
       margin:
           EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
@@ -140,7 +134,7 @@ class _RecommendPageState extends State<RecommendPage> {
         separatorBuilder: (BuildContext context, int index) {
           return Container(
             color: Colors.transparent,
-            width: MediaQuery.of(context).size.width * 0.04,
+            width: size.width * 0.04,
           );
         },
       ),
@@ -150,7 +144,7 @@ class _RecommendPageState extends State<RecommendPage> {
   _buildOfficialAccountWidget() {
     return Container(
       color: Colors.transparent,
-      width: MediaQuery.of(context).size.width * 1.0,
+      width: size.width * 1.0,
       height: 160,
       margin:
           EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
@@ -221,7 +215,9 @@ class _RecommendPageState extends State<RecommendPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[Flexible(child: name)],
+              children: <Widget>[
+                Flexible(child: name),
+              ],
             ),
           ),
         ],
@@ -248,10 +244,10 @@ class _RecommendPageState extends State<RecommendPage> {
     );
     var stuCount = Text(_courses[index].stuCount.toString());
 
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.30,
-      color: Colors.white,
-      child: InkWell(
+    return InkWell(
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.30,
+        color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -294,8 +290,8 @@ class _RecommendPageState extends State<RecommendPage> {
     var img = Image(
       image: _officialAccounts[index].imgs[0],
       fit: BoxFit.cover,
-      width: 40,
-      height: 40,
+      width: 45,
+      height: 45,
     );
 
     return Card(
@@ -337,10 +333,10 @@ class _RecommendPageState extends State<RecommendPage> {
     return Container(
       child: Column(
         children: <Widget>[
-          ClipOval(
-            child: InkWell(
-              splashColor: Colors.transparent,
-              onTap: () {},
+          InkWell(
+            splashColor: Colors.transparent,
+            onTap: () {},
+            child: ClipOval(
               child: img,
             ),
           ),
@@ -488,26 +484,6 @@ class _RecommendPageState extends State<RecommendPage> {
         ],
       ));
     }
-  }
-
-  /// 计时器开始
-  _startTimer() {
-    _timer = Timer.periodic(
-      Duration(minutes: _countdown),
-      (timer) {
-        if (_currTime == 0) {
-          _timer.cancel();
-          _currTime = _countdown;
-          _refreshPage();
-          _startTimer();
-          return;
-        }
-        if (_currTime % 60 == 0) {
-          setState(() {});
-        }
-        _currTime--;
-      },
-    );
   }
 
   List<int> _getRandomList(var maxCount, var maxRange) {

@@ -4,46 +4,49 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/util/constants.dart';
 
-class CodeVerifyPage extends StatefulWidget {
-  var _phoneNumber;
+/// 验证码验证页面
+class CaptchaPage extends StatefulWidget {
+  String _phoneNumber;
   Function _callback;
 
-  CodeVerifyPage(this._phoneNumber, this._callback);
+  CaptchaPage(this._phoneNumber, this._callback);
 
   @override
-  _CodeVerifyPageState createState() => _CodeVerifyPageState();
+  _CaptchaPageState createState() => _CaptchaPageState();
 }
 
-class _CodeVerifyPageState extends State<CodeVerifyPage> {
-  var _isSuccessful;
+class _CaptchaPageState extends State<CaptchaPage> {
+  Size size;
+
   var _timer;
-  var _countdown;
+
+  /// 计时器
+  var _countdown = 60;
+
+  /// 重新发送验证码倒计时
   var _currTime;
 
-  var _waitText;
-  var _waitStyle;
+  /// 当前时间
 
+  var _btnEnable = false;
+  var _waitText = '发送验证码';
+  var _btnColor = Colors.blue;
   var _codeText;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _isSuccessful = false;
-    _countdown = 10;
     _currTime = _countdown;
-    _waitText = '';
-    _waitStyle = Colors.blue;
-
-    _isSuccessful = false;
 
     _startTimer();
   }
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -85,24 +88,22 @@ class _CodeVerifyPageState extends State<CodeVerifyPage> {
           hintText: '填写验证码',
           hintStyle: Constants.hintTextStyle,
           prefixStyle: Constants.normalTextStyle,
-          suffixIcon: FlatButton(
-            color: _waitStyle,
-            onPressed: () {
-              setState(() {
-                _startTimer();
-              });
-            },
-            child: Text(
-              _waitText,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
+          suffixIcon: IgnorePointer(
+            ignoring: !_btnEnable,
+            child: FlatButton(
+              color: _btnColor,
+              onPressed: _sendCode,
+              child: Text(
+                _waitText,
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              ),
+              shape: StadiumBorder(side: BorderSide(color: Colors.blue)),
             ),
-            shape: StadiumBorder(side: BorderSide(color: Colors.blue)),
           ),
-          contentPadding:
-              EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+          contentPadding: EdgeInsets.all(size.width * 0.03),
           border: UnderlineInputBorder(borderSide: BorderSide.none)),
     );
 
@@ -124,10 +125,10 @@ class _CodeVerifyPageState extends State<CodeVerifyPage> {
         children: <Widget>[
           Container(
             color: Colors.white,
-            width: MediaQuery.of(context).size.width * 1.0,
-            height: MediaQuery.of(context).size.height * 0.15,
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.02),
+            width: size.width * 1.0,
+            height: size.height * 0.15,
+            margin: EdgeInsets.only(bottom: size.height * 0.02),
+            padding: EdgeInsets.only(left: size.width * 0.02),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,14 +139,12 @@ class _CodeVerifyPageState extends State<CodeVerifyPage> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.02,
-          ),
-          Container(
             color: Colors.white,
-            width: MediaQuery.of(context).size.width * 1.0,
+            width: size.width * 1.0,
+            margin: EdgeInsets.only(bottom: size.height * 0.05),
             padding: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width * 0.02,
-              right: MediaQuery.of(context).size.width * 0.02,
+              left: size.width * 0.02,
+              right: size.width * 0.02,
             ),
             child: Row(
               children: <Widget>[
@@ -155,11 +154,8 @@ class _CodeVerifyPageState extends State<CodeVerifyPage> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.95,
-            height: MediaQuery.of(context).size.height * 0.07,
+            width: size.width * 0.95,
+            height: size.height * 0.07,
             child: submitBtn,
           ),
         ],
@@ -169,15 +165,15 @@ class _CodeVerifyPageState extends State<CodeVerifyPage> {
 
   /// 开始倒计时
   _startTimer() {
-    _sendCode();
-    _waitStyle = Colors.grey;
+    _btnColor = Colors.grey;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_currTime == 0) {
         _timer.cancel();
         setState(() {
-          _waitStyle = Colors.blue;
+          _btnColor = Colors.blue;
           _waitText = '发送验证码';
           _currTime = _countdown;
+          _btnEnable = true;
         });
         return;
       }
@@ -188,8 +184,19 @@ class _CodeVerifyPageState extends State<CodeVerifyPage> {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
+
   /// 发送验证码
-  _sendCode() {}
+  _sendCode() {
+    setState(() {
+      _btnEnable = false;
+      _startTimer();
+    });
+  }
 
   /// 提交验证码
   void _submitCode() {
