@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bookkeeping/page/lose_password_page.dart';
-import 'package:flutter_bookkeeping/page/reset_password_page.dart';
+import 'package:flutter_bookkeeping/page/loginPages/lose_password_page.dart';
 import 'package:flutter_bookkeeping/util/constants.dart';
-import 'package:flutter_bookkeeping/widgets/phone_input_widget.dart';
+import 'package:flutter_bookkeeping/widgets/recommend/phone_input_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {

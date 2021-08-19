@@ -8,7 +8,7 @@ import 'package:flutter_bookkeeping/model/book_model.dart';
 import 'package:flutter_bookkeeping/model/course_model.dart';
 import 'package:flutter_bookkeeping/model/official_account_model.dart';
 import 'package:flutter_bookkeeping/model/tool_model.dart';
-import 'package:flutter_bookkeeping/widgets/carousel_widget.dart';
+import 'package:flutter_bookkeeping/widgets/recommend/carousel_widget.dart';
 
 class RecommendPage extends StatefulWidget {
   @override

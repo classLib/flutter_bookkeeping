@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bookkeeping/page/reset_password_page.dart';
-import 'package:flutter_bookkeeping/widgets/phone_input_widget.dart';
+import 'package:flutter_bookkeeping/page/loginPages/reset_password_page.dart';
+import 'package:flutter_bookkeeping/widgets/recommend/phone_input_widget.dart';
 
 class LosePasswordPage extends StatefulWidget {
   @override
