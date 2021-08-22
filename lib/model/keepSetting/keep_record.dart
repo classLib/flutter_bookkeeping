@@ -35,16 +35,17 @@ class KeepRecord {
       map[KeepTable.recordImage],
       map[KeepTable.recordRemarks],
       map[KeepTable.recordNumber],
-      id: map[KeepTable.recordId]);
+      id: map[KeepTable.recordId]
+  );
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      KeepTable.recordRemarks: this.recordRemarks,
-      KeepTable.recordImage: this.recordImage,
-      KeepTable.recordTime:
-          this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
-      KeepTable.recordCategoryNum: this.recordCategoryNum,
       KeepTable.recordCategoryName: this.recordCategoryName,
+      KeepTable.recordCategoryNum: this.recordCategoryNum,
+      KeepTable.recordTime:
+      this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
+      KeepTable.recordImage: this.recordImage,
+      KeepTable.recordRemarks: this.recordRemarks,
       KeepTable.recordNumber: this.recordNumber,
     };
     if (this.id != null) map[KeepTable.recordId] = this.id;

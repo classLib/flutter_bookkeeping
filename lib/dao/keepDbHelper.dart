@@ -29,8 +29,6 @@ class KeepDbHelper {
     List<KeepRecord> list = [];
     maps.forEach((value) {
       list.add(KeepRecord.fromMap(value));
-      print('查询的记录钱数');
-      print(value['recordNumber']);
     });
     return list;
   }

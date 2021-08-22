@@ -30,6 +30,7 @@ class _MonthChartPageState extends State<MonthChartPage> {
   //找表，查找所有
   Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
   List<KeepRecord> keepHistory = [];
+
   @override
   void initState() {
     super.initState();
@@ -38,10 +39,6 @@ class _MonthChartPageState extends State<MonthChartPage> {
     keepRecords.then((value) {
       setState(() {
         this.keepHistory = value;
-        print(value[1]);
-        // for(var history in this.keepHistory ){
-        //   print(value[0]);
-        // }
       });
     });
   }
@@ -247,6 +244,10 @@ class _MonthChartPageState extends State<MonthChartPage> {
     Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
       setState(() {
         _monthKey = '${p.year}年${p.month}月';
+        //this.keepHistory中找到这一年这一月
+        for(var each in this.keepHistory){
+          print("当前的时间为");
+        }
       });
       //向数据库请求当前_monthKey的消费状况
     });
