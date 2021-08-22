@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
 import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
-import 'package:flutter_bookkeeping/page/chart_pages/filter_widget.dart';
-import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_pickers/time_picker/model/date_mode.dart';
@@ -15,6 +13,12 @@ import 'package:flutter_pickers/time_picker/model/date_mode.dart';
 /// Date: 2021/8/12 19:33
 /// Description:月份报表
 
+/// 页面：
+///  月份筛选
+///  饼图
+///  可行性日历
+///  消费list
+
 class MonthChartPage extends StatefulWidget {
   const MonthChartPage({Key key}) : super(key: key);
 
@@ -23,16 +27,69 @@ class MonthChartPage extends StatefulWidget {
 }
 
 class _MonthChartPageState extends State<MonthChartPage> {
+  //找表，查找所有
+  Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
+  List<KeepRecord> keepHistory = [];
+
+  @override
+  void initState() {
+    super.initState();
+    //查询所有
+    Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
+    keepRecords.then((value) {
+      setState(() {
+        this.keepHistory = value;
+      });
+    });
+  }
+
+  //饼图数据
   var data = [
     {"value": 335, "name": '餐饮'},
     {"value": 310, "name": '交通'},
     {"value": 234, "name": '出行'},
   ];
-  var legendData = [
-    '餐饮',
-    '交通',
-    '出行',
+  //饼图图例
+  var legendData = ['餐饮', '交通', '出行', '11'];
+
+  //日历图数据
+  var dateList = [
+    ['2017-1-1', '100'],
+    ['2017-1-2', '10'],
+    ['2017-1-3', '1'],
+    ['2017-1-4', '22'],
+    ['2017-1-5', '25'],
+    ['2017-1-6', '98'],
+    ['2017-1-7', '25'],
+    ['2017-1-8', '66'],
+    ['2017-1-9', '88'],
+    ['2017-1-10', '66'],
+    ['2017-1-11', '33'],
+    ['2017-1-12', '22'],
+    ['2017-1-13', '47'],
+    ['2017-1-14', '36'],
+    ['2017-1-15', '100'],
+    ['2017-1-16', '600'],
+    ['2017-1-17', '300.3'],
+    ['2017-1-18', '60'],
+    ['2017-1-19', '70'],
+    ['2017-1-20', '99.0'],
+    ['2017-1-21', '100.0'],
+    ['2017-1-22', '210'],
+    ['2017-1-23', '265'],
+    ['2017-1-24', '444'],
+    ['2017-1-25', '44'],
+    ['2017-1-26', '22'],
+    ['2017-1-27', '333'],
+    ['2017-1-28', '324'],
+    ['2017-1-29', '234'],
+    ['2017-1-30', '324'],
+    ['2017-1-31', '768']
   ];
+
+  var range = ['2017-01'];
+  var heatmapData = [];
+  var lunarData = [];
 
   //图标
   List menuIcons = [
@@ -45,19 +102,18 @@ class _MonthChartPageState extends State<MonthChartPage> {
     Icons.person,
     Icons.phone,
   ];
-  var _monthKey;
+  var _monthKey = "2021年8月";
   int choice = 1;
 
-  //点击时间选择器事件
-  _onTimeSelector(key) {
-    setState(() {
-      _monthKey = key;
-    });
-    //向数据库请求当前_monthKey的消费状况
-    print(key);
+  getCalenderDate(List dateList, List heatmapData, List lunarData) {
+    for (var i = 0; i < dateList.length; i++) {
+      heatmapData.add([dateList[i][0], dateList[i][1]]);
+      lunarData
+          .add([dateList[i][0].toString(), 1, dateList[i][1].toString(), 0]);
+    }
   }
 
-  add(){
+  add() {
     // KeepDbHelper.insert(
     //     // KeepRecord(1)
     // );
@@ -120,7 +176,7 @@ class _MonthChartPageState extends State<MonthChartPage> {
         data: ${jsonEncode(legendData)}
     },
     tooltip: {
-        trigger: 'item',
+        // trigger: 'item',
         formatter: '{b}<br/>{c} ({d}%)'
     },
     series: [
@@ -136,7 +192,7 @@ class _MonthChartPageState extends State<MonthChartPage> {
             emphasis: {
                 label: {
                     show: true,
-                    fontSize: '30',
+                    fontSize: '15',
                     fontWeight: 'bold'
                 }
             },
@@ -150,19 +206,51 @@ class _MonthChartPageState extends State<MonthChartPage> {
     );
   }
 
-  Widget list() {
-    return Expanded(
-        child: ListView.separated(
-            itemCount: data.length,
-            separatorBuilder: (context, index) {
-              return Divider();
-            }, //分隔线
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: menuIcons[index],
-                title: Text("111"),
-              );
-            }));
+  //可行性日历
+  Widget calendar() {
+    getCalenderDate(dateList, heatmapData, lunarData);
+    return Column(
+      children: <Widget>[
+        Row(),
+        Container(
+          width: 300,
+          height: 250,
+          child: Echarts(
+            option: '''
+            {
+    visualMap: {
+        show: false,
+        min: 0,
+        max: 700
+    },
+    calendar: {
+        range: ${jsonEncode(range)},
+        orient: 'vertical',
+    },
+    series: {
+        type: 'heatmap',
+        coordinateSystem: 'calendar',
+        data: ${jsonEncode(dateList)}
+    }
+}''',
+          ),
+        )
+      ],
+    );
+  }
+
+  //点击选中时间
+  _onTimeSelect(model) {
+    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
+      setState(() {
+        _monthKey = '${p.year}年${p.month}月';
+        //this.keepHistory中找到这一年这一月
+        for(var each in this.keepHistory){
+          print("当前的时间为");
+        }
+      });
+      //向数据库请求当前_monthKey的消费状况
+    });
   }
 
   @override
@@ -170,55 +258,52 @@ class _MonthChartPageState extends State<MonthChartPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView.separated(
-        itemCount: data.length + 2,
+        itemCount: data.length + 4,
         separatorBuilder: (context, index) {
           return Divider();
         },
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
-            return ExpansionTile(
-              leading: Icon(Icons.date_range),
-              title: Text("月份筛选"),
-              initiallyExpanded: true,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                  child: Wrap(
-                    spacing: 8,
-                    // runSpacing: 8,
-                    children: monthMap.keys.map((key) {
-                      var value = monthMap[key];
-                      return InkWell(
-                        onTap: () {
-                          _onTimeSelector(key);
-                        },
-                        child: Container(
-                          width: 45,
-                          height: 40,
-                          child: _monthKey == key
-                              ? Icon(Icons.done)
-                              : Text(
-                                  value,
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                )
-              ],
+            return ListTile(
+              onTap: () {
+                _onTimeSelect(DateMode.YM);
+              },
+              title: Text("选择月份"),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(_monthKey),
+                  Icon(Icons.arrow_forward_ios)
+                ],
+              ),
             );
-          }
-          else if (index == 1) {
+          } else if (index == 1) {
             return pie();
+          } else if (index == 2) {
+            return calendar();
+          } else if (index == data.length + 3) {
+            return Container(
+                color: Theme.of(context).accentColor,
+                margin: EdgeInsets.only(top: 20, left: 25, right: 25),
+                width: MediaQuery.of(context).size.width,
+                height: 45,
+                // ignore: deprecated_member_use
+                child: new MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  textColor: Colors.white,
+                  child: new Text('导出消费记录'),
+                  onPressed: () {},
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                ));
           } else {
             return ListTile(
-              leading: Icon(menuIcons[index - 2]), //左边
-              title: Text(data[index - 2]["name"]), //title
+              leading: Icon(menuIcons[index - 3]), //左边
+              title: Text(data[index - 3]["name"]), //title
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('${data[index - 2]["value"]}元'),
+                  Text('${data[index - 3]["value"]}元'),
                   Icon(Icons.arrow_forward_ios)
                 ],
               ),

@@ -4,6 +4,7 @@
 /// Description:我的页面
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/page/loginPages/login_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/6.bookkeeping_reminder_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/head_widget.dart';
 import 'package:flutter_bookkeeping/page/profilePages/5.password_page.dart';
@@ -176,8 +177,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   textColor: Colors.white,
                   child: new Text('退出登录'),
                   onPressed: () {
-                    print("111");
-                    // Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>LoginPage(),
+                      ),
+                    );
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),

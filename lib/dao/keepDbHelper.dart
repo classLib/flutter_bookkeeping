@@ -15,13 +15,7 @@ class KeepDbHelper {
       // print(record.toMap()[KeepTable.recordNumber]);  // 有数据的，
       record.id = await __db.insert(KeepTable.TABLE_NAME, record.toMap());
       print("新增记录成功 id: ${record.id}");
-      if (record.recordNumber is String) {
-        print('是string类型');
-      } else if (record.recordNumber is double) {
-        print('double');
-      } else {
-        print('其他类型');
-      }
+      print(record.recordNumber);
     } catch (e) {
       print("error");
     }
@@ -36,8 +30,6 @@ class KeepDbHelper {
     List<KeepRecord> list = [];
     maps.forEach((value) {
       list.add(KeepRecord.fromMap(value));
-      print('查询的记录钱数');
-      print(value['recordCategoryName']);
     });
     return list;
   }
