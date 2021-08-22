@@ -98,6 +98,10 @@ class _HeadPageState extends State<HeadPage> {
 
   @override
   Widget build(BuildContext context) {
+    _pres.then((d) {
+      headPhoto = File(d.getString(Constant.headPhoto));
+      print(headPhoto);
+    });
     return GestureDetector(
       child: Container(
         width: 110.0,
@@ -113,7 +117,9 @@ class _HeadPageState extends State<HeadPage> {
                   // AssetImage("assets/user.png"),
                   headPhoto != null
                       ? Image.file(headPhoto).image
-                      : AssetImage("assets/user.png"),
+                      : _userImage != null
+                          ? Image.file(_userImage).image
+                          : AssetImage("assets/user.png"),
               fit: BoxFit.cover,
             )),
       ),

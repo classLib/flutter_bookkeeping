@@ -20,23 +20,29 @@ class KeepRecord {
   double recordNumber;
   // 记录的备注
   String recordRemarks;
-  // 激励创建的时间
+  // 记录创建的时间
   String recordTime;
 
-  KeepRecord(
-      this.recordCategoryName,
-      this.recordCategoryNum,
-      this.recordTime,
-      this.recordImage,
-      this.recordRemarks,
-      this.recordNumber,{this.id});
+  KeepRecord(this.recordCategoryName, this.recordCategoryNum, this.recordTime,
+      this.recordImage, this.recordRemarks, this.recordNumber,
+      {this.id});
 
   //  格式转换
+  static KeepRecord fromMap(Map<String, dynamic> map) => KeepRecord(
+      map[KeepTable.recordCategoryName],
+      map[KeepTable.recordCategoryNum],
+      map[KeepTable.recordTime],
+      map[KeepTable.recordImage],
+      map[KeepTable.recordRemarks],
+      map[KeepTable.recordNumber],
+      id: map[KeepTable.recordId]);
+
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       KeepTable.recordRemarks: this.recordRemarks,
       KeepTable.recordImage: this.recordImage,
-      KeepTable.recordTime: this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
+      KeepTable.recordTime:
+          this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
       KeepTable.recordCategoryNum: this.recordCategoryNum,
       KeepTable.recordCategoryName: this.recordCategoryName,
       KeepTable.recordNumber: this.recordNumber,
@@ -44,13 +50,4 @@ class KeepRecord {
     if (this.id != null) map[KeepTable.recordId] = this.id;
     return map;
   }
-
-  static KeepRecord fromMap(Map<String, dynamic> map) =>
-      KeepRecord(
-          map[KeepTable.recordCategoryName],
-          map[KeepTable.recordCategoryNum],
-          map[KeepTable.recordImage],
-          map[KeepTable.recordNumber],
-          map[KeepTable.recordRemarks],
-          map[KeepTable.recordTime],id : map[KeepTable.recordId]);
 }

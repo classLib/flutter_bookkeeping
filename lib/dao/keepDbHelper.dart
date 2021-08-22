@@ -14,16 +14,18 @@ class KeepDbHelper {
     try {
       record.id = await __db.insert(KeepTable.TABLE_NAME, record.toMap());
       print("新增记录成功 id: ${record.id}");
+      print(record.recordNumber);
     } catch (e) {
       print("error");
     }
     return record;
   }
+
   // 查询全部
   static Future<List<KeepRecord>> queryAll() async {
     var _dbClient = await DbHelper.instance.db;
-    List<Map<String, dynamic>> maps =
-    await _dbClient.query(KeepTable.TABLE_NAME);
+    List<Map<dynamic, dynamic>> maps =
+        await _dbClient.query(KeepTable.TABLE_NAME);
     List<KeepRecord> list = [];
     maps.forEach((value) {
       list.add(KeepRecord.fromMap(value));
@@ -32,6 +34,7 @@ class KeepDbHelper {
     });
     return list;
   }
+
   //  通过id查询
   static Future<KeepRecord> query(int id) async {
     // 根据id查询成功
