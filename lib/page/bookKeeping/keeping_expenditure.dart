@@ -21,7 +21,7 @@ import 'category_setting_test.dart';
 *
 * */
 class KeepExpenditure extends StatefulWidget {
-  final DbHelper keepProvider = new DbHelper();
+  final DbHelper categoryProvider = new DbHelper();
 
   @override
   State<StatefulWidget> createState() {
@@ -53,6 +53,8 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
   String _timeText = '';
 
   List<Catetory> _historyWords = [];
+  List<KeepRecord> _keepRecord = [];
+
 
   //  默认的一些配置
   final marginSetting = EdgeInsets.fromLTRB(0, 15, 0, 0);
@@ -75,8 +77,12 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
   }
 
   _getAllDataFromDb() async {
-    _historyWords = await widget.keepProvider.queryAll();
-    // await widget.categoryProvider.deleteAll();
+    _historyWords = await widget.categoryProvider.queryAll();
+    // _keepRecord = await KeepDbHelper.queryAll();
+    // _keepRecord.forEach((element) {
+    //   print('这一笔的钱数'+ '${element.recordNumber}');
+    // });
+    // print(_keepRecord.length);
     _historyWords.forEach((element) {
       print(element.category_inmage_num);
     });

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class CategoryTable {
+  // ignore: non_constant_identifier_names
   static final String TABLE_NAME = "category_administration_table";
 
 //  类别编号

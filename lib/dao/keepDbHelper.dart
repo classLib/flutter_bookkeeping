@@ -12,6 +12,7 @@ class KeepDbHelper {
   static Future<KeepRecord> insert(KeepRecord record) async {
     var __db = await DbHelper.instance.db;
     try {
+      // print(record.toMap()[KeepTable.recordNumber]);  // 有数据的，
       record.id = await __db.insert(KeepTable.TABLE_NAME, record.toMap());
       print("新增记录成功 id: ${record.id}");
       print(record.recordNumber);
@@ -24,7 +25,7 @@ class KeepDbHelper {
   // 查询全部
   static Future<List<KeepRecord>> queryAll() async {
     var _dbClient = await DbHelper.instance.db;
-    List<Map<dynamic, dynamic>> maps =
+    List<Map<String, dynamic>> maps =
         await _dbClient.query(KeepTable.TABLE_NAME);
     List<KeepRecord> list = [];
     maps.forEach((value) {
@@ -37,9 +38,20 @@ class KeepDbHelper {
   static Future<KeepRecord> query(int id) async {
     // 根据id查询成功
     var __db = await DbHelper.instance.db;
-    List<Map> maps = await __db.query(KeepTable.TABLE_NAME,
-        where: '${KeepTable.recordId} = ?', whereArgs: [id]);
+    List<Map> maps = await __db
+        .query(KeepTable.TABLE_NAME, where: 'id = ?', whereArgs: [id]);
+    if (maps.length > 0) {
+      maps.forEach((value) {
+        if (value['recordNumber'] is String) {
+          print('string');
+        } else {
+          print('查询第一条的钱数是double');
+        }
+        print(value['recordCategoryName']);
+      });
+    }
     if (maps.length > 0) return KeepRecord.fromMap(maps.first);
+
     print("通过id查询成功");
     return null;
   }

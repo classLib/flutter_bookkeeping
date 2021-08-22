@@ -73,18 +73,19 @@ class DbHelper {
     //     ')');
 
     print("分类表创建完毕");
-    await db.execute(
+    db.execute(
         "CREATE TABLE ${KeepTable.TABLE_NAME}("
             "${KeepTable.recordId} INTEGER PRIMARY KEY, "
             "${KeepTable.recordCategoryName} TEXT, "
             "${KeepTable.recordCategoryNum} INTEGER, "
+            "${KeepTable.recordTime} TEXT, "
             "${KeepTable.recordImage} TEXT, "
-            "${KeepTable.recordNumber} REAL, "
             "${KeepTable.recordRemarks} TEXT, "
-            "${KeepTable.recordTime} TEXT)"
+            "${KeepTable.recordNumber} REAL)"
     );
 
     print("收支记录表创建完毕");
+    return ;
   }
 
   //关闭数据库
