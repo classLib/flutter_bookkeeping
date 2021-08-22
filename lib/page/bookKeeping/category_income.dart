@@ -118,7 +118,8 @@ class _InComeState extends State<InCome> {
   }
 
   _getDataFrom() async {
-    _sumCategory = await widget.categoryProvider.queryAll();
+    _sumCategory = await widget.categoryProvider.queryByCategoryBelong(0);
+    print(_sumCategory.length);
     setState(() {
       dataList = _sumCategory;
     });

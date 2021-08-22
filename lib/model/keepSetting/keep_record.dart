@@ -17,10 +17,10 @@ class KeepRecord {
   // 记录的图片
   String recordImage;
   // 记录的钱数
-  double recordNumber;
+  int recordNumber;
   // 记录的备注
   String recordRemarks;
-  // 激励创建的时间
+  // 记录创建的时间
   String recordTime;
 
   KeepRecord(
@@ -35,15 +35,17 @@ class KeepRecord {
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       KeepTable.recordCategoryName: this.recordCategoryName,
-      KeepTable.recordCategoryNum: this.recordCategoryNum,
-      KeepTable.recordTime: this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
+      KeepTable.recordCategoryNum:this.recordCategoryNum,
+      KeepTable.recordTime:this.recordTime,
       KeepTable.recordImage: this.recordImage,
-      KeepTable.recordRemarks: this.recordRemarks,
-      KeepTable.recordNumber: this.recordNumber,
+      KeepTable.recordRemarks:this.recordRemarks,
+      KeepTable.recordNumber:this.recordNumber,
     };
     if (this.id != null) map[KeepTable.recordId] = this.id;
     return map;
   }
+
+
 //
   static KeepRecord fromMap(Map<String, dynamic> map) =>
       KeepRecord(

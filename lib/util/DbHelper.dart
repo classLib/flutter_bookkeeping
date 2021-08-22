@@ -81,9 +81,8 @@ class DbHelper {
             "${KeepTable.recordTime} TEXT, "
             "${KeepTable.recordImage} TEXT, "
             "${KeepTable.recordRemarks} TEXT, "
-            "${KeepTable.recordNumber} REAL)"
+            "${KeepTable.recordNumber} INTEGER)"
     );
-
     print("收支记录表创建完毕");
     return ;
   }
@@ -117,6 +116,17 @@ class DbHelper {
       return Catetory.fromMap(maps.first);
     }
     return null;
+  }
+  // 按照支出类别1来进行查找
+  Future<List<Catetory>> queryByCategoryBelong(int category_belong) async {
+    var _dbClient = await db;
+    List<Catetory> list = [];
+    var maps = await _dbClient
+        .query(CategoryTable.TABLE_NAME, where: 'category_belong = ?', whereArgs: [category_belong]);
+    maps.forEach((value) {
+      list.add(Catetory.fromMap(value));
+    });
+    return list;
   }
 
   //按照 key 查询
@@ -168,6 +178,4 @@ class DbHelper {
     return await _dbClient
         .delete(CategoryTable.TABLE_NAME, where: 'id = ?', whereArgs: [id]);
   }
-
-
 }

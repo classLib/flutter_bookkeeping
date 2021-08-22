@@ -17,6 +17,7 @@ import '../../constantWr.dart';
 import 'category_setting_test.dart';
 
 class CategoryExpenditureAdd extends StatefulWidget {
+
   final DbHelper categoryProvider = new DbHelper();
 
   @override

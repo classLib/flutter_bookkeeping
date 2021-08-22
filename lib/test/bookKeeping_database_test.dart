@@ -25,10 +25,10 @@ class _BookKeepingDdatabaseTestState extends State<BookKeepingDdatabaseTest> {
   List<KeepRecord> taskList = new List();
 
   @override
-  void initState() {
+  void initState() async{
     super .initState();
     // // KeepDbHelper.queryAll();
-    KeepDbHelper.queryAll().then((value) {
+    await KeepDbHelper.queryAll().then((value) {
       setState(() {
         value.forEach((element) {
           taskList.add(element);
@@ -88,7 +88,7 @@ class _BookKeepingDdatabaseTestState extends State<BookKeepingDdatabaseTest> {
     );
   }
   void _deleteTask( int id) async {
-    await KeepDbHelper.deleteById(id);
+    // await KeepDbHelper.deleteById(id);
     setState(() {
       taskList.removeWhere((element) => element.id == id);
     });
@@ -96,9 +96,10 @@ class _BookKeepingDdatabaseTestState extends State<BookKeepingDdatabaseTest> {
   void _addToDb() async {
     String task = textController.text;
 
-    KeepRecord keepRecord = new KeepRecord('餐饮',1,'2021-8-15','assets/canyin.png','这是餐饮的第一条数据',20.2);
-    KeepRecord keepRecord2 = new KeepRecord('服饰',1,'2021-8-15','assets/fushi-_1.png','这是服饰的第一条数据',102.3);
-    KeepRecord keepRecord3 = new KeepRecord('零食',1,'2021-8-15','assets/lingshi_2.png','这是零食的第一条数据',20.2);
+    KeepRecord keepRecord = new KeepRecord('餐饮',1,'2021-8-15','assets/canyin.png','这是餐饮的第一条数据',20);
+    KeepRecord keepRecord2 = new KeepRecord('服饰',1,'2021-8-15','assets/fushi-_1.png','这是服饰的第一条数据',102);
+    KeepRecord keepRecord3 = new KeepRecord('零食',1,'2021-8-15','assets/lingshi_2.png','这是零食的第一条数据',20);
+
     var id = await KeepDbHelper.insert(keepRecord);
     var id1 = await KeepDbHelper.insert(keepRecord2);
     var id2 = await KeepDbHelper.insert(keepRecord3);

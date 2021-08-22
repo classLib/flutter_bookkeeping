@@ -16,25 +16,6 @@ import 'package:flutter_bookkeeping/util/DbHelper.dart';
 import '../../constantWr.dart';
 import 'category_setting_test.dart';
 
-// class CategoryIncomeAdd extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     return new _CategoryIncomeAddState();
-//   }
-//
-// }
-//
-// class _CategoryIncomeAddState extends State<CategoryIncomeAdd> {
-//   @override
-//   Widget build(BuildContext context) {
-//     // TODO: implement build
-//     return new Scaffold(
-//         body: new Text('收入')
-//     );
-//   }
-//
-// }
 class CategoryIncomeAdd extends StatefulWidget {
   final DbHelper categoryProvider = new DbHelper();
 
@@ -74,7 +55,7 @@ class _CategoryIncomeAddState extends State<CategoryIncomeAdd> {
   }
   _init() async {
     setState(() {
-      curImageNum = 1;
+      curImageNum = 5;
       curImage = 'assets/qujianzhi.png';
     });
   }
@@ -176,7 +157,7 @@ class _CategoryIncomeAddState extends State<CategoryIncomeAdd> {
             //添加内部图标之后，图标和文字会有间距，实现这个方法，不用写任何参数即可解决
           ),
           prefixIcon: Image.asset(
-            curImageNum == 1 ? 'assets/qujianzhi.png' : curImage,
+            curImageNum == 5 ? 'assets/qujianzhi.png' : curImage,
             width: 40,
             height: 40,
           ),
