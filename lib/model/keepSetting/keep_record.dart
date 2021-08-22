@@ -34,23 +34,24 @@ class KeepRecord {
   //  格式转换
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      KeepTable.recordRemarks: this.recordRemarks,
-      KeepTable.recordImage: this.recordImage,
-      KeepTable.recordTime: this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
-      KeepTable.recordCategoryNum: this.recordCategoryNum,
       KeepTable.recordCategoryName: this.recordCategoryName,
+      KeepTable.recordCategoryNum: this.recordCategoryNum,
+      KeepTable.recordTime: this.recordTime ?? DateTime.now().millisecondsSinceEpoch,
+      KeepTable.recordImage: this.recordImage,
+      KeepTable.recordRemarks: this.recordRemarks,
       KeepTable.recordNumber: this.recordNumber,
     };
     if (this.id != null) map[KeepTable.recordId] = this.id;
     return map;
   }
-
+//
   static KeepRecord fromMap(Map<String, dynamic> map) =>
       KeepRecord(
           map[KeepTable.recordCategoryName],
           map[KeepTable.recordCategoryNum],
+          map[KeepTable.recordTime],
           map[KeepTable.recordImage],
-          map[KeepTable.recordNumber],
           map[KeepTable.recordRemarks],
-          map[KeepTable.recordTime],id : map[KeepTable.recordId]);
+          map[KeepTable.recordNumber] ,
+          id : map[KeepTable.recordId]);
 }
