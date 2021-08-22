@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
 import 'package:flutter_bookkeeping/page/home/image_item/image_item.dart';
+import 'package:flutter_bookkeeping/page/home/record_item.dart';
 
 class DayDetail extends StatelessWidget {
+  DayDetail({this.list});
+
+  final List<KeepRecord> list;
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> items = [
@@ -10,19 +16,19 @@ class DayDetail extends StatelessWidget {
         expendQuota: 17.5,
         incomeQuota: 301.0,
       ),
-      ListTile(
-        title: Text("工资收入"),
-        subtitle: Text("2021.8.19 19:55"),
-        leading: Icon(Icons.calendar_view_day, color: Colors.lightBlue),
-        trailing: Icon(Icons.arrow_right),
-      ),
-      ListTile(
-        title: Text("公共交通"),
-        subtitle: Text("2021.8.19 17:55"),
-        leading: Icon(Icons.calendar_view_day, color: Colors.lightBlue),
-        trailing: Icon(Icons.arrow_right),
-      )
     ];
+
+    for (int i = 0; i < list.length; i++) {
+      KeepRecord record = list[i];
+      items.add(
+        RecordItem(
+            recordType: record.recordCategoryNum,
+            category: record.recordCategoryName,
+            remark: record.recordTime,
+            imageUrl: record.recordImage,
+            quota: record.recordNumber),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
