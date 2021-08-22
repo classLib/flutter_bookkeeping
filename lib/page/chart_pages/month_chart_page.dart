@@ -39,6 +39,7 @@ class _MonthChartPageState extends State<MonthChartPage> {
     keepRecords.then((value) {
       setState(() {
         this.keepHistory = value;
+        print(this.keepHistory.length);
       });
     });
   }
@@ -113,16 +114,10 @@ class _MonthChartPageState extends State<MonthChartPage> {
     }
   }
 
-  add() {
-    // KeepDbHelper.insert(
-    //     // KeepRecord(1)
-    // );
-  }
-
   //点击radio按钮选择
   _onRadioChanged(value) {
     setState(() {
-      add();
+      // add();
       this.choice = value;
     });
     // 根据获取的值来筛选支出和收入
