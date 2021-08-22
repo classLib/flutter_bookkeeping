@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/test/bookKeeping_database_test.dart';
 import 'calculator.dart';
 
 import 'category_setting_test.dart';
@@ -30,7 +31,7 @@ class _KeepIncomeState extends State<StatefulWidget> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CategoryHomePage()));
+                    builder: (context) => BookKeepingDdatabaseTest()));
           },
         ),
       ),

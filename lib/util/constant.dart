@@ -19,7 +19,8 @@ class Constant {
 
 class KeepTable {
   //表名
-  static final String TABLE_NAME = "keep_record_table";
+  // ignore: non_constant_identifier_names
+  static final String TABLE_NAME = "keep_record_dataBaseTable";
   //  记录的id
   static final String recordId = "id";
 //  图片编号
