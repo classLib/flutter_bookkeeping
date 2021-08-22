@@ -356,7 +356,7 @@ class _RecommendPageState extends State<RecommendPage> {
 
       /// 轮播图
       for (int i = 0; i < 3; i++) {
-        _imgs.add(AssetImage('wangyiyouqian/images/recommend/000${i}.jpg'));
+        _imgs.add(AssetImage('assets/000${i}.jpg'));
       }
 
       _getBooksInfo();
@@ -415,7 +415,7 @@ class _RecommendPageState extends State<RecommendPage> {
         time: times[bookIndexs[i]],
         bookName: booksName[bookIndexs[i]],
         imgs: [
-          AssetImage('wangyiyouqian/images/recommend/00${bookIndexs[i]}0.jpg'),
+          AssetImage('assets/00${bookIndexs[i]}0.jpg'),
         ],
         fabulous: Random().nextInt(1000),
         collections: Random().nextInt(1000),
@@ -447,7 +447,7 @@ class _RecommendPageState extends State<RecommendPage> {
         name: coursesName[courseIndexs[i]],
         imgs: [
           AssetImage(
-              'wangyiyouqian/images/recommend/20${courseIndexs[i]}0.jpg'),
+              'assets/20${courseIndexs[i]}0.jpg'),
         ],
         publisher: publishers[courseIndexs[i]],
         stuCount: Random().nextInt(1000),
@@ -463,7 +463,7 @@ class _RecommendPageState extends State<RecommendPage> {
         name: name[courseIndexs[i]],
         imgs: [
           AssetImage(
-              'wangyiyouqian/images/recommend/300${courseIndexs[i]}.jpg'),
+              'assets/300${courseIndexs[i]}.jpg'),
         ],
       ));
     }
@@ -479,7 +479,7 @@ class _RecommendPageState extends State<RecommendPage> {
       _tools.add(ToolModel(
         name: name[toolIndexs[i]],
         imgs: [
-          AssetImage('wangyiyouqian/images/recommend/400${toolIndexs[i]}.jpg'),
+          AssetImage('assets/400${toolIndexs[i]}.jpg'),
         ],
       ));
     }
