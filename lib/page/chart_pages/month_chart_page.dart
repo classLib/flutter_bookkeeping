@@ -46,7 +46,6 @@ class _MonthChartPageState extends State<MonthChartPage> {
   //日历图数据
   var dateList = [
     ['2017-1-1', '100'],
-    ['2017-1-2', '10'],
   ];
   int choice = 1;
   var heatmapData = [];
