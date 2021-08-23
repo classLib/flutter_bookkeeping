@@ -39,50 +39,20 @@ class _MonthChartPageState extends State<MonthChartPage> {
   //饼图数据
   var data = [
     {"value": 335, "name": '餐饮'},
-    {"value": 310, "name": '交通'},
-    {"value": 234, "name": '出行'},
-    {"value": 123, "name": "出行"}
   ];
   //饼图图例
-  var legendData = ['餐饮', '交通', '出行', '11'];
+  var legendData = ['餐饮'];
 
   //日历图数据
   var dateList = [
     ['2017-1-1', '100'],
     ['2017-1-2', '10'],
-    ['2017-1-3', '1'],
-    ['2017-1-4', '22'],
-    ['2017-1-5', '25'],
-    ['2017-1-6', '98'],
-    ['2017-1-7', '25'],
-    ['2017-1-8', '66'],
-    ['2017-1-9', '88'],
-    ['2017-1-10', '66'],
-    ['2017-1-11', '33'],
-    ['2017-1-12', '22'],
-    ['2017-1-13', '47'],
-    ['2017-1-14', '36'],
-    ['2017-1-15', '100'],
-    ['2017-1-16', '600'],
-    ['2017-1-17', '300.3'],
-    ['2017-1-18', '60'],
-    ['2017-1-19', '70'],
-    ['2017-1-20', '99.0'],
-    ['2017-1-21', '100.0'],
-    ['2017-1-22', '210'],
-    ['2017-1-23', '265'],
-    ['2017-1-24', '444'],
-    ['2017-1-25', '44'],
-    ['2017-1-26', '22'],
-    ['2017-1-27', '333'],
-    ['2017-1-28', '324'],
-    ['2017-1-29', '234'],
-    ['2017-1-30', '324'],
-    ['2017-1-31', '768']
   ];
   int choice = 1;
   var heatmapData = [];
   var lunarData = [];
+
+  List menuIcons = ['assets/canyin.png'];
 
   @override
   void initState() {
@@ -96,23 +66,59 @@ class _MonthChartPageState extends State<MonthChartPage> {
     });
   }
 
-  //图标
-  List menuIcons = [
-    Icons.message,
-    Icons.print,
-    Icons.error,
-    Icons.phone,
-    Icons.send,
-    Icons.people,
-    Icons.person,
-    Icons.phone,
-  ];
+  //图标,this.menuIcons
+  handleIcon(List month) {
+    this.menuIcons.clear();
+    for (var item in month) {
+      this.menuIcons.add(item.recordImage);
+    }
+  }
 
+  //得到日历图数据,['2017-1-3', '1'],
+  handleCalenderData(List month) {
+    this.dateList.clear();
+    for (var i = 1; i <= 31; i++) {
+      this.dateList.add([
+        "${DateTime.parse(month[0].recordTime).year}-${DateTime.parse(month[0].recordTime).month}-$i",
+        "0"
+      ]);
+    }
+    for (var i = 0; i < month.length; i++) {
+      this.dateList[DateTime.parse(month[i].recordTime).day - 1][1] =
+          (double.parse(
+                      this.dateList[DateTime.parse(month[i].recordTime).day - 1]
+                          [1]) +
+                  month[i].recordNumber)
+              .toString();
+    }
+  }
+
+  //处理日历图日期列表
   getCalenderDate(List dateList, List heatmapData, List lunarData) {
     for (var i = 0; i < dateList.length; i++) {
       heatmapData.add([dateList[i][0], dateList[i][1]]);
       lunarData
           .add([dateList[i][0].toString(), 1, dateList[i][1].toString(), 0]);
+    }
+  }
+
+  //处理饼图数据，this.data
+  handlePie(List month) {
+    this.legendData.clear();
+    this.legendData = Set<String>.from(
+        month.asMap().keys.map((i) => month[i].recordCategoryName)).toList();
+    this.data.clear();
+    for (var i = 0; i < this.legendData.length; i++) {
+      this.data.add({"value": 0, "name": this.legendData[i]});
+    }
+    for (var i = 0; i < month.length; i++) {
+      for (var j = 0; j < this.legendData.length; j++) {
+        if (month[i].recordCategoryName == this.legendData[j]) {
+          this.data[j]["value"] =
+              double.parse(this.data[j]["value"].toString()) +
+                  month[i].recordNumber;
+        }
+      }
     }
   }
 
@@ -125,12 +131,21 @@ class _MonthChartPageState extends State<MonthChartPage> {
     if (this.choice == 1) {
       //  筛选月支出消费
       setState(() {
-        //图例
-        this.legendData = List<String>.from(monthPay.asMap().keys.map((i) => monthPay[i].recordCategoryName));
-
+        //  得到饼图数据
+        handlePie(monthPay);
+        // 得到日历图数据
+        handleCalenderData(monthPay);
+        handleIcon(monthPay);
       });
     } else {
       //  筛选月收入消费
+      setState(() {
+        //  得到饼图数据
+        handlePie(monthIncome);
+        // 得到日历图数据
+        handleCalenderData(monthIncome);
+        handleIcon(monthPay);
+      });
     }
   }
 
@@ -242,28 +257,37 @@ class _MonthChartPageState extends State<MonthChartPage> {
 
   //分出月收入和月支出的
   handleMonth() {
-    for (var item in monthList) {
+    this.monthIncome.clear();
+    this.monthPay.clear();
+    for (var item in this.monthList) {
       if (item.recordCategoryNum == 1) {
-        monthPay.add(item);
+        this.monthPay.add(item);
       } else {
-        monthIncome.add(item);
+        this.monthIncome.add(item);
       }
     }
+    setState(() {
+      //  得到饼图数据
+      handlePie(monthPay);
+      // 得到日历图数据
+      handleCalenderData(monthPay);
+      handleIcon(monthPay);
+    });
   }
 
   //点击选中时间
   _onTimeSelect(model) {
     Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
       setState(() {
-        _monthKey = '${p.year}年${p.month}月';
-        range = ['${p.year}-${p.month}'];
+        this._monthKey = '${p.year}年${p.month}月';
+        this.range = ['${p.year}-${p.month}'];
         //this.keepHistory中找到这一年这一月
-        monthList.clear();
+        this.monthList.clear();
         for (var each in this.keepHistory) {
           var year = each.recordTime.substring(0, 4);
           var month = each.recordTime.substring(5, 7);
           if (year == p.year.toString() && int.parse(month) == p.month) {
-            monthList.add(each);
+            this.monthList.add(each);
           }
         }
         handleMonth();
@@ -316,13 +340,12 @@ class _MonthChartPageState extends State<MonthChartPage> {
                 ));
           } else {
             return ListTile(
-              leading: Icon(menuIcons[index - 3]), //左边
-              title: Text(data[index - 3]["name"]), //title
+              leading: Image.asset(this.menuIcons[index - 3]), //左边
+              title: Text(this.data[index - 3]["name"]), //title
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('${data[index - 3]["value"]}元'),
-                  Icon(Icons.arrow_forward_ios)
+                  Text('${this.data[index - 3]["value"]}元'),
                 ],
               ),
             );
@@ -333,4 +356,3 @@ class _MonthChartPageState extends State<MonthChartPage> {
     );
   }
 }
-
