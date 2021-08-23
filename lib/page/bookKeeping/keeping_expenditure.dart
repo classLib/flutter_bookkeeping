@@ -205,7 +205,6 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
                 KeepRecord keepRecord = new KeepRecord(curCategoryName, 1,
                     _timeText, curImageNumString, _beiZhuText, _keepText);
                 var id = await KeepDbHelper.insert(keepRecord);
-
                 // 清空输入框
                 _keepTextController.clear();
                 _timeTextController.clear();

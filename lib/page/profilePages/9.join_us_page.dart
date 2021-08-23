@@ -58,11 +58,15 @@ class _JoinUsPageState extends State<JoinUsPage> {
             ),
             ListTile(
               leading: Icon(Icons.email),
-              title: Text("邮箱：123456@qq.com"),
+              title: Text("邮箱：965068089@qq.com"),
             ),
             ListTile(
               leading: Icon(Icons.email),
               title: Text("公司地址：四川省绵阳市xxxx"),
+            ),
+            ListTile(
+              leading: Icon(Icons.file_copy),
+              title: Text("Github:\nhttps://github.com/classLib/flutter_bookkeeping"),
             )
           ],
         ));

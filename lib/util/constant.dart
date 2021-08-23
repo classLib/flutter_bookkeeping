@@ -20,7 +20,7 @@ class Constant {
 class KeepTable {
   //表名
   // ignore: non_constant_identifier_names
-  static final String TABLE_NAME = "keep_record_dataBaseTable";
+  static final String TABLE_NAME = "keep_record_table";
   //  记录的id
   static final String recordId = "id";
 //  图片编号
