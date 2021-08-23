@@ -17,7 +17,7 @@ class KeepRecord {
   // 记录的图片
   String recordImage;
   // 记录的钱数
-  int recordNumber;
+  double recordNumber;
   // 记录的备注
   String recordRemarks;
   // 记录创建的时间
@@ -53,14 +53,14 @@ class KeepRecord {
     return map;
   }
 
-  static KeepRecord fromMap(Map<String, dynamic> map) =>
-      KeepRecord(
-          map[KeepTable.recordCategoryName],
-          map[KeepTable.recordCategoryNum],
-          map[KeepTable.recordTime],
-          map[KeepTable.recordImage],
-          map[KeepTable.recordRemarks],
-          map[KeepTable.recordNumber] ,
-          id : map[KeepTable.recordId]);
+  // static KeepRecord fromMap(Map<String, dynamic> map) =>
+  //     KeepRecord(
+  //         map[KeepTable.recordCategoryName],
+  //         map[KeepTable.recordCategoryNum],
+  //         map[KeepTable.recordTime],
+  //         map[KeepTable.recordImage],
+  //         map[KeepTable.recordRemarks],
+  //         map[KeepTable.recordNumber] ,
+  //         id : map[KeepTable.recordId]);
 
 }

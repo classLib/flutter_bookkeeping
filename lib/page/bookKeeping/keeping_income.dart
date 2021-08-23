@@ -186,8 +186,8 @@ class _KeepIncomeState extends State<KeepIncome> {
                 print(curImageNumString);
                 print(curCategoryName);
 
-                int _keepText =
-                int.parse(_keepTextController.text) == 0
+                double _keepText =
+                double.parse(_keepTextController.text) == 0
                     ? 0
                     : int.parse(_keepTextController.text);
                 String _beiZhuText = _beiZhuTextController.text == ''

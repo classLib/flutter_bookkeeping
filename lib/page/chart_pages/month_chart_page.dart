@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import "package:collection/collection.dart";
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
@@ -31,24 +31,17 @@ class _MonthChartPageState extends State<MonthChartPage> {
   Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
   List<KeepRecord> keepHistory = [];
 
-  @override
-  void initState() {
-    super.initState();
-    //查询所有
-    Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
-    keepRecords.then((value) {
-      setState(() {
-        this.keepHistory = value;
-        print(this.keepHistory.length);
-      });
-    });
-  }
-
+  var _monthKey = "2021年8月";
+  //日历图范围
+  var range = ['2017-01'];
+  //该月list，月支出，月收入
+  List monthList = [], monthPay = [], monthIncome = [];
   //饼图数据
   var data = [
     {"value": 335, "name": '餐饮'},
     {"value": 310, "name": '交通'},
     {"value": 234, "name": '出行'},
+    {"value": 123, "name": "出行"}
   ];
   //饼图图例
   var legendData = ['餐饮', '交通', '出行', '11'];
@@ -87,10 +80,21 @@ class _MonthChartPageState extends State<MonthChartPage> {
     ['2017-1-30', '324'],
     ['2017-1-31', '768']
   ];
-
-  var range = ['2017-01'];
+  int choice = 1;
   var heatmapData = [];
   var lunarData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    //查询所有
+    Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
+    keepRecords.then((value) {
+      setState(() {
+        this.keepHistory = value;
+      });
+    });
+  }
 
   //图标
   List menuIcons = [
@@ -103,8 +107,6 @@ class _MonthChartPageState extends State<MonthChartPage> {
     Icons.person,
     Icons.phone,
   ];
-  var _monthKey = "2021年8月";
-  int choice = 1;
 
   getCalenderDate(List dateList, List heatmapData, List lunarData) {
     for (var i = 0; i < dateList.length; i++) {
@@ -117,12 +119,16 @@ class _MonthChartPageState extends State<MonthChartPage> {
   //点击radio按钮选择
   _onRadioChanged(value) {
     setState(() {
-      // add();
       this.choice = value;
     });
     // 根据获取的值来筛选支出和收入
-    if (value == 1) {
+    if (this.choice == 1) {
       //  筛选月支出消费
+      setState(() {
+        //图例
+        this.legendData = List<String>.from(monthPay.asMap().keys.map((i) => monthPay[i].recordCategoryName));
+
+      });
     } else {
       //  筛选月收入消费
     }
@@ -234,17 +240,34 @@ class _MonthChartPageState extends State<MonthChartPage> {
     );
   }
 
+  //分出月收入和月支出的
+  handleMonth() {
+    for (var item in monthList) {
+      if (item.recordCategoryNum == 1) {
+        monthPay.add(item);
+      } else {
+        monthIncome.add(item);
+      }
+    }
+  }
+
   //点击选中时间
   _onTimeSelect(model) {
     Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
       setState(() {
         _monthKey = '${p.year}年${p.month}月';
+        range = ['${p.year}-${p.month}'];
         //this.keepHistory中找到这一年这一月
-        for(var each in this.keepHistory){
-          print("当前的时间为");
+        monthList.clear();
+        for (var each in this.keepHistory) {
+          var year = each.recordTime.substring(0, 4);
+          var month = each.recordTime.substring(5, 7);
+          if (year == p.year.toString() && int.parse(month) == p.month) {
+            monthList.add(each);
+          }
         }
+        handleMonth();
       });
-      //向数据库请求当前_monthKey的消费状况
     });
   }
 
@@ -310,3 +333,4 @@ class _MonthChartPageState extends State<MonthChartPage> {
     );
   }
 }
+
