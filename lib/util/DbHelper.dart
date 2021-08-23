@@ -108,6 +108,7 @@ class DbHelper {
     print("数据${catetory.category_name}已存入数据库");
     return catetory;
   }
+
   //按照 id 查询数据
   Future<Catetory> query(int id) async {
     var _dbClient = await db;
@@ -133,6 +134,7 @@ class DbHelper {
     });
     return list;
   }
+
   //  查询全部
   Future<List<Catetory>> queryAll() async {
     // var __db = await db;
