@@ -194,7 +194,7 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
                 double _keepText =
                     double.parse(_keepTextController.text) == 0
                         ? 0
-                        : int.parse(_keepTextController.text);
+                        : double.parse(_keepTextController.text);
                 String _beiZhuText = _beiZhuTextController.text == ''
                     ? '无'
                     : _beiZhuTextController.text;
