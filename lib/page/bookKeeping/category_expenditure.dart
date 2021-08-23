@@ -38,13 +38,8 @@ class _Ewxpenditure extends State<Ewxpenditure> {
   }
 
   _getDataFrom() async {
-    _sumCategory = await widget.categoryProvider.queryAll();
+    _sumCategory =  await widget.categoryProvider.queryByCategoryBelong(1);
     setState(() {
-      // List<String> _keyword = [];
-      // if (_sumCategory.length > 0) {
-      //   _keyword = Catetory.getKeywordList(_sumCategory);
-      // }
-      // showHistory(_keyword.reversed);
       dataList = _sumCategory;
     });
   }
