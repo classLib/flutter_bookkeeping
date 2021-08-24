@@ -34,14 +34,15 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // widget._prefs.then((pref) {
-    //   if (pref.containsKey(Constant.is_login)) {
-    //     if (pref.getBool(Constant.is_login) == true) {
-    //       _intoIndexPage();
-    //     } else {}
-    //   }
-    // });
-    _fillAccountTextField();
+    widget._prefs.then((pref) {
+      if (pref.containsKey(Constant.is_login)) {
+        if (pref.getBool(Constant.is_login) == true) {
+          _intoIndexPage();
+        } else {
+          _fillAccountTextField();
+        }
+      }
+    });
   }
 
   @override
@@ -276,7 +277,6 @@ class _LoginPageState extends State<LoginPage> {
       Fluttertoast.showToast(msg: '账号密码错误，请重试');
       return;
     }
-    FocusScope.of(context).requestFocus(FocusNode());
 
     /// 保存账号密码到本地缓存
     var prefs = await widget._prefs;
@@ -294,6 +294,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _forgetPassword() {
+    FocusScope.of(context).requestFocus(FocusNode());
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => LosePasswordPage()));
   }
