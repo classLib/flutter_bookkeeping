@@ -8,6 +8,8 @@ import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_pickers/time_picker/model/date_mode.dart';
 
+import 'handle_list.dart';
+
 /// FileName: month_chart_page
 /// Author: hjy
 /// Date: 2021/8/12 19:33
@@ -25,7 +27,6 @@ class MonthChartPage extends StatefulWidget {
   @override
   _MonthChartPageState createState() => _MonthChartPageState();
 }
-
 class _MonthChartPageState extends State<MonthChartPage> {
   //找表，查找所有
   Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
@@ -65,12 +66,46 @@ class _MonthChartPageState extends State<MonthChartPage> {
     });
   }
 
-  //图标,this.menuIcons
-  handleIcon(List month) {
-    this.menuIcons.clear();
-    for (var item in month) {
-      this.menuIcons.add(item.recordImage);
-    }
+  //点击选中时间,处理数据得到List
+  _onTimeSelect(model) {
+    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
+      setState(() {
+        this._monthKey = '${p.year}年${p.month}月';
+        this.range = ['${p.year}-${p.month}'];
+
+        this.monthList = HandleList()
+            .getListData(this.monthList, this.keepHistory, model, p);
+
+        if (this.monthList.isEmpty) {
+          Navigator.of(context).pop();
+          return showDialog(
+              context: this.context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("报表提醒"),
+                  content: Text("该月未记账，请重新选择！"),
+                  actions: [
+                    FlatButton(
+                      color: Colors.blue,
+                      child: Text(
+                        "取消",
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        } else {
+          var tmp = HandleList()
+              .getDivideData(this.monthPay, this.monthIncome, this.monthList);
+          this.monthIncome = tmp[0];
+          this.monthPay = tmp[1];
+          renderChart(this.monthPay);
+        }
+      });
+    });
   }
 
   //得到日历图数据,['2017-1-3', '1'],
@@ -101,50 +136,15 @@ class _MonthChartPageState extends State<MonthChartPage> {
     }
   }
 
-  //处理饼图数据，this.data
-  handlePie(List month) {
-    this.legendData.clear();
-    this.legendData = Set<String>.from(
-        month.asMap().keys.map((i) => month[i].recordCategoryName)).toList();
-    this.data.clear();
-    for (var i = 0; i < this.legendData.length; i++) {
-      this.data.add({"value": 0, "name": this.legendData[i]});
-    }
-    for (var i = 0; i < month.length; i++) {
-      for (var j = 0; j < this.legendData.length; j++) {
-        if (month[i].recordCategoryName == this.legendData[j]) {
-          this.data[j]["value"] =
-              double.parse(this.data[j]["value"].toString()) +
-                  month[i].recordNumber;
-        }
-      }
-    }
-  }
-
-  //点击radio按钮选择
+  //点击rdio按钮选择
   _onRadioChanged(value) {
     setState(() {
       this.choice = value;
     });
-    // 根据获取的值来筛选支出和收入
     if (this.choice == 1) {
-      //  筛选月支出消费
-      setState(() {
-        //  得到饼图数据
-        handlePie(monthPay);
-        // 得到日历图数据
-        handleCalenderData(monthPay);
-        handleIcon(monthPay);
-      });
+      renderChart(this.monthPay);
     } else {
-      //  筛选月收入消费
-      setState(() {
-        //  得到饼图数据
-        handlePie(monthIncome);
-        // 得到日历图数据
-        handleCalenderData(monthIncome);
-        handleIcon(monthPay);
-      });
+      renderChart(this.monthIncome);
     }
   }
 
@@ -254,68 +254,16 @@ class _MonthChartPageState extends State<MonthChartPage> {
     );
   }
 
-  //分出月收入和月支出的
-  handleMonth() {
-    this.monthIncome.clear();
-    this.monthPay.clear();
-    for (var item in this.monthList) {
-      if (item.recordCategoryNum == 1) {
-        this.monthPay.add(item);
-      } else {
-        this.monthIncome.add(item);
-      }
-    }
+  //
+  renderChart(list) {
     setState(() {
-      //  得到饼图数据
-      handlePie(monthPay);
-      // 得到日历图数据
-      handleCalenderData(monthPay);
-      handleIcon(monthPay);
+      this.data = HandleList().handlePie(list, this.data)[0];
+      this.legendData =HandleList().handlePie(list, this.data)[1];
+      handleCalenderData(list);
+      this.menuIcons=HandleList().handleIcon(list, this.menuIcons);
     });
   }
 
-  //点击选中时间
-  _onTimeSelect(model) {
-    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
-      setState(() {
-        this._monthKey = '${p.year}年${p.month}月';
-        this.range = ['${p.year}-${p.month}'];
-        //this.keepHistory中找到这一年这一月
-        this.monthList.clear();
-        for (var each in this.keepHistory) {
-          var year = DateTime.parse(each.recordTime).year;
-          var month = DateTime.parse(each.recordTime).month;
-          if (year == p.year && month == p.month) {
-            this.monthList.add(each);
-          }
-        }
-        if (this.monthList.isEmpty) {
-          Navigator.of(context).pop();
-          return showDialog(
-              context: this.context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text("报表提醒"),
-                  content: Text("该月未记账，请重新选择！"),
-                  actions: [
-                    FlatButton(
-                      color: Colors.blue,
-                      child: Text(
-                        "取消",
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                );
-              });
-        } else{
-          handleMonth();
-        }
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
