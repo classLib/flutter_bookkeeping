@@ -289,7 +289,30 @@ class _MonthChartPageState extends State<MonthChartPage> {
             this.monthList.add(each);
           }
         }
-        handleMonth();
+        if (this.monthList.isEmpty) {
+          Navigator.of(context).pop();
+          return showDialog(
+              context: this.context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("报表提醒"),
+                  content: Text("该月未记账，请重新选择！"),
+                  actions: [
+                    FlatButton(
+                      color: Colors.blue,
+                      child: Text(
+                        "取消",
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        } else{
+          handleMonth();
+        }
       });
     });
   }
