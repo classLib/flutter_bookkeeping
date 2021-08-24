@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
 import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
-import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:flutter_bookkeeping/page/chart_pages/handle_list.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_pickers/time_picker/model/date_mode.dart';
@@ -22,10 +22,12 @@ class YearChartPage extends StatefulWidget {
 }
 
 class _YearChartPageState extends State<YearChartPage> {
+  ///
+  ///初始化
+  ///
   //找表，查找所有
   Future<List<KeepRecord>> keepRecords;
   List<KeepRecord> keepHistory = [];
-
   var _yearKey = "2021";
   var choice = 1;
   //年总消费，年支出，年收入
@@ -43,6 +45,7 @@ class _YearChartPageState extends State<YearChartPage> {
   ];
   //图标
   List menuIcons = ['assets/canyin.png'];
+
   @override
   void initState() {
     super.initState();
@@ -55,36 +58,24 @@ class _YearChartPageState extends State<YearChartPage> {
     });
   }
 
-  //图标,this.menuIcons
-  handleIcon(List month) {
-    this.menuIcons.clear();
-    for (var item in month) {
-      this.menuIcons.add(item.recordImage);
-    }
-  }
+  ///
+  ///数据处理
+  ///
+  //选中时间，得到List
+  _onTimeSelect(model) {
+    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
+      setState(() {
+        this._yearKey = '${p.year}';
+        this.yearList =
+            HandleList().getListData(this.yearList, this.keepHistory, model, p);
+      });
+      var tmp = HandleList()
+          .getDivideData(this.yearPay, this.yearIncome, this.yearList);
+      this.yearIncome = tmp[0];
+      this.yearPay = tmp[1];
 
-  //面积图数据处理
-  handleAreaData(List yearCur) {
-    var year = int.parse(this._yearKey);
-    this.areaData = [0.0];
-    //闰年
-    if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
-      for (var i = 0; i < 366; i++) {
-        this.areaData.add(0.0);
-      }
-    } else {
-      for (var i = 0; i < 365; i++) {
-        this.areaData.add(0.0);
-      }
-    }
-    for (var i = 0; i < yearCur.length; i++) {
-      var cur = yearCur[i];
-      var d1 = new DateTime(year, 1, 1);
-      var d2 = DateTime(year, DateTime.parse(cur.recordTime).month,
-          DateTime.parse(cur.recordTime).day);
-      var difference = d2.difference(d1);
-      this.areaData[difference.inDays] += cur.recordNumber;
-    }
+      renderChart(this.yearPay);
+    });
   }
 
   //点击radio按钮选择
@@ -92,24 +83,16 @@ class _YearChartPageState extends State<YearChartPage> {
     setState(() {
       this.choice = value;
     });
-    // 根据获取的值来筛选支出和收入
     if (value == 1) {
-      //  筛选年支出消费
-      setState(() {
-        handlePie(this.yearPay);
-        handleAreaData(this.yearPay);
-        handleIcon(this.yearPay);
-      });
+      renderChart(this.yearPay);
     } else {
-      //  筛选年收入消费
-      setState(() {
-        handlePie(this.yearIncome);
-        handleAreaData(this.yearIncome);
-        handleIcon(this.yearIncome);
-      });
+      renderChart(this.yearIncome);
     }
   }
 
+  ///
+  ///图标渲染
+  ///
   //饼图
   Widget pie() {
     return Column(
@@ -262,57 +245,13 @@ class _YearChartPageState extends State<YearChartPage> {
     );
   }
 
-  //分出年收入和年支出
-  handleYear() {
-    this.yearIncome.clear();
-    this.yearPay.clear();
-    for (var item in this.yearList) {
-      if (item.recordCategoryNum == 1) {
-        this.yearPay.add(item);
-      } else {
-        this.yearIncome.add(item);
-      }
-    }
+  //渲染图表
+  renderChart(list) {
     setState(() {
-      handlePie(this.yearPay);
-      handleAreaData(this.yearPay);
-      handleIcon(this.yearPay);
-    });
-  }
-
-  handlePie(List year) {
-    var legendData = Set<String>.from(
-        year.asMap().keys.map((i) => year[i].recordCategoryName)).toList();
-    print(legendData);
-    this.data.clear();
-    for (var i = 0; i < legendData.length; i++) {
-      this.data.add({"value": 0, "name": legendData[i]});
-    }
-    for (var i = 0; i < year.length; i++) {
-      for (var j = 0; j < legendData.length; j++) {
-        if (year[i].recordCategoryName == legendData[j]) {
-          this.data[j]["value"] =
-              double.parse(this.data[j]["value"].toString()) +
-                  year[i].recordNumber;
-        }
-      }
-    }
-  }
-
-  //点击选中时间
-  _onTimeSelect(model) {
-    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
-      setState(() {
-        this._yearKey = '${p.year}';
-        this.yearList.clear();
-        for (var each in this.keepHistory) {
-          var year = DateTime.parse(each.recordTime).year;
-          if (year == p.year) {
-            this.yearList.add(each);
-          }
-        }
-        handleYear();
-      });
+      this.data = HandleList().handlePie(list, this.data)[0];
+      this.areaData =
+          HandleList().handleAreaData(list, this._yearKey, this.areaData);
+      this.menuIcons = HandleList().handleIcon(list, this.menuIcons);
     });
   }
 
