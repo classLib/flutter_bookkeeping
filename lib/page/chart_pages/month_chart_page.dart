@@ -283,9 +283,9 @@ class _MonthChartPageState extends State<MonthChartPage> {
         //this.keepHistory中找到这一年这一月
         this.monthList.clear();
         for (var each in this.keepHistory) {
-          var year = each.recordTime.substring(0, 4);
-          var month = each.recordTime.substring(5, 7);
-          if (year == p.year.toString() && int.parse(month) == p.month) {
+          var year = DateTime.parse(each.recordTime).year;
+          var month = DateTime.parse(each.recordTime).month;
+          if (year == p.year && month == p.month) {
             this.monthList.add(each);
           }
         }

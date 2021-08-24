@@ -2,8 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
+import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
+import 'package:flutter_pickers/pickers.dart';
+import 'package:flutter_pickers/time_picker/model/date_mode.dart';
 
 /// FileName: year_chart_page
 /// Author: hjy
@@ -18,24 +22,71 @@ class YearChartPage extends StatefulWidget {
 }
 
 class _YearChartPageState extends State<YearChartPage> {
-  var _yearKey;
+  //找表，查找所有
+  Future<List<KeepRecord>> keepRecords;
+  List<KeepRecord> keepHistory = [];
+
+  var _yearKey = "2021";
   var choice = 1;
+  //年总消费，年支出，年收入
+  var yearList = [], yearPay = [], yearIncome = [];
   var data = [
-    {"value": 335, "name": '直接访问'},
-    {"value": 310, "name": '邮件营销'},
-    {"value": 274, "name": '联盟广告'},
-    {"value": 235, "name": '视频广告'},
-    {"value": 400, "name": '搜索引擎'}
+    {"value": 10, "name": 'rose1'},
   ];
-  
-  //点击事件
-  _onTimeSelector(key){
-    setState(() {
-      _yearKey = key;
+
+  //面积图数据
+  List<double> areaData = [
+    -6.0,
+    -9.0,
+    -11.0,
+    -12.0,
+  ];
+  //图标
+  List menuIcons = ['assets/canyin.png'];
+  @override
+  void initState() {
+    super.initState();
+    //查询所有
+    keepRecords = KeepDbHelper.queryAll();
+    keepRecords.then((value) {
+      setState(() {
+        this.keepHistory = value;
+      });
     });
-    //向数据库请求当前_yearKey的消费状况
   }
-  
+
+  //图标,this.menuIcons
+  handleIcon(List month) {
+    this.menuIcons.clear();
+    for (var item in month) {
+      this.menuIcons.add(item.recordImage);
+    }
+  }
+
+  //面积图数据处理
+  handleAreaData(List yearCur) {
+    var year = int.parse(this._yearKey);
+    this.areaData = [0.0];
+    //闰年
+    if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+      for (var i = 0; i < 366; i++) {
+        this.areaData.add(0.0);
+      }
+    } else {
+      for (var i = 0; i < 365; i++) {
+        this.areaData.add(0.0);
+      }
+    }
+    for (var i = 0; i < yearCur.length; i++) {
+      var cur = yearCur[i];
+      var d1 = new DateTime(year, 1, 1);
+      var d2 = DateTime(year, DateTime.parse(cur.recordTime).month,
+          DateTime.parse(cur.recordTime).day);
+      var difference = d2.difference(d1);
+      this.areaData[difference.inDays] += cur.recordNumber;
+    }
+  }
+
   //点击radio按钮选择
   _onRadioChanged(value) {
     setState(() {
@@ -43,27 +94,29 @@ class _YearChartPageState extends State<YearChartPage> {
     });
     // 根据获取的值来筛选支出和收入
     if (value == 1) {
-      //  筛选月支出消费
+      //  筛选年支出消费
+      setState(() {
+        handlePie(this.yearPay);
+        handleAreaData(this.yearPay);
+        handleIcon(this.yearPay);
+      });
     } else {
-      //  筛选月收入消费
+      //  筛选年收入消费
+      setState(() {
+        handlePie(this.yearIncome);
+        handleAreaData(this.yearIncome);
+        handleIcon(this.yearIncome);
+      });
     }
   }
-//图标
-  List menuIcons = [
-    Icons.message,
-    Icons.print,
-    Icons.error,
-    Icons.phone,
-    Icons.send,
-    Icons.people,
-    Icons.person,
-    Icons.phone,
-  ];
+
   //饼图
-  Widget pie(){
+  Widget pie() {
     return Column(
       children: [
-        SizedBox(height: 5.0,),
+        SizedBox(
+          height: 5.0,
+        ),
         Row(
           children: <Widget>[
             SizedBox(
@@ -97,50 +150,20 @@ class _YearChartPageState extends State<YearChartPage> {
           child: Echarts(
             option: '''
                   {
-                      backgroundColor: 'white',
-                      tooltip: {
-                          trigger: 'item',
-                          formatter: '{b} <br/> {c} ({d}%)'
-                      },
-                      visualMap: {
-                          show: false,
-                          min: 80,
-                          max: 600,
-                          inRange: {
-                              colorLightness: [0, 1]
-                          }
-                      },
-                      series: [
-                          {
-                              type: 'pie',
-                              radius: '55%',
-                              center: ['50%', '50%'],
-                              data: ${jsonEncode(data)}.sort(function (a, b) { return a.value - b.value; }),
-                              roseType: 'radius',
-                              label: {
-                                  color: 'black'
-                              },
-                              labelLine: {
-                                  lineStyle: {
-                                      color: 'black'
-                                  },
-                                  smooth: 0.2,
-                                  length: 8,
-                                  length2: 10
-                              },
-                              itemStyle: {
-                                  color: '#c23531',
-                                  shadowBlur: 200,
-                                  shadowColor: 'rgba(0, 0, 0, 0.5)'
-                              },
-                              animationType: 'scale',
-                              animationEasing: 'elasticOut',
-                              animationDelay: function (idx) {
-                                  return Math.random() * 200;
-                              }
-                          }
-                      ]
-                  }
+        tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
+    series: [
+        {
+            type: 'pie',
+            radius: [5, 70],
+            // center: ['75%', '50%'],
+            roseType: 'area',
+            data: ${jsonEncode(data)}
+        }
+    ]
+}
                   ''',
           ),
         )
@@ -149,21 +172,17 @@ class _YearChartPageState extends State<YearChartPage> {
   }
 
   //面积图
-  Widget area(){
+  Widget area() {
     return Container(
       child: Echarts(
         captureAllGestures: true,
         extraScript: '''
-                    var base = +new Date(1968, 9, 3);
+                    var base = +new Date(${jsonDecode(this._yearKey)},0,0);
                     var oneDay = 24 * 3600 * 1000;
                     var date = [];
-
-                    var data = [Math.random() * 300];
-
-                    for (var i = 1; i < 20000; i++) {
+                    for (var i = 1; i < 365; i++) {
                         var now = new Date(base += oneDay);
                         date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-                        data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
                     }
                   ''',
         option: '''
@@ -195,8 +214,8 @@ class _YearChartPageState extends State<YearChartPage> {
                 },
                 dataZoom: [{
                     type: 'inside',
-                    start: 0,
-                    end: 10
+                    start: 60,
+                    end: 70
                 }, {
                     start: 0,
                     end: 10,
@@ -229,7 +248,7 @@ class _YearChartPageState extends State<YearChartPage> {
                                 color: 'rgb(255, 70, 131)'
                             }])
                         },
-                        data: data
+                        data: ${jsonEncode(areaData)}
                     }
                 ],
                 grid:{
@@ -243,67 +262,101 @@ class _YearChartPageState extends State<YearChartPage> {
     );
   }
 
+  //分出年收入和年支出
+  handleYear() {
+    this.yearIncome.clear();
+    this.yearPay.clear();
+    for (var item in this.yearList) {
+      if (item.recordCategoryNum == 1) {
+        this.yearPay.add(item);
+      } else {
+        this.yearIncome.add(item);
+      }
+    }
+    setState(() {
+      handlePie(this.yearPay);
+      handleAreaData(this.yearPay);
+      handleIcon(this.yearPay);
+    });
+  }
+
+  handlePie(List year) {
+    var legendData = Set<String>.from(
+        year.asMap().keys.map((i) => year[i].recordCategoryName)).toList();
+    print(legendData);
+    this.data.clear();
+    for (var i = 0; i < legendData.length; i++) {
+      this.data.add({"value": 0, "name": legendData[i]});
+    }
+    for (var i = 0; i < year.length; i++) {
+      for (var j = 0; j < legendData.length; j++) {
+        if (year[i].recordCategoryName == legendData[j]) {
+          this.data[j]["value"] =
+              double.parse(this.data[j]["value"].toString()) +
+                  year[i].recordNumber;
+        }
+      }
+    }
+  }
+
+  //点击选中时间
+  _onTimeSelect(model) {
+    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
+      setState(() {
+        this._yearKey = '${p.year}';
+        this.yearList.clear();
+        for (var each in this.keepHistory) {
+          var year = DateTime.parse(each.recordTime).year;
+          if (year == p.year) {
+            this.yearList.add(each);
+          }
+        }
+        handleYear();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      body:ListView.separated(
-        itemCount: data.length + 3,
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-        itemBuilder: (BuildContext context, int index){
-          if(index == 0){
-            return ExpansionTile(
-              leading: Icon(Icons.date_range),
-              title: Text("年份筛选"),
-              initiallyExpanded: true,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                  child: Wrap(
-                    spacing: 8,
-                    // runSpacing: 8,
-                    children: yearMap.keys.map((key) {
-                      var value = yearMap[key];
-                      return InkWell(
-                        onTap: () {
-                          _onTimeSelector(key);
-                        },
-                        child: Container(
-                          width: 60,
-                          height: 40,
-                          child: _yearKey == key
-                              ? Icon(Icons.done)
-                              : Text(value,style: TextStyle(fontSize: 12),),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                )
-              ],
-            );
-          }
-          else if(index ==1){
-            return pie();
-          }
-          else if(index ==2 ){
-            return area();
-          }
-          else return ListTile(
-              leading: Icon(menuIcons[index - 3]), //左边
-              title: Text(data[index - 3]["name"]), //title
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('${data[index - 3]["value"]}元'),
-                  Icon(Icons.arrow_forward_ios)
-                ],
-              ),
-            );
-        },
-      )
-    );
+        // key: _scaffoldKey,
+        backgroundColor: Colors.white,
+        body: ListView.separated(
+          itemCount: data.length + 3,
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return ListTile(
+                onTap: () {
+                  _onTimeSelect(DateMode.Y);
+                },
+                title: Text("选择年度"),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("${this._yearKey}"),
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              );
+            } else if (index == 1) {
+              return pie();
+            } else if (index == 2) {
+              return area();
+            } else
+              return ListTile(
+                leading: Image.asset(this.menuIcons[index - 3]), //左边
+                title: Text(data[index - 3]["name"]), //title
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('${data[index - 3]["value"]}元'),
+                  ],
+                ),
+              );
+          },
+        ));
   }
 }
