@@ -26,28 +26,23 @@ class _YearChartPageState extends State<YearChartPage> {
   Future<List<KeepRecord>> keepRecords;
   List<KeepRecord> keepHistory = [];
 
-  var _yearKey = "2021年";
+  var _yearKey = "2021";
   var choice = 1;
   //年总消费，年支出，年收入
   var yearList = [], yearPay = [], yearIncome = [];
   var data = [
     {"value": 10, "name": 'rose1'},
-    {"value": 5, "name": 'rose2'},
-    {"value": 15, "name": 'rose3'},
   ];
 
+  //面积图数据
+  List<double> areaData = [
+    -6.0,
+    -9.0,
+    -11.0,
+    -12.0,
+  ];
   //图标
-  List menuIcons = [
-    Icons.message,
-    Icons.print,
-    Icons.error,
-    Icons.phone,
-    Icons.send,
-    Icons.people,
-    Icons.person,
-    Icons.phone,
-  ];
-
+  List menuIcons = ['assets/canyin.png'];
   @override
   void initState() {
     super.initState();
@@ -60,6 +55,38 @@ class _YearChartPageState extends State<YearChartPage> {
     });
   }
 
+  //图标,this.menuIcons
+  handleIcon(List month) {
+    this.menuIcons.clear();
+    for (var item in month) {
+      this.menuIcons.add(item.recordImage);
+    }
+  }
+
+  //面积图数据处理
+  handleAreaData(List yearCur) {
+    var year = int.parse(this._yearKey);
+    this.areaData = [0.0];
+    //闰年
+    if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+      for (var i = 0; i < 366; i++) {
+        this.areaData.add(0.0);
+      }
+    } else {
+      for (var i = 0; i < 365; i++) {
+        this.areaData.add(0.0);
+      }
+    }
+    for (var i = 0; i < yearCur.length; i++) {
+      var cur = yearCur[i];
+      var d1 = new DateTime(year, 1, 1);
+      var d2 = DateTime(year, DateTime.parse(cur.recordTime).month,
+          DateTime.parse(cur.recordTime).day);
+      var difference = d2.difference(d1);
+      this.areaData[difference.inDays] += cur.recordNumber;
+    }
+  }
+
   //点击radio按钮选择
   _onRadioChanged(value) {
     setState(() {
@@ -70,10 +97,16 @@ class _YearChartPageState extends State<YearChartPage> {
       //  筛选年支出消费
       setState(() {
         handlePie(this.yearPay);
+        handleAreaData(this.yearPay);
+        handleIcon(this.yearPay);
       });
     } else {
       //  筛选年收入消费
-      handlePie(this.yearIncome);
+      setState(() {
+        handlePie(this.yearIncome);
+        handleAreaData(this.yearIncome);
+        handleIcon(this.yearIncome);
+      });
     }
   }
 
@@ -144,16 +177,12 @@ class _YearChartPageState extends State<YearChartPage> {
       child: Echarts(
         captureAllGestures: true,
         extraScript: '''
-                    var base = +new Date(1968, 9, 3);
+                    var base = +new Date(${jsonDecode(this._yearKey)},0,0);
                     var oneDay = 24 * 3600 * 1000;
                     var date = [];
-
-                    var data = [Math.random() * 300];
-
-                    for (var i = 1; i < 20000; i++) {
+                    for (var i = 1; i < 365; i++) {
                         var now = new Date(base += oneDay);
                         date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-                        data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
                     }
                   ''',
         option: '''
@@ -185,8 +214,8 @@ class _YearChartPageState extends State<YearChartPage> {
                 },
                 dataZoom: [{
                     type: 'inside',
-                    start: 0,
-                    end: 10
+                    start: 60,
+                    end: 70
                 }, {
                     start: 0,
                     end: 10,
@@ -219,7 +248,7 @@ class _YearChartPageState extends State<YearChartPage> {
                                 color: 'rgb(255, 70, 131)'
                             }])
                         },
-                        data: data
+                        data: ${jsonEncode(areaData)}
                     }
                 ],
                 grid:{
@@ -246,6 +275,8 @@ class _YearChartPageState extends State<YearChartPage> {
     }
     setState(() {
       handlePie(this.yearPay);
+      handleAreaData(this.yearPay);
+      handleIcon(this.yearPay);
     });
   }
 
@@ -266,14 +297,13 @@ class _YearChartPageState extends State<YearChartPage> {
         }
       }
     }
-    print(this.data);
   }
 
   //点击选中时间
   _onTimeSelect(model) {
     Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
       setState(() {
-        this._yearKey = '${p.year}年';
+        this._yearKey = '${p.year}';
         this.yearList.clear();
         for (var each in this.keepHistory) {
           var year = DateTime.parse(each.recordTime).year;
@@ -317,13 +347,12 @@ class _YearChartPageState extends State<YearChartPage> {
               return area();
             } else
               return ListTile(
-                leading: Icon(menuIcons[index - 3]), //左边
+                leading: Image.asset(this.menuIcons[index - 3]), //左边
                 title: Text(data[index - 3]["name"]), //title
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text('${data[index - 3]["value"]}元'),
-                    Icon(Icons.arrow_forward_ios)
                   ],
                 ),
               );
