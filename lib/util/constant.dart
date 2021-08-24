@@ -10,6 +10,12 @@ class Constant {
   static String password = "123456";
   static String headPhoto = "head_photo";
   static String keyThemeColor = 'key_theme_color';
+
+  static const String email_code = 'wdmertafzdvjebha';
+
+  static const String key_account = "user_account";
+  static const String key_password = "user_password";
+  static const String is_login = "is_login";
   // static const String key_guide = 'key_guide';
   // static const String key_splash_model = 'key_splash_models';
   // static const String key_current_source = 'key_current_source';

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bookkeeping/util/constants.dart';
+import 'package:flutter_bookkeeping/util/constant.dart';
 
 class ResetPasswordPage extends StatefulWidget {
+
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
@@ -11,22 +13,22 @@ class ResetPasswordPage extends StatefulWidget {
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Size size;
 
-  var _pwdTxt;
-  var _secPwdTxt;
+  String _pwdTxt = '';
+  String _secPwdTxt = '';
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: Colors.lightBlue,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: Colors.white,
+            size: 21,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -48,7 +50,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     var _passwordTitle = Text(
       '新密码',
-      style: Constants.normalTextStyle,
+      style: TextStyle(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
     );
     var _passwordEdit = TextField(
       onChanged: (text) {
@@ -56,7 +59,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       },
       decoration: InputDecoration(
         hintText: '设置新密码',
-        hintStyle: Constants.hintTextStyle,
+        hintStyle: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),
         contentPadding: EdgeInsets.only(left: size.width * 0.05),
         border: UnderlineInputBorder(borderSide: BorderSide.none),
       ),
@@ -64,7 +68,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     var _passwordSecondTitle = Text(
       '确认密码',
-      style: Constants.normalTextStyle,
+      style: TextStyle(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
     );
     var _passwordSecondEdit = TextField(
       onChanged: (text) {
@@ -72,7 +77,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       },
       decoration: InputDecoration(
         hintText: '再次输入新密码',
-        hintStyle: Constants.hintTextStyle,
+        hintStyle: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),
         contentPadding: EdgeInsets.only(left: size.width * 0.05),
         border: UnderlineInputBorder(borderSide: BorderSide.none),
       ),
@@ -86,32 +92,28 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
       ),
       color: Colors.blue,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
     );
 
     return Container(
+      padding:
+          EdgeInsets.only(left: size.width * 0.06, right: size.width * 0.06),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            color: Colors.white,
-            width: size.width * 1.0,
-            height: size.height * 0.12,
-            padding: EdgeInsets.only(left: size.width * 0.02),
+            margin: EdgeInsets.only(top: size.height * 0.06),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 title,
               ],
             ),
           ),
           Container(
-            height: size.height * 0.02,
-          ),
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(left: size.width * 0.05),
-            height: size.width * 0.10,
+            margin: EdgeInsets.only(top: size.height * 0.02),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.lightBlue))),
             child: Row(
               children: <Widget>[
                 Container(
@@ -123,12 +125,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
           ),
           Container(
-            height: size.height * 0.02,
-          ),
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.only(left: size.width * 0.05),
-            height: size.width * 0.10,
+            margin: EdgeInsets.only(top: size.height * 0.02),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.lightBlue))),
             child: Row(
               children: <Widget>[
                 Container(
@@ -140,17 +139,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
           ),
           Container(
-            height: size.height * 0.05,
-          ),
-          Container(
-            width: size.width * 0.9,
-            height: size.width * 0.1,
+            width: size.width * 1.0,
+            height: size.height * 0.07,
+            margin: EdgeInsets.only(top: size.height * 0.06),
             child: confirmBtn,
           ),
+          Spacer(),
         ],
       ),
     );
   }
 
-  void _confirmPassword() {}
+  _confirmPassword() {
+    if (_pwdTxt.isEmpty || _secPwdTxt.isEmpty) {
+      return;
+    }
+    if (_pwdTxt != _secPwdTxt) {
+      return;
+    }
+    Constant.password = _pwdTxt;
+
+  }
 }
