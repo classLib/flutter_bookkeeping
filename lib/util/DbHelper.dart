@@ -81,7 +81,7 @@ class DbHelper {
             "${KeepTable.recordTime} TEXT, "
             "${KeepTable.recordImage} TEXT, "
             "${KeepTable.recordRemarks} TEXT, "
-            "${KeepTable.recordNumber} INTEGER)"
+            "${KeepTable.recordNumber} REAL)"
     );
     print("收支记录表创建完毕");
     return ;

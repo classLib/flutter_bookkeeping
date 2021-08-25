@@ -51,7 +51,7 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
   final _timeTextController = TextEditingController();
 
 
-  int _keepText = 0;
+  double _keepText = 0.00;
   String _beiZhuText = '';
   String _timeText = '';
 
@@ -68,7 +68,7 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
   void initState() {
     super.initState();
     setState(() {
-      _keepText = 0;
+      _keepText = 0.00;
       _beiZhuText = _beiZhuTextController.text;
       _timeText = _timeTextController.text;
       curImageNumString = '';
@@ -191,10 +191,10 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
                 print(curImageNumString);
                 print(curCategoryName);
 
-                int _keepText =
-                    int.parse(_keepTextController.text) == 0
-                        ? 0
-                        : int.parse(_keepTextController.text);
+                double _keepText =
+                double.parse(_keepTextController.text) == 0.00
+                        ? 0.00
+                        : double.parse(_keepTextController.text);
                 String _beiZhuText = _beiZhuTextController.text == ''
                     ? '无'
                     : _beiZhuTextController.text;
