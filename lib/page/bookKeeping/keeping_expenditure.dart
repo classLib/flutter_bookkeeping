@@ -173,7 +173,7 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => BookKeepingDdatabaseTest()));
+                        builder: (context) => CategoryHomePage()));
               },
               child: Text("分类管理"),
               color: Colors.blue,

@@ -91,11 +91,13 @@ class _TimeTextControllerWeightState extends State<TimeTextControllerWeight> {
           child: CupertinoDatePicker(
             use24hFormat: true,
             mode: CupertinoDatePickerMode.dateAndTime,
-            minimumDate: date,
-            maximumDate: date.add(
-              Duration(days: 30),
+            minimumDate: date.add(
+              Duration(days: -3600),
             ),
-            maximumYear: date.year + 1,
+            maximumDate: date.add(
+              Duration(days: 3600),
+            ),
+            maximumYear: date.year + 20,
             onDateTimeChanged: (DateTime value) {
               // 将value值回调给前面的输入框
               print(value);

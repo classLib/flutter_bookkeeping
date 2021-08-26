@@ -43,6 +43,8 @@ dependencies:
   flutter_echarts: ^2.2.0
   webview_flutter: ^2.0.2
   flutter_swiper: ^1.1.6
+  mailer: ^5.0.2
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

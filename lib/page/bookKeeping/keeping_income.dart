@@ -189,7 +189,7 @@ class _KeepIncomeState extends State<KeepIncome> {
                 double _keepText =
                 double.parse(_keepTextController.text) == 0.00
                     ? 0.00
-                    : int.parse(_keepTextController.text);
+                    : double.parse(_keepTextController.text);
                 String _beiZhuText = _beiZhuTextController.text == ''
                     ? '无'
                     : _beiZhuTextController.text;
@@ -197,7 +197,7 @@ class _KeepIncomeState extends State<KeepIncome> {
                 String _timeText = _timeTextController.text;
                 print(_timeText);
 
-                KeepRecord keepRecord = new KeepRecord(curCategoryName, 1,
+                KeepRecord keepRecord = new KeepRecord(curCategoryName, 0,
                     _timeText, curImageNumString, _beiZhuText, _keepText);
                 var id = await KeepDbHelper.insert(keepRecord);
 

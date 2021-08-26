@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter_bookkeeping/util/constant.dart';
 
@@ -52,5 +51,4 @@ class KeepRecord {
     if (this.id != null) map[KeepTable.recordId] = this.id;
     return map;
   }
-
 }

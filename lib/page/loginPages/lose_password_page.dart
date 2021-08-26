@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/page/loginPages/reset_password_page.dart';
-import 'package:flutter_bookkeeping/widgets/recommend/phone_input_widget.dart';
+import 'package:flutter_bookkeeping/weight/recommend/phone_input_widget.dart';
 
 class LosePasswordPage extends StatefulWidget {
   @override
@@ -18,16 +18,17 @@ class _LosePasswordPageState extends State<LosePasswordPage> {
 
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightBlue,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.blue,
+            color: Colors.white,
+            size: 21,
           ),
         ),
       ),
@@ -37,27 +38,31 @@ class _LosePasswordPageState extends State<LosePasswordPage> {
 
   _buildBodyWidget() {
     return Container(
+      margin:
+          EdgeInsets.only(left: size.width * 0.06, right: size.width * 0.06),
       child: Column(
         children: <Widget>[
           Container(
             width: size.width * 1.0,
             height: size.height * 0.16,
-            padding: EdgeInsets.only(left: size.width * 0.06),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   '获取验证码',
-                  style: TextStyle(fontSize: 32),
+                  style: TextStyle(fontSize: 36),
                 ),
               ],
             ),
           ),
-          PhoneInputWidget(() {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ResetPasswordPage()));
-          }),
+          Container(
+            child: PhoneInputWidget(() {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ResetPasswordPage()));
+            }),
+          ),
+          Spacer(),
         ],
       ),
     );

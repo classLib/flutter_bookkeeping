@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import "package:collection/collection.dart";
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
@@ -7,6 +7,8 @@ import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:flutter_pickers/pickers.dart';
 import 'package:flutter_pickers/time_picker/model/date_mode.dart';
+
+import 'handle_list.dart';
 
 /// FileName: month_chart_page
 /// Author: hjy
@@ -25,11 +27,32 @@ class MonthChartPage extends StatefulWidget {
   @override
   _MonthChartPageState createState() => _MonthChartPageState();
 }
-
 class _MonthChartPageState extends State<MonthChartPage> {
   //找表，查找所有
   Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
   List<KeepRecord> keepHistory = [];
+
+  var _monthKey = "2021年8月";
+  //日历图范围
+  var range = ['2017-01'];
+  //该月list，月支出，月收入
+  List monthList = [], monthPay = [], monthIncome = [];
+  //饼图数据
+  var data = [
+    {"value": 335, "name": '餐饮'},
+  ];
+  //饼图图例
+  var legendData = ['餐饮'];
+
+  //日历图数据
+  var dateList = [
+    ['2017-1-1', '100'],
+  ];
+  int choice = 1;
+  var heatmapData = [];
+  var lunarData = [];
+
+  List menuIcons = ['assets/canyin.png'];
 
   @override
   void initState() {
@@ -39,73 +62,72 @@ class _MonthChartPageState extends State<MonthChartPage> {
     keepRecords.then((value) {
       setState(() {
         this.keepHistory = value;
-        print(this.keepHistory.length);
       });
     });
   }
 
-  //饼图数据
-  var data = [
-    {"value": 335, "name": '餐饮'},
-    {"value": 310, "name": '交通'},
-    {"value": 234, "name": '出行'},
-  ];
-  //饼图图例
-  var legendData = ['餐饮', '交通', '出行', '11'];
+  //点击选中时间,处理数据得到List
+  _onTimeSelect(model) {
+    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
+      setState(() {
+        this._monthKey = '${p.year}年${p.month}月';
+        this.range = ['${p.year}-${p.month}'];
 
-  //日历图数据
-  var dateList = [
-    ['2017-1-1', '100'],
-    ['2017-1-2', '10'],
-    ['2017-1-3', '1'],
-    ['2017-1-4', '22'],
-    ['2017-1-5', '25'],
-    ['2017-1-6', '98'],
-    ['2017-1-7', '25'],
-    ['2017-1-8', '66'],
-    ['2017-1-9', '88'],
-    ['2017-1-10', '66'],
-    ['2017-1-11', '33'],
-    ['2017-1-12', '22'],
-    ['2017-1-13', '47'],
-    ['2017-1-14', '36'],
-    ['2017-1-15', '100'],
-    ['2017-1-16', '600'],
-    ['2017-1-17', '300.3'],
-    ['2017-1-18', '60'],
-    ['2017-1-19', '70'],
-    ['2017-1-20', '99.0'],
-    ['2017-1-21', '100.0'],
-    ['2017-1-22', '210'],
-    ['2017-1-23', '265'],
-    ['2017-1-24', '444'],
-    ['2017-1-25', '44'],
-    ['2017-1-26', '22'],
-    ['2017-1-27', '333'],
-    ['2017-1-28', '324'],
-    ['2017-1-29', '234'],
-    ['2017-1-30', '324'],
-    ['2017-1-31', '768']
-  ];
+        this.monthList = HandleList()
+            .getListData(this.monthList, this.keepHistory, model, p);
 
-  var range = ['2017-01'];
-  var heatmapData = [];
-  var lunarData = [];
+        if (this.monthList.isEmpty) {
+          Navigator.of(context).pop();
+          return showDialog(
+              context: this.context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("报表提醒"),
+                  content: Text("该月未记账，请重新选择！"),
+                  actions: [
+                    FlatButton(
+                      color: Colors.blue,
+                      child: Text(
+                        "取消",
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        } else {
+          var tmp = HandleList()
+              .getDivideData(this.monthPay, this.monthIncome, this.monthList);
+          this.monthIncome = tmp[0];
+          this.monthPay = tmp[1];
+          renderChart(this.monthPay);
+        }
+      });
+    });
+  }
 
-  //图标
-  List menuIcons = [
-    Icons.message,
-    Icons.print,
-    Icons.error,
-    Icons.phone,
-    Icons.send,
-    Icons.people,
-    Icons.person,
-    Icons.phone,
-  ];
-  var _monthKey = "2021年8月";
-  int choice = 1;
+  //得到日历图数据,['2017-1-3', '1'],
+  handleCalenderData(List month) {
+    this.dateList.clear();
+    for (var i = 1; i <= 31; i++) {
+      this.dateList.add([
+        "${DateTime.parse(month[0].recordTime).year}-${DateTime.parse(month[0].recordTime).month}-$i",
+        "0"
+      ]);
+    }
+    for (var i = 0; i < month.length; i++) {
+      this.dateList[DateTime.parse(month[i].recordTime).day - 1][1] =
+          (double.parse(
+                      this.dateList[DateTime.parse(month[i].recordTime).day - 1]
+                          [1]) +
+                  month[i].recordNumber)
+              .toString();
+    }
+  }
 
+  //处理日历图日期列表
   getCalenderDate(List dateList, List heatmapData, List lunarData) {
     for (var i = 0; i < dateList.length; i++) {
       heatmapData.add([dateList[i][0], dateList[i][1]]);
@@ -114,17 +136,15 @@ class _MonthChartPageState extends State<MonthChartPage> {
     }
   }
 
-  //点击radio按钮选择
+  //点击rdio按钮选择
   _onRadioChanged(value) {
     setState(() {
-      // add();
       this.choice = value;
     });
-    // 根据获取的值来筛选支出和收入
-    if (value == 1) {
-      //  筛选月支出消费
+    if (this.choice == 1) {
+      renderChart(this.monthPay);
     } else {
-      //  筛选月收入消费
+      renderChart(this.monthIncome);
     }
   }
 
@@ -234,19 +254,16 @@ class _MonthChartPageState extends State<MonthChartPage> {
     );
   }
 
-  //点击选中时间
-  _onTimeSelect(model) {
-    Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
-      setState(() {
-        _monthKey = '${p.year}年${p.month}月';
-        //this.keepHistory中找到这一年这一月
-        for(var each in this.keepHistory){
-          print("当前的时间为");
-        }
-      });
-      //向数据库请求当前_monthKey的消费状况
+  //
+  renderChart(list) {
+    setState(() {
+      this.data = HandleList().handlePie(list, this.data)[0];
+      this.legendData =HandleList().handlePie(list, this.data)[1];
+      handleCalenderData(list);
+      this.menuIcons=HandleList().handleIcon(list, this.menuIcons);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -293,13 +310,12 @@ class _MonthChartPageState extends State<MonthChartPage> {
                 ));
           } else {
             return ListTile(
-              leading: Icon(menuIcons[index - 3]), //左边
-              title: Text(data[index - 3]["name"]), //title
+              leading: Image.asset(this.menuIcons[index - 3]), //左边
+              title: Text(this.data[index - 3]["name"]), //title
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('${data[index - 3]["value"]}元'),
-                  Icon(Icons.arrow_forward_ios)
+                  Text('${this.data[index - 3]["value"]}元'),
                 ],
               ),
             );

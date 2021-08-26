@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/page/loginPages/lose_password_page.dart';
-import 'package:flutter_bookkeeping/util/constants.dart';
-import 'package:flutter_bookkeeping/widgets/recommend/phone_input_widget.dart';
+import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:flutter_bookkeeping/util/navigator_util.dart';
+import 'package:flutter_bookkeeping/weight/recommend/phone_input_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+enum LoginMode {
+  AccountPassword,
+  PhoneCode,
+}
 
 class LoginPage extends StatefulWidget {
   var _prefs = SharedPreferences.getInstance();
@@ -11,70 +18,67 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-enum LoginMode {
-  AccountPassword,
-  PhoneCode,
-}
-
 class _LoginPageState extends State<LoginPage> {
   Size size;
-  var _loginMode;
+  var _loginMode = LoginMode.AccountPassword;
 
-  var _isEnableLogin;
+  var _isEnableLogin = false;
 
-  var _accountController;
-  var _passwordController;
-  var _accountText;
-  var _passwordText;
-  var _obscureText;
-
-  var _clauseToggleValue;
+  var _accountController = TextEditingController();
+  var _passwordController = TextEditingController();
+  var _accountTxt = '';
+  var _passwordTxt = '';
+  var _obscureText = true;
 
   @override
   void initState() {
     // TODO: implement initState
-    _loginMode = LoginMode.AccountPassword;
-    _isEnableLogin = false;
-
-    _accountController = TextEditingController();
-    _passwordController = TextEditingController();
-
-    _fillAccountTextField();
-
-    _obscureText = true;
-    _clauseToggleValue = false;
+    super.initState();
+    widget._prefs.then((pref) {
+      if (pref.containsKey(Constant.is_login)) {
+        if (pref.getBool(Constant.is_login) == true) {
+          _intoIndexPage();
+        } else {
+          _fillAccountTextField();
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    var actionStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
 
     var noSecretBtn = FlatButton(
       onPressed: _loginByNoSecret,
-      child: _loginMode == LoginMode.AccountPassword
-          ? Text(
-              '免密登录',
-              style: actionStyle,
-            )
-          : Text(
-              '密码登录',
-              style: actionStyle,
-            ),
-      padding: EdgeInsets.only(
-          left: size.width * 0.05,
-          right: size.width * 0.05),
-      color: Colors.white,
+      child: Text(
+        _loginMode == LoginMode.AccountPassword ? '免密登录' : '密码登录',
+        style: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+      ),
+      padding:
+          EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
       splashColor: Colors.transparent,
       shape: StadiumBorder(side: BorderSide(color: Colors.transparent)),
+    );
+
+    var close_btn = IconButton(
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => IndexPage()));
+      },
+      icon: Icon(Icons.arrow_back_ios),
+      color: Colors.white,
+      iconSize: 21,
     );
 
     // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: Colors.lightBlue,
+        leading: close_btn,
         actions: <Widget>[
           noSecretBtn,
         ],
@@ -98,40 +102,46 @@ class _LoginPageState extends State<LoginPage> {
     var title = Text(
       '密码登录',
       style: TextStyle(
-        fontSize: 42,
-        fontWeight: FontWeight.w500,
-      ),
+          fontSize: 36, fontWeight: FontWeight.w500, color: Colors.black),
     );
 
     var accountEdit = TextField(
       onChanged: (text) {
-        _accountText = text;
+        _accountTxt = text;
         _checkUserInput();
       },
       controller: _accountController,
+      style: TextStyle(fontSize: 21, letterSpacing: 1),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(left: 20),
-        hintText: '手机号',
-        hintStyle: Constants.hintTextStyle,
-        border: Constants.editBorder,
+        contentPadding: EdgeInsets.only(left: 27, top: 18, bottom: 18),
+        hintText: '账号',
+        hintStyle: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(color: Colors.white)),
         filled: true,
-        fillColor: Colors.grey[300],
+        fillColor: Colors.white,
       ),
     );
 
     var passwordEdit = TextField(
       onChanged: (text) {
-        _accountText = text;
+        _passwordTxt = text;
         _checkUserInput();
       },
       controller: _passwordController,
+      style: TextStyle(fontSize: 21, letterSpacing: 1),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(left: 20),
+        contentPadding: EdgeInsets.only(left: 27, top: 18, bottom: 18),
         hintText: '密码',
-        hintStyle: Constants.hintTextStyle,
-        border: Constants.editBorder,
+        hintStyle: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(color: Colors.transparent)),
         filled: true,
-        fillColor: Colors.grey[300],
+        fillColor: Colors.white,
         suffixIcon: IconButton(
             padding: EdgeInsets.only(left: 20, right: 20),
             icon: _obscureText == true
@@ -147,46 +157,37 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     var loginBtn = FlatButton(
-      color: Colors.blue,
+      color: Colors.lightBlue,
       onPressed: _loginListener,
       child: Text(
         '登录',
         style: TextStyle(
             fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
       ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+          side: BorderSide(color: Colors.blue)),
     );
 
     var forgetPasswordBtn = FlatButton(
       onPressed: _forgetPassword,
       child: Text(
         '忘记密码',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.blue),
+        style: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.lightBlue),
       ),
-      splashColor: Colors.transparent,
-      shape: StadiumBorder(side: BorderSide(color: Colors.transparent)),
+      shape: StadiumBorder(side: BorderSide.none),
     );
 
-    // var clauseToggle = Checkbox(
-    //   value: _clauseToggleValue,
-    //   onChanged: (value) {
-    //     setState(() {
-    //       _clauseToggleValue = value;
-    //     });
-    //   },
-    // );
-
     return Container(
-      width: size.width * 1.0,
-      height: size.height * 1.0,
+      margin:
+          EdgeInsets.only(left: size.width * 0.06, right: size.width * 0.06),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            margin:
-                EdgeInsets.only(left: size.width * 0.1),
-            width: size.width * 0.9,
-            height: size.height * 0.1,
+            margin: EdgeInsets.only(top: size.height * 0.05),
             child: Row(
               children: <Widget>[
                 title,
@@ -194,40 +195,25 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Container(
-            margin:
-                EdgeInsets.only(top: size.height * 0.1),
-            width: size.width * 0.8,
+            margin: EdgeInsets.only(top: size.height * 0.1),
             child: accountEdit,
           ),
           Container(
-            margin:
-                EdgeInsets.only(top: size.height * 0.04),
-            width: size.width * 0.8,
+            margin: EdgeInsets.only(top: size.height * 0.02),
             child: passwordEdit,
           ),
           Container(
-            margin:
-                EdgeInsets.only(top: size.height * 0.08),
-            width: size.width * 0.8,
+            margin: EdgeInsets.only(top: size.height * 0.05),
+            width: size.width * 1.0,
             height: size.height * 0.07,
             child: loginBtn,
           ),
           Container(
-            margin:
-                EdgeInsets.only(top: size.height * 0.08),
-            width: size.width * 0.2,
-            height: size.height * 0.07,
+            margin: EdgeInsets.only(top: size.height * 0.05),
+            height: size.height * 0.06,
             child: forgetPasswordBtn,
           ),
           Spacer(),
-          // Container(
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       clauseToggle,
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );
@@ -235,8 +221,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildPhoneWidget() {
     var title = Text(
-      '手机号登录',
-      style: TextStyle(fontSize: 42, fontWeight: FontWeight.w500),
+      '邮箱登录',
+      style: TextStyle(fontSize: 36, fontWeight: FontWeight.w500),
     );
 
     var titleTips = Text(
@@ -245,16 +231,15 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     return Container(
+      margin:
+          EdgeInsets.only(left: size.width * 0.06, right: size.width * 0.06),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            margin:
-                EdgeInsets.only(left: size.width * 0.1),
-            width: size.width * 0.9,
-            height: size.height * 0.15,
+            margin: EdgeInsets.only(top: size.height * 0.05),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 title,
@@ -262,10 +247,14 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-          PhoneInputWidget(() {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => null));
-          }),
+          Container(
+            margin: EdgeInsets.only(top: size.height * 0.12),
+            child: PhoneInputWidget(() {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => IndexPage()));
+            }),
+          ),
+          Spacer(),
         ],
       ),
     );
@@ -280,39 +269,39 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _loginListener() async {
-    if (!_isEnableLogin) return null;
+    if (!_isEnableLogin) {
+      Fluttertoast.showToast(msg: '账号密码不能为空');
+      return;
+    }
+    if (_accountTxt != Constant.username || _passwordTxt != Constant.password) {
+      Fluttertoast.showToast(msg: '账号密码错误，请重试');
+      return;
+    }
 
-    /// 记住密码时保存到本地缓存
-    final SharedPreferences prefs = await widget._prefs;
-    prefs.setString(Constants.user_account, _accountText);
-    prefs.setString(Constants.user_password, _passwordText);
+    /// 保存账号密码到本地缓存
+    var prefs = await widget._prefs;
+    prefs.setString(Constant.key_account, _accountTxt);
+    prefs.setString(Constant.key_password, _passwordTxt);
+    prefs.setBool(Constant.is_login, true);
 
-    /// 连接服务器，验证账号密码
+    _intoIndexPage();
+  }
 
-    var pref = await widget._prefs;
-    pref.setBool(Constants.is_login, true);
-
+  _intoIndexPage() {
     /// 跳转到主界面
-    Navigator.push(context, MaterialPageRoute(builder: (context) => null));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => IndexPage()));
   }
 
   _forgetPassword() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>LosePasswordPage()));
-  }
-
-  /// 填充缓存账号密码
-  _fillAccountTextField() {
-    widget._prefs.then((prefs) => {
-          _accountController.text =
-              prefs.getString(Constants.user_account) ?? '',
-          _passwordController.text =
-              prefs.getString(Constants.user_password) ?? '',
-        });
+    FocusScope.of(context).requestFocus(FocusNode());
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LosePasswordPage()));
   }
 
   /// 检查账号密码输入
   _checkUserInput() {
-    if (_accountText.isNotEmpty && _passwordText.isNotEmpty) {
+    if (_accountTxt.isNotEmpty && _passwordTxt.isNotEmpty) {
       if (_isEnableLogin) return;
     } else {
       if (!_isEnableLogin) return;
@@ -320,6 +309,19 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() {
       _isEnableLogin = !_isEnableLogin;
+    });
+  }
+
+  /// 填充缓存账号密码
+  _fillAccountTextField() {
+    widget._prefs.then((prefs) {
+      setState(() {
+        _accountController.text = prefs.getString(Constant.key_account) ?? '';
+        _passwordController.text = prefs.getString(Constant.key_password) ?? '';
+        _accountTxt = _accountController.text;
+        _passwordTxt = _passwordController.text;
+        _checkUserInput();
+      });
     });
   }
 }

@@ -11,6 +11,7 @@ import 'package:flutter_bookkeeping/page/profilePages/5.password_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/3.theme_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/4.username_page.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '7.contact_page.dart';
 
@@ -19,6 +20,7 @@ void main() {
 }
 
 class Profile extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +31,7 @@ class Profile extends StatelessWidget {
 }
 
 class ProfilePage extends StatefulWidget {
+  var _prefs = SharedPreferences.getInstance();
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -176,7 +179,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Theme.of(context).accentColor,
                   textColor: Colors.white,
                   child: new Text('退出登录'),
-                  onPressed: () {
+                  onPressed: () async {
+                    var pref = await widget._prefs;
+                    pref.setBool(Constant.is_login, false);
+
                     Navigator.pop(context);
                     Navigator.push(
                       context,

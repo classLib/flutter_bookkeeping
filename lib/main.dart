@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/page/loginPages/login_page.dart';
 import 'package:flutter_bookkeeping/util/app_info.dart';
 import 'package:flutter_bookkeeping/page/profilePages/0.profile_page.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
                 primaryColor: _themeColor,
                 accentColor: _themeColor,
                 indicatorColor: Colors.white),
-            home: IndexPage(),
+            home: LoginPage(),
           );
         },
       ),
