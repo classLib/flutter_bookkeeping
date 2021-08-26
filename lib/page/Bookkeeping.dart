@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bookkeeping/test/bookKeeping_database_test.dart';
-
-import 'bookKeeping/category_setting_add.dart';
-import 'bookKeeping/category_setting_test.dart';
 import 'bookKeeping/keeping_expenditure.dart';
 import 'bookKeeping/keeping_income.dart';
 /*
@@ -33,12 +29,10 @@ class BookkeepingPage extends StatefulWidget {
 }
 
 class _BookkeepingPageState extends State<BookkeepingPage> {
-
   final List<Tab> myTabs = <Tab>[
     Tab(text: '支出'),
     Tab(text: '收入'),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +40,10 @@ class _BookkeepingPageState extends State<BookkeepingPage> {
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("记一笔"),
+          title: Text("记一笔", textAlign: TextAlign.center),
           bottom: TabBar(tabs: myTabs),
           backgroundColor: Theme.of(context).primaryColor,
+          automaticallyImplyLeading: false,
         ),
         body: TabBarView(children: <Widget>[
           KeepExpenditure(),

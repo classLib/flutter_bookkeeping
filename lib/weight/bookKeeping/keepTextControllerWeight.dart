@@ -76,7 +76,7 @@ class _KeepTextControllerWeightState extends State<KeepTextControllerWeight> {
                           context: context,
                           builder: (BuildContext context) {
                             return Column(
-                              children: [Expanded(child: Calculator())],
+                              children: [Expanded(child: Calculator(keepTextController))],
                             );
                           });
                       // final result = await Navigator.pushNamed(context);

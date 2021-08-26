@@ -5,18 +5,27 @@ import '../../../constantWr.dart';
 // typedef onSubmittedCallback = void Function(String value);
 
 class Calculator extends StatefulWidget {
+  TextEditingController keepTextController = TextEditingController();
+
+  Calculator(this.keepTextController);
+
   // 支持回调
   // final onSubmittedCallback onCollback;
   // Calculator(this.onCollback);
   /*路由别名*/
   static const routeName = '/calculator';
+
   @override
   State<StatefulWidget> createState() {
-    return new _CalculatorState();
+    return new _CalculatorState(this.keepTextController);
   }
 }
 
 class _CalculatorState extends State<Calculator> {
+  TextEditingController keepTextController = TextEditingController();
+
+  _CalculatorState(this.keepTextController) : super();
+
   // 文本
   String _text = '';
 
@@ -56,10 +65,14 @@ class _CalculatorState extends State<Calculator> {
             // 按钮保存
             // ignore: deprecated_member_use
             RaisedButton(
-                child: Text('保存'), color: Colors.blue, onPressed: () {
+                child: Text('保存'),
+                color: Theme.of(context).accentColor,
+                textColor: Colors.white,
+                onPressed: () {
                   // 传值到上一个页面
-               Navigator.of(context).pop(_text);
-            })
+                  keepTextController.text = _text;
+                  Navigator.of(context).pop(_text);
+                })
           ],
         )),
       ),

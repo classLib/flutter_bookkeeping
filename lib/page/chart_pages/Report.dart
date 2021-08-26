@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
 import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
-import 'package:flutter_bookkeeping/page/bookKeeping/category_setting_test.dart';
+import 'package:flutter_bookkeeping/page/bookKeeping/category_setting_main.dart';
 import 'package:flutter_bookkeeping/page/chart_pages/month_chart_page.dart';
 import 'package:flutter_bookkeeping/page/chart_pages/year_chart_page.dart';
 import 'package:flutter_bookkeeping/util/DbHelper.dart';

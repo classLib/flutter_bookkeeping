@@ -14,7 +14,7 @@ import 'package:flutter_bookkeeping/model/categorySetting/category.dart';
 import 'package:flutter_bookkeeping/util/DbHelper.dart';
 
 import '../../constantWr.dart';
-import 'category_setting_test.dart';
+import 'category_setting_main.dart';
 
 class CategoryExpenditureAdd extends StatefulWidget {
 
