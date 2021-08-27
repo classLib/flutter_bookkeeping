@@ -17,10 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '7.contact_page.dart';
 
-void main() {
-  runApp(Profile());
-}
-
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

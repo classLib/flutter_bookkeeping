@@ -28,12 +28,12 @@ class _IndexState extends State<IndexPage> {
       label: "首页",
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.analytics),
-      label: "报表",
-    ),
-    BottomNavigationBarItem(
       icon: Icon(Icons.create),
       label: "记账",
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.analytics),
+      label: "报表",
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.recommend),
@@ -51,8 +51,8 @@ class _IndexState extends State<IndexPage> {
   // 页面配置
   final pages = [
     HomePage(),
-    ReportPage(),
     BookkeepingPage(),
+    ReportPage(),
     RecommendPage(),
     ProfilePage()
   ];

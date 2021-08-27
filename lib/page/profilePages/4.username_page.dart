@@ -16,15 +16,8 @@ class UsernamePage extends StatefulWidget {
 }
 
 class _UsernamePageState extends State<UsernamePage> {
-  final String url =
-      "https://openapi.baidu.com/oauth/2.0/authorize?response_type=token&redirect_uri=oob&display=mobile&client_id=NqOMXF6XGhGRIGemsQ9nG0Na&scope=basic%20netdisk";
-
-  ///font
-  final _biggerFont =
-      const TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600);
   final _normalFont =
       const TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal);
-
   ///border
   final _borderRadius = BorderRadius.circular(6);
 
