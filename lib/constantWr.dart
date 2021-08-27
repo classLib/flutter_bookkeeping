@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import 'model/categorySetting/category.dart';
+
 class CategoryTable {
   // ignore: non_constant_identifier_names
   static final String TABLE_NAME = "category_administration_table";
@@ -58,6 +60,35 @@ class CategoryImageNum {
     {'id': 7, 'image': 'assets/zijinlicai.png'},
   ];
 }
+
+//默认的类别图片
+
+class CategoryImage  {
+    static final List<Catetory> expenditureCategory = [
+      Catetory('餐饮',1,'assets/canyin.png'),
+      Catetory('服饰',1,'assets/fushi-_1.png'),
+      Catetory('运动',1,'assets/yundong_1.png'),
+      Catetory('交通',1,'assets/jiaotong.png'),
+      Catetory('零食',1,'assets/lingshi_2.png'),
+      Catetory('生活用品',1,'assets/riyongpin.png'),
+      Catetory('化妆品',1,'assets/huazhuang_3.png'),
+      Catetory('宠物',1,'assets/chongwumaomi.png'),
+      Catetory('礼物',1,'assets/liwu.png'),
+      Catetory('旅行',1,'assets/lvhang_1.png'),
+      Catetory('水果',1,'assets/shuiguo_3.png'),
+      Catetory('学习',1,'assets/shuji.png'),
+      Catetory('其他',1,'assets/qita_1.png'),
+    ];
+    static final List<Catetory> inComeCategory = [
+      Catetory('父母',0,'assets/-changbei.png'),
+      Catetory('兼职',0,'assets/qujianzhi.png'),
+      Catetory('红包',0,'assets/hongbao_1.png'),
+      Catetory('工资',0,'assets/salary.png'),
+      Catetory('理财',0,'assets/zijinlicai.png'),
+      Catetory('其他',0,'assets/qita_1.png'),
+    ];
+}
+
 
 //默认按键
 class keyBoardList {

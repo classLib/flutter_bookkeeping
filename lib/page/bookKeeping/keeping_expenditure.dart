@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/dao/categoryDbHelper.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
 import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
 import 'package:flutter_bookkeeping/test/bookKeeping_database_test.dart';
@@ -15,7 +16,7 @@ import 'package:flutter_bookkeeping/util/DbHelper.dart';
 import 'package:flutter_bookkeeping/model/categorySetting/category.dart';
 
 import '../../constantWr.dart';
-import 'category_setting_test.dart';
+import 'category_setting_main.dart';
 
 /*
 * 记账支出的页面
@@ -39,7 +40,9 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
   var curImageNumString;
   var curCategoryName;
   var curColor = Colors.black12;
-  int _key;
+  String _key = '';
+  // 是否有变化的分类管理
+  bool isOnTap = false;
 
   // 记账钱数
   final _keepTextController = TextEditingController();
@@ -54,9 +57,10 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
   double _keepText = 0.00;
   String _beiZhuText = '';
   String _timeText = '';
+  // 默认的
+  List<Catetory> _historyWords = CategoryImage.expenditureCategory;
+  // List<Catetory> _historyWords = [];
 
-  List<Catetory> _historyWords = [];
-  List<KeepRecord> _keepRecord = [];
 
 
 
@@ -73,30 +77,30 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
       _timeText = _timeTextController.text;
       curImageNumString = '';
       curCategoryName = '';
+      _getAllDataFromDb();
     });
-    _getAllDataFromDb();
-    // _init();
   }
 
   _getAllDataFromDb() async {
-    _historyWords = await widget.categoryProvider.queryByCategoryBelong(1);
-    _historyWords.forEach((element) {
-      print(element.category_inmage_num);
-    });
-    print(_historyWords.length);
+    List<Catetory> _tempList  =  await widget.categoryProvider.queryByCategoryBelong(1) ;
+    if(_tempList.length > _historyWords.length) {
+       _historyWords =  _tempList;
+    }
+    print(_historyWords);
   }
 
   @override
   Widget build(BuildContext context) {
+    // _getAllDataFromDb();
     return Scaffold(
       backgroundColor: Colors.white54,
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 15, right: 15, top: 20),
         child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 900),
+            constraints: BoxConstraints(maxHeight: 700),
             child: Column(
               children: <Widget>[
-                ImageListWidget(context),
+                ImageListWidget(),
                 KeepTextControllerWeight(_keepTextController),
                 TimeTextControllerWeight(_timeTextController),
                 BeiZhuTextControllerWeight(_beiZhuTextController),
@@ -109,19 +113,21 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
   }
 
   // 图片展示
-  Widget ImageListWidget(context) {
+  Widget ImageListWidget() {
     return Wrap(
       spacing: 23, //主轴上子控件的间距
       runSpacing: 15, //交叉轴上子控件之间的间距
-      children: _listView(context), //要显示的子控件集合
+      children: _listView(), //要显示的子控件集合
     );
   }
 
   // 图片组件
-  List<Widget> _listView(context) {
+  List<Widget> _listView() {
     List<Widget> listWidget = [];
     // 访问数据库，得到所有的分类对象
-    _historyWords.forEach((e) => {listWidget.add(listItem(e))});
+    _historyWords.forEach((e) => {
+      print(e),
+      listWidget.add(listItem(e))});
     return listWidget;
   }
 
@@ -132,7 +138,8 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
             // // 更新全局所选的id
             curImageNumString = item.category_inmage_num;
             curCategoryName = item.category_name;
-            _key = item.id;
+            _key = item.category_name;
+            print(_key);
             print(curImageNumString);
             print(curCategoryName);
           });
@@ -142,7 +149,7 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
             child: Container(
                 decoration: new BoxDecoration(
                   // 点击之后的
-                  color: _key == item.id ? Colors.black12 : Colors.white54,
+                  color: _key == item.category_name ? Colors.black12 : Colors.white54,
                 ),
                 child: Column(children: <Widget>[
                   Image.asset(
@@ -176,8 +183,8 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
                         builder: (context) => CategoryHomePage()));
               },
               child: Text("分类管理"),
-              color: Colors.blue,
-              textColor: Colors.black,
+              color: Theme.of(context).accentColor,
+              textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   side: BorderSide(
                     color: Colors.white,
@@ -213,8 +220,8 @@ class _KeepExpenditureState extends State<KeepExpenditure> {
                 // 跳转返回另外一个页面
               },
               child: Text("保存"),
-              color: Colors.blue,
-              textColor: Colors.black,
+              color: Theme.of(context).accentColor,
+              textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   side: BorderSide(
                     color: Colors.white,

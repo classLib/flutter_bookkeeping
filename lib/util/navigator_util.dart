@@ -73,10 +73,6 @@ class _IndexState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter Book"),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavItems,
         currentIndex: currentIndex,

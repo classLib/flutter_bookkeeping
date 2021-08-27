@@ -8,9 +8,10 @@ import 'package:flutter_bookkeeping/util/DbHelper.dart';
 import 'package:flutter_bookkeeping/weight/bookKeeping/beiZhuTextControllerWeight.dart';
 import 'package:flutter_bookkeeping/weight/bookKeeping/keepTextControllerWeight.dart';
 import 'package:flutter_bookkeeping/weight/bookKeeping/timeTextControllerWeight.dart';
+import '../../constantWr.dart';
 import 'calculator.dart';
 
-import 'category_setting_test.dart';
+import 'category_setting_main.dart';
 import 'category_expenditure_add.dart';
 /*
 * 收入记账的页面
@@ -35,7 +36,9 @@ class _KeepIncomeState extends State<KeepIncome> {
   var curImageNumString;
   var curCategoryName;
   var curColor = Colors.black12;
-  int _key;
+  String _key = '';
+  // 是否有变化的分类管理
+  bool isOnTap = false;
 
   // 记账钱数
   final _keepTextController = TextEditingController();
@@ -51,7 +54,7 @@ class _KeepIncomeState extends State<KeepIncome> {
   String _beiZhuText = '';
   String _timeText = '';
 
-  List<Catetory> _historyWords = [];
+  List<Catetory> _historyWords = CategoryImage.inComeCategory;
 
 
 
@@ -74,10 +77,11 @@ class _KeepIncomeState extends State<KeepIncome> {
   }
 
   _getAllDataFromDb() async {
-    _historyWords = await widget.categoryProvider.queryByCategoryBelong(0);
-    _historyWords.forEach((element) {
-      print(element.category_inmage_num);
-    });
+    List<Catetory> _tempList  =  await widget.categoryProvider.queryByCategoryBelong(0) ;
+    if(_tempList.length > _historyWords.length) {
+      _historyWords =  _tempList;
+    }
+    print(_historyWords);
     print(_historyWords.length);
   }
 
@@ -127,7 +131,7 @@ class _KeepIncomeState extends State<KeepIncome> {
             // // 更新全局所选的id
             curImageNumString = item.category_inmage_num;
             curCategoryName = item.category_name;
-            _key = item.id;
+            _key = item.category_name;
             print(curImageNumString);
             print(curCategoryName);
           });
@@ -137,7 +141,7 @@ class _KeepIncomeState extends State<KeepIncome> {
             child: Container(
                 decoration: new BoxDecoration(
                   // 点击之后的
-                  color: _key == item.id ? Colors.black12 : Colors.white54,
+                  color: _key == item.category_name ? Colors.black12 : Colors.white54,
                 ),
                 child: Column(children: <Widget>[
                   Image.asset(
@@ -171,8 +175,8 @@ class _KeepIncomeState extends State<KeepIncome> {
                         builder: (context) => CategoryHomePage()));
               },
               child: Text("分类管理"),
-              color: Colors.blue,
-              textColor: Colors.black,
+              color: Theme.of(context).accentColor,
+              textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   side: BorderSide(
                     color: Colors.white,
@@ -209,8 +213,8 @@ class _KeepIncomeState extends State<KeepIncome> {
                 // 跳转返回另外一个页面
               },
               child: Text("保存"),
-              color: Colors.blue,
-              textColor: Colors.black,
+              color: Theme.of(context).accentColor,
+              textColor: Colors.white,
               shape: RoundedRectangleBorder(
                   side: BorderSide(
                     color: Colors.white,
