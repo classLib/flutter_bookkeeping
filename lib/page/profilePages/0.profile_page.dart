@@ -4,6 +4,8 @@
 /// Description:我的页面
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
+import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
 import 'package:flutter_bookkeeping/page/loginPages/login_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/6.bookkeeping_reminder_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/head_widget.dart';
@@ -20,7 +22,6 @@ void main() {
 }
 
 class Profile extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,7 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
   onBackUp() {}
 
   //点击账本初始化
-  onInitBook() {}
+  onInitBook() {
+    if (this.init == true) {
+      KeepDbHelper.deleteAll();
+    }
+  }
+
   //点击页面列表
   onListTileTap(index) {
     if (index == 0) {
@@ -187,7 +193,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>LoginPage(),
+                        builder: (context) => LoginPage(),
                       ),
                     );
                   },
