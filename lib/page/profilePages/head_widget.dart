@@ -119,7 +119,7 @@ class _HeadPageState extends State<HeadPage> {
                       ? Image.file(headPhoto).image
                       : _userImage != null
                           ? Image.file(_userImage).image
-                          : AssetImage("assets/user.png"),
+                          : AssetImage("assets/user.jpg"),
               fit: BoxFit.cover,
             )),
       ),

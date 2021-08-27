@@ -45,6 +45,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   mailer: ^5.0.2
   fluttertoast: ^8.0.8
+  excel: ^1.1.5
 
 dev_dependencies:
   flutter_test:

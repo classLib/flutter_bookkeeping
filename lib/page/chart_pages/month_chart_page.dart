@@ -40,19 +40,23 @@ class _MonthChartPageState extends State<MonthChartPage> {
   //饼图数据
   var data = [
     {"value": 335, "name": '餐饮'},
+    {"value": 400, "name": '服饰'},
+    {"value": 500, "name": '运动'},
   ];
   //饼图图例
-  var legendData = ['餐饮'];
+  var legendData = ['餐饮',"服饰","运动"];
 
   //日历图数据
   var dateList = [
     ['2017-1-1', '100'],
+    ['2017-1-12', '100'],
+    ['2017-1-20', '10'],
   ];
   int choice = 1;
   var heatmapData = [];
   var lunarData = [];
 
-  List menuIcons = ['assets/canyin.png'];
+  List menuIcons = ['assets/canyin.png','assets/fushi-_1.png','assets/yundong_1.png',];
 
   @override
   void initState() {

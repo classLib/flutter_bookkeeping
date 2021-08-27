@@ -104,7 +104,7 @@ class KeepDbHelper {
   // 删除全部
   static Future<int> deleteAll() async {
     var __db = await DbHelper.instance.db;
-
+    print("删除全部");
     return await __db.delete(KeepTable.TABLE_NAME);
   }
 
