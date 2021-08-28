@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //标题
   List menuTitles = ['备份和同步', '账本初始化', '主题切换', '修改用户名', '修改密码', '记账提醒', '联系我们'];
+
   //图标
   List menuIcons = [
     Icons.message,
@@ -50,58 +51,6 @@ class _ProfilePageState extends State<ProfilePage> {
     Icons.person,
     Icons.phone,
   ];
-
-  //点击备份和同步
-  onBackUp() {}
-
-  //点击账本初始化
-  onInitBook() {
-    if (this.init == true) {
-      KeepDbHelper.deleteAll();
-    }
-  }
-
-  //点击页面列表
-  onListTileTap(index) {
-    if (index == 0) {
-    } else if (index == 1) {
-    } else if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ThemePage(),
-        ),
-      );
-    } else if (index == 3) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UsernamePage(),
-        ),
-      );
-    } else if (index == 4) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PasswordPage(),
-        ),
-      );
-    } else if (index == 5) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BookKeepingReminderPage(),
-        ),
-      );
-    } else if (index == 6) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ContactPage(),
-        ),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,4 +162,57 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  //点击备份和同步
+  onBackUp() {}
+
+  //点击账本初始化
+  onInitBook() {
+    if (this.init == true) {
+      KeepDbHelper.deleteAll();
+    }
+  }
+
+  //点击页面列表
+  onListTileTap(index) {
+    if (index == 0) {
+    } else if (index == 1) {
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ThemePage(),
+        ),
+      );
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UsernamePage(),
+        ),
+      );
+    } else if (index == 4) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PasswordPage(),
+        ),
+      );
+    } else if (index == 5) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookKeepingReminderPage(),
+        ),
+      );
+    } else if (index == 6) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ContactPage(),
+        ),
+      );
+    }
+  }
+
 }

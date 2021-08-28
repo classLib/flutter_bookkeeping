@@ -58,7 +58,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
             ),
             ListTile(
               leading: Icon(Icons.email),
-              title: Text("邮箱：965068089@qq.com"),
+              title: Text("邮箱：123456@qq.com"),
             ),
             ListTile(
               leading: Icon(Icons.email),

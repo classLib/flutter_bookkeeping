@@ -69,12 +69,35 @@ class _YearChartPageState extends State<YearChartPage> {
         this.yearList =
             HandleList().getListData(this.yearList, this.keepHistory, model, p);
       });
-      var tmp = HandleList()
-          .getDivideData(this.yearPay, this.yearIncome, this.yearList);
-      this.yearIncome = tmp[0];
-      this.yearPay = tmp[1];
+      if (this.yearList.isEmpty) {
+        Navigator.of(context).pop();
+        return showDialog(
+            context: this.context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("报表提醒"),
+                content: Text("当年未记账，请重新选择！"),
+                actions: [
+                  FlatButton(
+                    color: Colors.blue,
+                    child: Text(
+                      "取消",
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      } else {
+        var tmp = HandleList()
+            .getDivideData(this.yearPay, this.yearIncome, this.yearList);
+        this.yearIncome = tmp[0];
+        this.yearPay = tmp[1];
 
-      renderChart(this.yearPay);
+        renderChart(this.yearPay);
+      }
     });
   }
 

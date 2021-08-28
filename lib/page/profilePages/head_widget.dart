@@ -32,8 +32,10 @@ class _HeadPageState extends State<HeadPage> {
   void initState() {
     super.initState();
     _pres.then((d) {
-      headPhoto = File(d.getString(Constant.headPhoto));
-      print(headPhoto);
+      if(d.containsKey(Constant.headPhoto)){
+        headPhoto = File(d.getString(Constant.headPhoto));
+        print(headPhoto);
+      }
     });
   }
 
@@ -98,10 +100,6 @@ class _HeadPageState extends State<HeadPage> {
 
   @override
   Widget build(BuildContext context) {
-    _pres.then((d) {
-      headPhoto = File(d.getString(Constant.headPhoto));
-      print(headPhoto);
-    });
     return GestureDetector(
       child: Container(
         width: 110.0,

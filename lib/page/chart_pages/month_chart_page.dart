@@ -1,5 +1,7 @@
 import 'dart:convert';
-import "package:collection/collection.dart";
+// import 'dart:io';
+// import 'package:path/path.dart';
+// import 'package:excel/excel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
@@ -27,6 +29,7 @@ class MonthChartPage extends StatefulWidget {
   @override
   _MonthChartPageState createState() => _MonthChartPageState();
 }
+
 class _MonthChartPageState extends State<MonthChartPage> {
   //找表，查找所有
   Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
@@ -44,7 +47,7 @@ class _MonthChartPageState extends State<MonthChartPage> {
     {"value": 500, "name": '运动'},
   ];
   //饼图图例
-  var legendData = ['餐饮',"服饰","运动"];
+  var legendData = ['餐饮', "服饰", "运动"];
 
   //日历图数据
   var dateList = [
@@ -56,7 +59,11 @@ class _MonthChartPageState extends State<MonthChartPage> {
   var heatmapData = [];
   var lunarData = [];
 
-  List menuIcons = ['assets/canyin.png','assets/fushi-_1.png','assets/yundong_1.png',];
+  List menuIcons = [
+    'assets/canyin.png',
+    'assets/fushi-_1.png',
+    'assets/yundong_1.png',
+  ];
 
   @override
   void initState() {
@@ -70,6 +77,159 @@ class _MonthChartPageState extends State<MonthChartPage> {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: ListView.separated(
+        itemCount: data.length + 4,
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return ListTile(
+              onTap: () {
+                _onTimeSelect(DateMode.YM);
+              },
+              title: Text("选择月份"),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(_monthKey),
+                  Icon(Icons.arrow_forward_ios)
+                ],
+              ),
+            );
+          }
+          //  饼图
+          else if (index == 1) {
+            return pie();
+          }
+          //可行性日历
+          else if (index == 2) {
+            return calendar();
+          }
+          //导出表格
+          else if (index == data.length + 3) {
+            return Container(
+                color: Theme.of(context).accentColor,
+                margin: EdgeInsets.only(top: 20, left: 25, right: 25),
+                width: MediaQuery.of(context).size.width,
+                height: 45,
+                // ignore: deprecated_member_use
+                child: new MaterialButton(
+                  color: Theme.of(context).accentColor,
+                  textColor: Colors.white,
+                  child: new Text('导出消费记录'),
+                  onPressed: () {
+                    // excel();
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6)),
+                ));
+          } else {
+            return ListTile(
+              leading: Image.asset(this.menuIcons[index - 3]), //左边
+              title: Text(this.data[index - 3]["name"]), //title
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('${this.data[index - 3]["value"]}元'),
+                ],
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
+    );
+  }
+
+  // excel(){
+  //   var excel = Excel.createExcel();
+  //   // or
+  //   //var excel = Excel.decodeBytes(bytes);
+  //   for (var table in excel.tables.keys) {
+  //     print(table);
+  //     print(excel.tables[table].maxCols);
+  //     print(excel.tables[table].maxRows);
+  //     for (var row in excel.tables[table].rows) {
+  //       print("$row");
+  //     }
+  //   }
+  //
+  //   CellStyle cellStyle = CellStyle(
+  //     bold: true,
+  //     italic: true,
+  //     fontFamily: getFontFamily(FontFamily.Comic_Sans_MS),
+  //   );
+  //
+  //   var sheet = excel['mySheet'];
+  //
+  //   var cell = sheet.cell(CellIndex.indexByString("A1"));
+  //   cell.value = "Heya How are you I am fine ok goood night";
+  //   cell.cellStyle = cellStyle;
+  //
+  //   var cell2 = sheet.cell(CellIndex.indexByString("E5"));
+  //   cell2.value = "Heya How night";
+  //   cell2.cellStyle = cellStyle;
+  //
+  //   /// printing cell-type
+  //   print("CellType: " + cell.cellType.toString());
+  //
+  //   /// Iterating and changing values to desired type
+  //   for (int row = 0; row < sheet.maxRows; row++) {
+  //     sheet.row(row).forEach((cell) {
+  //       var val = cell.value; //  Value stored in the particular cell
+  //
+  //       cell.value = ' My custom Value ';
+  //     });
+  //   }
+  //
+  //   excel.rename("mySheet", "myRenamedNewSheet");
+  //
+  //   // fromSheet should exist in order to sucessfully copy the contents
+  //   excel.copy('myRenamedNewSheet', 'toSheet');
+  //
+  //   excel.rename('oldSheetName', 'newSheetName');
+  //
+  //   excel.delete('Sheet1');
+  //
+  //   excel.unLink('sheet1');
+  //
+  //   sheet = excel['sheet'];
+  //
+  //   /// appending rows
+  //   List<List<String>> list = List.generate(
+  //       6000, (index) => List.generate(20, (index1) => '$index $index1'));
+  //
+  //   Stopwatch stopwatch = new Stopwatch()..start();
+  //   list.forEach((row) {
+  //     sheet.appendRow(row);
+  //   });
+  //
+  //   print('doSomething() executed in ${stopwatch.elapsed}');
+  //
+  //   sheet.appendRow([8]);
+  //   excel.setDefaultSheet(sheet.sheetName).then((isSet) {
+  //     // isSet is bool which tells that whether the setting of default sheet is successful or not.
+  //     if (isSet) {
+  //       print("${sheet.sheetName} is set to default sheet.");
+  //     } else {
+  //       print("Unable to set ${sheet.sheetName} to default sheet.");
+  //     }
+  //   });
+  //
+  //   // Saving the file
+  //
+  //   String outputFile = "/storage/emulated/0/form1.xlsx";
+  //   excel.encode().then((onValue) {
+  //     File(join(outputFile))
+  //       ..createSync(recursive: true)
+  //       ..writeAsBytesSync(onValue);
+  //   });
+  // }
   //点击选中时间,处理数据得到List
   _onTimeSelect(model) {
     Pickers.showDatePicker(context, mode: model, onConfirm: (p) {
@@ -262,71 +422,9 @@ class _MonthChartPageState extends State<MonthChartPage> {
   renderChart(list) {
     setState(() {
       this.data = HandleList().handlePie(list, this.data)[0];
-      this.legendData =HandleList().handlePie(list, this.data)[1];
+      this.legendData = HandleList().handlePie(list, this.data)[1];
       handleCalenderData(list);
-      this.menuIcons=HandleList().handleIcon(list, this.menuIcons);
+      this.menuIcons = HandleList().handleIcon(list, this.menuIcons);
     });
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView.separated(
-        itemCount: data.length + 4,
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return ListTile(
-              onTap: () {
-                _onTimeSelect(DateMode.YM);
-              },
-              title: Text("选择月份"),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(_monthKey),
-                  Icon(Icons.arrow_forward_ios)
-                ],
-              ),
-            );
-          } else if (index == 1) {
-            return pie();
-          } else if (index == 2) {
-            return calendar();
-          } else if (index == data.length + 3) {
-            return Container(
-                color: Theme.of(context).accentColor,
-                margin: EdgeInsets.only(top: 20, left: 25, right: 25),
-                width: MediaQuery.of(context).size.width,
-                height: 45,
-                // ignore: deprecated_member_use
-                child: new MaterialButton(
-                  color: Theme.of(context).accentColor,
-                  textColor: Colors.white,
-                  child: new Text('导出消费记录'),
-                  onPressed: () {},
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
-                ));
-          } else {
-            return ListTile(
-              leading: Image.asset(this.menuIcons[index - 3]), //左边
-              title: Text(this.data[index - 3]["name"]), //title
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text('${this.data[index - 3]["value"]}元'),
-                ],
-              ),
-            );
-          }
-          return Container();
-        },
-      ),
-    );
   }
 }

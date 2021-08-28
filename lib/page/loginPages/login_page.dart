@@ -21,11 +21,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   Size size;
   var _loginMode = LoginMode.AccountPassword;
-
   var _isEnableLogin = false;
-
+  //输入框
   var _accountController = TextEditingController();
   var _passwordController = TextEditingController();
+  //文本内容
   var _accountTxt = '';
   var _passwordTxt = '';
   var _obscureText = true;
