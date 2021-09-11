@@ -5,7 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bookkeeping/dao/keepDbHelper.dart';
-import 'package:flutter_bookkeeping/model/keepSetting/keep_record.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mysql1/mysql1.dart' as mysql;
 import 'package:flutter_bookkeeping/page/loginPages/login_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/6.bookkeeping_reminder_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/head_widget.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_bookkeeping/page/profilePages/5.password_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/3.theme_page.dart';
 import 'package:flutter_bookkeeping/page/profilePages/4.username_page.dart';
 import 'package:flutter_bookkeeping/util/constant.dart';
+import 'package:mysql1/mysql1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '7.contact_page.dart';
@@ -36,7 +38,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool backUp = false;
   bool init = false;
-
+  MySqlConnection conn;//数据库链接
   //标题
   List menuTitles = ['备份和同步', '账本初始化', '主题切换', '修改用户名', '修改密码', '记账提醒', '联系我们'];
 
@@ -164,8 +166,22 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   //点击备份和同步
-  onBackUp() {}
-
+  onBackUp() async {
+    print('配置数据库链接');
+    var s = ConnectionSettings(
+      user: "root",//todo:用户名
+      password: "123456",//todo:密码
+      host: "47.94.45.181",//todo:flutter中电脑本地的ip
+      port: 3306,//todo:端口
+      db: "flutter_app",//todo:需要连接的数据库
+    );
+    //链接数据库
+    await MySqlConnection.connect(s).then((_){
+      conn=_;
+      print('连接成功');
+    });
+  }
+  
   //点击账本初始化
   onInitBook() {
     if (this.init == true) {
