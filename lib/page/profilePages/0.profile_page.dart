@@ -194,13 +194,6 @@ class _ProfilePageState extends State<ProfilePage> {
       KeepDbHelper.insert(KeepRecord.fromMap(result.fields));
     }
 
-    // Future<List<KeepRecord>> keepRecords = KeepDbHelper.queryAll();
-    // keepRecords.then((value) {
-    //   setState(() {
-    //     print(value);
-    //   });
-    // });
-
     print("查询成功");
     // }
   }
