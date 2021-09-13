@@ -12,38 +12,47 @@ class KeepDbHelper {
   static Future<KeepRecord> insert(KeepRecord record) async {
     var __db = await DbHelper.instance.db;
     try {
-      record.id = await __db.insert(KeepTable.TABLE_NAME, record.toMap());
+      print(11111);
+      var mp = record.toMap();
+      print(mp);
+      if (mp.containsKey("id")){
+        mp.remove("id");
+      }
+      record.id = await __db.insert(KeepTable.TABLE_NAME, mp);
+      print("record.id---${record.id}");
       print("新增记录成功 id: ${record.id}");
-      if(record.recordNumber is String){
+      if (record.recordNumber is String) {
         print('是string类型');
-      }else if(record.recordNumber is double){
+      } else if (record.recordNumber is double) {
         print('double');
-      }else{
+      } else {
         print('其他类型');
       }
       print(record.recordNumber);
     } catch (e) {
-      print("error");
+      print("新增失败");
     }
     return record;
   }
+
   // 查询全部
   static Future<List<KeepRecord>> queryAll() async {
     var _dbClient = await DbHelper.instance.db;
     List<Map<String, dynamic>> maps =
-    await _dbClient.query(KeepTable.TABLE_NAME);
+        await _dbClient.query(KeepTable.TABLE_NAME);
     List<KeepRecord> list = [];
     maps.forEach((value) {
       list.add(KeepRecord.fromMap(value));
     });
     return list;
   }
+
   //  通过id查询
   static Future<KeepRecord> query(int id) async {
     // 根据id查询成功
     var __db = await DbHelper.instance.db;
-    List<Map> maps = await __db.query(KeepTable.TABLE_NAME,
-        where: 'id = ?', whereArgs: [id]);
+    List<Map> maps = await __db
+        .query(KeepTable.TABLE_NAME, where: 'id = ?', whereArgs: [id]);
     if (maps.length > 0) return KeepRecord.fromMap(maps.first);
 
     print("通过id查询成功");
