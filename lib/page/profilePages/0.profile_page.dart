@@ -184,18 +184,45 @@ class _ProfilePageState extends State<ProfilePage> {
       conn = _;
       print('连接成功');
     });
-    // if (maps.length > 0) {
-    //   //  向远端同步，新增数据
-    // } else {
-    // 向本地拉
+    if (maps.length > 0) {
+      //  向远端同步，新增数据
+      push();
+    } else {
+      // 向本地拉
+      pull();
+      print("查询成功");
+    }
+  }
+
+  push() async {
+    var sql = "select id,record_number from keep_table where id=(select max(id) from keep_table)";
+    var results = await conn.query(sql, []);
+    var curId;
+    for(var result in results) curId=result.fields["id"];
+    var keepList = KeepDbHelper.queryAll();
+    keepList.then((data) {
+      data.forEach((element) {
+        conn.query(
+            'insert into keep_table (id,record_number,record_category_name,record_category_num,record_time,image_num,record_remarks) values (?,?,?,?,?,?,?)',
+            [
+              element.id + curId,
+              element.recordNumber,
+              element.recordCategoryName,
+              element.recordCategoryNum,
+              element.recordTime,
+              element.recordImage,
+              element.recordRemarks
+            ]);
+        print("同步成功");
+      });
+    });
+  }
+
+  pull() async {
     var results = await conn.query('select * from keep_table', []);
-    print(results);
     for (var result in results) {
       KeepDbHelper.insert(KeepRecord.fromMap(result.fields));
     }
-
-    print("查询成功");
-    // }
   }
 
   //点击备份和同步
