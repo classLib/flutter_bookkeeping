@@ -199,7 +199,7 @@ class _CaptchaPageState extends State<CaptchaPage> {
     setState(() {
       _code = _randomCode();
       _sendEmail(widget._phoneNumber, 'bookkeeping',
-              '您的验证码为:${_code}，该验证码5分钟内有效，请勿泄漏于他人。')
+              '您的验证码为:$_code，该验证码5分钟内有效，请勿泄漏于他人。')
           .then((value) {
         _btnEnable = false;
         _startTimer();

@@ -190,7 +190,6 @@ class _ProfilePageState extends State<ProfilePage> {
     } else {
       // 向本地拉
       pull();
-      print("查询成功");
     }
   }
 
@@ -223,6 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
     for (var result in results) {
       KeepDbHelper.insert(KeepRecord.fromMap(result.fields));
     }
+    print("备份成功");
   }
 
   //点击备份和同步

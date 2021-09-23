@@ -126,7 +126,8 @@ class _MonthChartPageState extends State<MonthChartPage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),
                 ));
-          } else {
+          }
+          else {
             return ListTile(
               leading: Image.asset(this.menuIcons[index - 3]), //左边
               title: Text(this.data[index - 3]["name"]), //title
