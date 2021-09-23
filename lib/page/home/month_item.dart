@@ -12,7 +12,7 @@ class MonthItem extends StatelessWidget {
 
     return ListTile(
       title: Text("本月"),
-      subtitle: Text("8月1日 - 8月31日"),
+      subtitle: Text("9月1日 - 9月30日"),
       leading: Icon(Icons.calendar_view_month, color: Colors.blueAccent),
       trailing: Icon(Icons.arrow_right),
       onTap: () async {

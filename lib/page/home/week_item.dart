@@ -9,7 +9,7 @@ class WeekItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text("本周"),
-      subtitle: Text("8月16日 - 8月22日"),
+      subtitle: Text("9月20日 - 9月26日"),
       leading: Icon(Icons.calendar_view_week, color: Colors.orangeAccent),
       trailing: Icon(Icons.arrow_right),
       onTap: () async {

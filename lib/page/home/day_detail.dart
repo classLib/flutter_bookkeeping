@@ -13,8 +13,8 @@ class DayDetail extends StatelessWidget {
     final List<Widget> items = [
       ImageItem(
         imageUrl: 'assets/home_bg_2.jpg',
-        expendQuota: 17.5,
-        incomeQuota: 301.0,
+        expendQuota: 0.00,
+        incomeQuota: 0.00,
       ),
     ];
 

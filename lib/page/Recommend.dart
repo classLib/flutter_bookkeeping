@@ -350,7 +350,6 @@ class _RecommendPageState extends State<RecommendPage> {
       width: 60,
       height: 60,
     );
-
     return Container(
       child: Column(
         children: <Widget>[

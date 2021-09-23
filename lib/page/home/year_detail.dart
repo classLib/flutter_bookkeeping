@@ -13,8 +13,8 @@ class YearDetail extends StatelessWidget {
     final List<Widget> items = [
       ImageItem(
         imageUrl: 'assets/home_bg_5.jpg',
-        expendQuota: 17.5,
-        incomeQuota: 301.0,
+        expendQuota: 860.0,
+        incomeQuota: 550.0,
       ),
     ];
 

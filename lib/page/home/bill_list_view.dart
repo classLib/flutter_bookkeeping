@@ -13,7 +13,7 @@ class BillListView extends StatelessWidget {
     final List<Widget> items = [
       ImageItem(
         imageUrl: 'assets/home_bg_1.jpg',
-        expendQuota: 17.5,
+        expendQuota: 526.5,
         incomeQuota: 301.0,
       ),
       DayItem(),

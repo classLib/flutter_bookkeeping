@@ -13,7 +13,7 @@ class WeekDetail extends StatelessWidget {
     final List<Widget> items = [
       ImageItem(
         imageUrl: 'assets/home_bg_4.jpg',
-        expendQuota: 17.5,
+        expendQuota: 190.0,
         incomeQuota: 301.0,
       ),
     ];
