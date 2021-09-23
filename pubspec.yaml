@@ -46,6 +46,7 @@ dependencies:
   mailer: ^5.0.2
   fluttertoast: ^8.0.8
   mysql1: ^0.19.1
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

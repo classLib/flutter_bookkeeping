@@ -199,7 +199,7 @@ class _CaptchaPageState extends State<CaptchaPage> {
     setState(() {
       _code = _randomCode();
       _sendEmail(widget._phoneNumber, 'bookkeeping',
-              '您的验证码为:$_code，该验证码5分钟内有效，请勿泄漏于他人。')
+              '您的验证码为:${_code}，该验证码5分钟内有效，请勿泄漏于他人。')
           .then((value) {
         _btnEnable = false;
         _startTimer();
@@ -235,8 +235,6 @@ class _CaptchaPageState extends State<CaptchaPage> {
   _sendEmail(String toMailId, String title, String body) async {
     var username = '2447461103@qq.com';
     var password = Constant.email_code;
-    print(toMailId);
-    print('2447461103@qq.com');
     final smtpServer = qq(username, password);
     final message = Message()
       ..from = Address(username, 'bookkeeping')

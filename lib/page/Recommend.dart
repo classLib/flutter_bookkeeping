@@ -8,6 +8,10 @@ import 'package:flutter_bookkeeping/model/course_model.dart';
 import 'package:flutter_bookkeeping/model/official_account_model.dart';
 import 'package:flutter_bookkeeping/model/tool_model.dart';
 import 'package:flutter_bookkeeping/weight/recommend/carousel_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'loginPages/web_browser_page.dart';
 
 class RecommendPage extends StatefulWidget {
   @override
@@ -33,7 +37,9 @@ class _RecommendPageState extends State<RecommendPage> {
 
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
+    size = MediaQuery
+        .of(context)
+        .size;
     // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.grey[120],
@@ -99,7 +105,7 @@ class _RecommendPageState extends State<RecommendPage> {
       width: size.width * 1.0,
       height: 180,
       margin:
-          EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
+      EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _books.length,
@@ -122,7 +128,7 @@ class _RecommendPageState extends State<RecommendPage> {
       width: size.width * 1.0,
       height: 160,
       margin:
-          EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
+      EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _courses.length,
@@ -146,7 +152,7 @@ class _RecommendPageState extends State<RecommendPage> {
       width: size.width * 1.0,
       height: 160,
       margin:
-          EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
+      EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
       child: GridView.builder(
         padding: EdgeInsets.only(bottom: size.height * 0.03),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -169,7 +175,7 @@ class _RecommendPageState extends State<RecommendPage> {
       width: size.width * 1.0,
       height: 120,
       margin:
-          EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
+      EdgeInsets.only(left: size.width * 0.01, right: size.width * 0.01),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _tools.length,
@@ -197,29 +203,35 @@ class _RecommendPageState extends State<RecommendPage> {
       fit: BoxFit.cover,
     );
 
-    return Container(
-      width: size.width * 0.2,
-      color: Colors.transparent,
-      child: Column(
-        children: <Widget>[
-          Container(
-            width: size.width * 0.2,
-            height: 140,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: img,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WebBrowserPage(_books[index].url)));
+      },
+      child: Container(
+        width: size.width * 0.2,
+        color: Colors.transparent,
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: size.width * 0.2,
+              height: 140,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: img,
+              ),
             ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Flexible(child: name),
-              ],
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Flexible(child: name),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -227,7 +239,7 @@ class _RecommendPageState extends State<RecommendPage> {
   _courseItem(int index) {
     var img = Image(
       image: _courses[index].imgs[0],
-      fit: BoxFit.cover,
+      fit: BoxFit.contain,
     );
     var name = Text(
       _courses[index].name,
@@ -244,8 +256,15 @@ class _RecommendPageState extends State<RecommendPage> {
     var stuCount = Text(_courses[index].stuCount.toString());
 
     return InkWell(
+      onTap: (){
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => WebBrowserPage(_courses[index].url)));
+      },
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.30,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 0.35,
         color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -270,11 +289,11 @@ class _RecommendPageState extends State<RecommendPage> {
                   ),
                   Container(
                       child: Row(
-                    children: <Widget>[
-                      icon,
-                      stuCount,
-                    ],
-                  )),
+                        children: <Widget>[
+                          icon,
+                          stuCount,
+                        ],
+                      )),
                 ],
               ),
             ),
@@ -294,11 +313,14 @@ class _RecommendPageState extends State<RecommendPage> {
     );
 
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      child: Container(
-        margin: EdgeInsets.only(left: 10, right: 10),
-        child: InkWell(
-          child: Row(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: InkWell(
+          onTap: (){
+            _openThirdApp('weixin://dl/officialaccounts', '打开微信失败，请先安装');
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -334,7 +356,10 @@ class _RecommendPageState extends State<RecommendPage> {
         children: <Widget>[
           InkWell(
             splashColor: Colors.transparent,
-            onTap: () {},
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => WebBrowserPage(_tools[index].url)));
+            },
             child: ClipOval(
               child: img,
             ),
@@ -395,10 +420,9 @@ class _RecommendPageState extends State<RecommendPage> {
     ];
 
     var booksName = [
-      '聪明的投资者',
       '财富自由之路',
+      '聪明的投资者',
       '投资最重要的事',
-      '投资中最简单的事',
       '有钱人和你想的不一样',
       '不上班也有錢',
       '股票大作手回忆录',
@@ -407,19 +431,32 @@ class _RecommendPageState extends State<RecommendPage> {
       '股市进阶之道',
     ];
 
-    var bookIndexs = _getRandomList(5, 10);
+    var urls = [
+      'https://book.douban.com/subject/27094706/',
+      'https://book.douban.com/subject/5243775/',
+      'https://book.douban.com/subject/10799082/',
+      'https://book.douban.com/subject/27045965/',
+      'https://book.douban.com/subject/30150181/',
+      'https://book.douban.com/subject/5382213/',
+      'https://book.douban.com/subject/35324439/',
+      'https://book.douban.com/subject/21966353/',
+      'https://book.douban.com/subject/25829645/',
+    ];
+
+    var bookIndexs = _getRandomList(6, 9);
     for (int i = 0; i < bookIndexs.length; i++) {
       _books.add(BookModel(
-        authorFigure: AssetImage('wangyiyouqian/images/3.0x/bg_theme_0.png'),
-        author: authors[bookIndexs[i]],
-        time: times[bookIndexs[i]],
-        bookName: booksName[bookIndexs[i]],
-        imgs: [
-          AssetImage('assets/00${bookIndexs[i]}0.jpg'),
-        ],
-        fabulous: Random().nextInt(1000),
-        collections: Random().nextInt(1000),
-        comments: Random().nextInt(1000),
+          authorFigure: AssetImage('wangyiyouqian/images/3.0x/bg_theme_0.png'),
+          author: authors[bookIndexs[i]],
+          time: times[bookIndexs[i]],
+          bookName: booksName[bookIndexs[i]],
+          imgs: [
+            AssetImage('assets/100${bookIndexs[i]}.jpg'),
+          ],
+          fabulous: Random().nextInt(1000),
+          collections: Random().nextInt(1000),
+          comments: Random().nextInt(1000),
+          url: urls[bookIndexs[i]]
       ));
     }
   }
@@ -441,29 +478,38 @@ class _RecommendPageState extends State<RecommendPage> {
       '常道教育',
       '财多多教育',
     ];
+
+    var urls = [
+      'https://ke.qq.com/course/1345585?taid=11875679064066097',
+      'https://ke.qq.com/course/3027565?taid=10429164145226349',
+      'https://ke.qq.com/course/479263?taid=11931380494061599',
+      'https://ke.qq.com/course/3061981?taid=10540824705022173',
+      'https://ke.qq.com/course/3294283?taid=11000227292136523',
+      'https://ke.qq.com/course/3549778?taid=11333679963318866',
+    ];
+
     var courseIndexs = _getRandomList(5, 6);
     for (int i = 0; i < courseIndexs.length; i++) {
       _courses.add(CourseModel(
         name: coursesName[courseIndexs[i]],
         imgs: [
-          AssetImage(
-              'assets/20${courseIndexs[i]}0.jpg'),
+          AssetImage('assets/20${courseIndexs[i]}0.jpg'),
         ],
         publisher: publishers[courseIndexs[i]],
         stuCount: Random().nextInt(1000),
+        url: urls[courseIndexs[i]]
       ));
     }
   }
 
   _getOfficialAccountInfo() {
-    var name = ['简七理财', '招财大牛猫', '小基快跑', '基金豆', '老钱说钱', '复利先生'];
+    var name = ['也谈钱', '关哥说险', '定投十年赚十倍', '大张羽', '孟岩', '复利先生'];
     var courseIndexs = _getRandomList(6, 6);
     for (int i = 0; i < courseIndexs.length; i++) {
       _officialAccounts.add(OfficialAccount(
         name: name[courseIndexs[i]],
         imgs: [
-          AssetImage(
-              'assets/300${courseIndexs[i]}.jpg'),
+          AssetImage('assets/301${courseIndexs[i]}.jpg'),
         ],
       ));
     }
@@ -473,14 +519,28 @@ class _RecommendPageState extends State<RecommendPage> {
     var name = [
       '知乎',
       '腾讯课堂',
+      '支付宝',
+      '且慢',
+      '雪球',
+      '京东金融',
     ];
-    var toolIndexs = _getRandomList(2, 2);
+
+    var urls = [
+      'https://www.zhihu.com/',
+      'https://ke.qq.com/',
+      'https://www.alipay.com/',
+      'https://qieman.com/',
+      'https://xueqiu.com/',
+      'https://www.jdt.com.cn/finance/',
+    ];
+    var toolIndexs = _getRandomList(6, 6);
     for (int i = 0; i < toolIndexs.length; i++) {
       _tools.add(ToolModel(
         name: name[toolIndexs[i]],
         imgs: [
           AssetImage('assets/400${toolIndexs[i]}.jpg'),
         ],
+        url: urls[toolIndexs[i]]
       ));
     }
   }
@@ -490,13 +550,21 @@ class _RecommendPageState extends State<RecommendPage> {
     var rng = new Random();
     int count = 0;
     while (count < maxCount) {
-      //生成6个
-      int index = rng.nextInt(maxRange); // 1-12之间区间
+      int index = rng.nextInt(maxRange);
       if (!resultList.contains(index)) {
         resultList.add(index);
         count++;
       }
     }
     return resultList;
+  }
+
+  _openThirdApp(var url, msg) async {
+    // Android
+    if (await canLaunch(url)) {
+      await launch(url);
+    }else{
+      Fluttertoast.showToast(msg: msg);
+    }
   }
 }
