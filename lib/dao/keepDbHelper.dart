@@ -15,7 +15,7 @@ class KeepDbHelper {
       print(11111);
       var mp = record.toMap();
       print(mp);
-      if (mp.containsKey("id")){
+      if (mp.containsKey("id")) {
         mp.remove("id");
       }
       record.id = await __db.insert(KeepTable.TABLE_NAME, mp);

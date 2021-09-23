@@ -47,7 +47,7 @@ class _JoinUsPageState extends State<JoinUsPage> {
                     SizedBox(
                       height: 10.0, //加间距
                     ),
-                    Text("随手记账 1.0")
+                    Text("大学生可视化记账分析 1.0")
                   ],
                 ),
               ),
@@ -64,10 +64,10 @@ class _JoinUsPageState extends State<JoinUsPage> {
               leading: Icon(Icons.email),
               title: Text("公司地址：四川省绵阳市xxxx"),
             ),
-            ListTile(
-              leading: Icon(Icons.file_copy),
-              title: Text("Github:\nhttps://github.com/classLib/flutter_bookkeeping"),
-            )
+            // ListTile(
+            //   leading: Icon(Icons.file_copy),
+            //   title: Text("Github:\nhttps://github.com/classLib/flutter_bookkeeping"),
+            // )
           ],
         ));
   }
