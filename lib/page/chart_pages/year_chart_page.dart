@@ -116,7 +116,7 @@ class _YearChartPageState extends State<YearChartPage> {
   ///
   ///图标渲染
   ///
-  //饼图
+  //南丁格尔
   Widget pie() {
     return Column(
       children: [
@@ -303,11 +303,14 @@ class _YearChartPageState extends State<YearChartPage> {
                   ],
                 ),
               );
-            } else if (index == 1) {
+            }
+            else if (index == 1) {
               return pie();
-            } else if (index == 2) {
+            }
+            else if (index == 2) {
               return area();
-            } else
+            }
+            else
               return ListTile(
                 leading: Image.asset(this.menuIcons[index - 3]), //左边
                 title: Text(data[index - 3]["name"]), //title

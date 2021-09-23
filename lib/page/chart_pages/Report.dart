@@ -14,8 +14,6 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
-  //数据库
-  DbHelper provider = DbHelper.instance;
   final List<Tab> myTabs = <Tab>[
     Tab(text: '月份'),
     Tab(text: '年度')

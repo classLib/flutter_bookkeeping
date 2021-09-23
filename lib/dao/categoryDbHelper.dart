@@ -10,32 +10,35 @@ class CategoryDbHelper {
   static Future<Catetory> insert(Catetory catetory) async {
     var __db = await DbHelper.instance.db;
     try {
-      catetory.id = await __db.insert(CategoryTable.TABLE_NAME, catetory.toMap());
+      catetory.id =
+          await __db.insert(CategoryTable.TABLE_NAME, catetory.toMap());
     } catch (e) {
       print(e);
     }
     print("数据${catetory.category_name}已存入数据库");
     return catetory;
   }
+
 //  通过id查找
   static Future<Catetory> query(int id) async {
     var __db = await DbHelper.instance.db;
-    List<Map> maps = await __db
-        .query(CategoryTable.TABLE_NAME, where: '${CategoryTable.CATEGORY_ID} = ?', whereArgs: [id]);
+    List<Map> maps = await __db.query(CategoryTable.TABLE_NAME,
+        where: '${CategoryTable.CATEGORY_ID} = ?', whereArgs: [id]);
     if (maps.length > 0) return Catetory.fromMap(maps.first);
     return null;
   }
+
+  //通过类别归类查询
   static Future<List<Catetory>> queryByCategoryBelong(int belong) async {
     var _dbClient = await DbHelper.instance.db;
     List<Catetory> list = [];
-    var maps = await _dbClient
-        .query(CategoryTable.TABLE_NAME, where: 'category_belong = ?', whereArgs: [belong]);
+    var maps = await _dbClient.query(CategoryTable.TABLE_NAME,
+        where: 'category_belong = ?', whereArgs: [belong]);
     maps.forEach((value) {
       list.add(Catetory.fromMap(value));
     });
     return list;
   }
-
 
 //  通过类别名称查找
   static Future<List<Catetory>> search(String key) async {
@@ -49,6 +52,7 @@ class CategoryDbHelper {
     print("类别${key}已查找到");
     return list;
   }
+
 //  查询全部
   static Future<List<Catetory>> queryAll() async {
     var __db = await DbHelper.instance.db;
@@ -59,18 +63,19 @@ class CategoryDbHelper {
     });
     return list;
   }
+
 // 删除全部
   static Future<int> deleteAll() async {
     var __db = await DbHelper.instance.db;
 
     return await __db.delete(CategoryTable.TABLE_NAME);
   }
+
 //通过id删除
   static Future<int> deleteById(int id) async {
     var __db = await DbHelper.instance.db;
 
-    return await __db
-        .delete(CategoryTable.TABLE_NAME, where: '${CategoryTable.CATEGORY_ID} = ?', whereArgs: [id]);
+    return await __db.delete(CategoryTable.TABLE_NAME,
+        where: '${CategoryTable.CATEGORY_ID} = ?', whereArgs: [id]);
   }
-
 }
