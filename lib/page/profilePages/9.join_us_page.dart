@@ -47,27 +47,23 @@ class _JoinUsPageState extends State<JoinUsPage> {
                     SizedBox(
                       height: 10.0, //加间距
                     ),
-                    Text("大学生可视化记账分析 1.0")
+                    Text("大学生可视化记账分析 2.0")
                   ],
                 ),
               ),
             ),
             ListTile(
               leading: Icon(Icons.phone),
-              title: Text("电话：111111111"),
+              title: Text("电话：15883529063"),
             ),
             ListTile(
               leading: Icon(Icons.email),
-              title: Text("邮箱：123456@qq.com"),
+              title: Text("邮箱：965068089@qq.com"),
             ),
             ListTile(
               leading: Icon(Icons.email),
-              title: Text("公司地址：四川省绵阳市xxxx"),
-            ),
-            // ListTile(
-            //   leading: Icon(Icons.file_copy),
-            //   title: Text("Github:\nhttps://github.com/classLib/flutter_bookkeeping"),
-            // )
+              title: Text("地址：四川省***市"),
+            )
           ],
         ));
   }

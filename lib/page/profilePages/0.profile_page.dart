@@ -174,8 +174,8 @@ class _ProfilePageState extends State<ProfilePage> {
     print('配置数据库链接');
     var s = ConnectionSettings(
       user: "root", //todo:用户名
-      password: "123456", //todo:密码
-      host: "47.94.45.181", //todo:flutter中电脑本地的ip
+      password: "***", //todo:密码
+      host: "***", //todo:flutter中电脑本地的ip
       port: 3306, //todo:端口
       db: "flutter_app", //todo:需要连接的数据库
     );

@@ -66,7 +66,7 @@ class _ContactPageState extends State<ContactPage> {
                       SizedBox(
                         height: 10.0, //加间距
                       ),
-                      Text("大学生可视化记账分析 1.0")
+                      Text("大学生可视化记账分析 2.0")
                     ],
                   ),
                 ),
