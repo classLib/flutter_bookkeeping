@@ -10,17 +10,11 @@
 
 
 
-<div align=center><img src="./lib/pic/3.png"  width="300"  height="600" alt="1"  /><img src="./lib/pic/4.png"  width="300"  height="600" alt="1"  /></dev>
+<div align=center><img src="./lib/pic/3.png"  width="300"  height="600" alt="1"  /> <img src="./lib/pic/4.png"  width="300"  height="600" alt="1"  /></dev>
 
-<img src="./lib/pic/4.png" alt="1" style="zoom:10%;" />
+<div align=center><img src="./lib/pic/5.png"  width="300"  height="600" alt="1"  /> <img src="./lib/pic/6.png"  width="300"  height="600" alt="1"  /></dev>
 
-<img src="./lib/pic/5.png" alt="1" style="zoom:10%;" />
-
-<img src="./lib/pic/6.png" alt="1" style="zoom:10%;" />
-
-<img src="./lib/pic/7.png" alt="1" style="zoom:10%;" />
-
-<img src="./lib/pic/8.png" alt="1" style="zoom:10%;" />
+<div align=center><img src="./lib/pic/7.png"  width="300"  height="600" alt="1"  /> <img src="./lib/pic/8.png"  width="300"  height="600" alt="1"  /></dev>
 
 ## 设计思路
 
