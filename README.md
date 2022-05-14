@@ -16,6 +16,14 @@
 
 <div align=center><img src="./lib/pic/7.png"  width="300"  height="600" alt="1"  /> <img src="./lib/pic/8.png"  width="300"  height="600" alt="1"  /></dev>
 
+
+
+
+
+
+
+
+
 ## 设计思路
 
 1. 利用React Native进行环境搭建，集成现有的原生应用
