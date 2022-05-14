@@ -6,7 +6,7 @@
 
 ## 页面展示
 
-<img src="./lib/pic/1.png" alt="1" style="zoom:10%;" />
+<img src="./lib/pic/1.png"  width="100"  height="200" alt="1"  />
 
 <img src="./lib/pic/2.png" alt="1" style="zoom:10%;" />
 
