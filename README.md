@@ -6,11 +6,11 @@
 
 ## 页面展示
 
-<div align=center><img src="./lib/pic/1.png"  width="200"  height="400" alt="1"  /></dev>
+<div align=center><img src="./lib/pic/1.png"  width="300"  height="600" alt="1"/> <img src="./lib/pic/2.png"  width="300"  height="600" alt="1"/> </div>
 
-<div align=center><img src="./lib/pic/2.png"  width="200"  height="400" alt="1"  /></dev>
 
-<div align=center><img src="./lib/pic/3.png"  width="200"  height="400" alt="1"  /></dev>
+
+<div align=center><img src="./lib/pic/3.png"  width="300"  height="600" alt="1"  /><img src="./lib/pic/4.png"  width="300"  height="600" alt="1"  /></dev>
 
 <img src="./lib/pic/4.png" alt="1" style="zoom:10%;" />
 
