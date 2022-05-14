@@ -6,21 +6,21 @@
 
 ## 页面展示
 
-<img src="./lib/pic/1.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/1.png" alt="1" style="zoom:10%;" />
 
-<img src="./lib/pic/2.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/2.png" alt="1" style="zoom:10%;" />
 
-<img src="./lib/pic/3.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/3.png" alt="1" style="zoom:10%;" />
 
-<img src="./lib/pic/4.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/4.png" alt="1" style="zoom:10%;" />
 
-<img src="./lib/pic/5.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/5.png" alt="1" style="zoom:10%;" />
 
-<img src="./lib/pic/6.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/6.png" alt="1" style="zoom:10%;" />
 
-<img src="./lib/pic/7.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/7.png" alt="1" style="zoom:10%;" />
 
-<img src="./lib/pic/8.png" alt="1" style="zoom:25%;" />
+<img src="./lib/pic/8.png" alt="1" style="zoom:10%;" />
 
 ## 设计思路
 
